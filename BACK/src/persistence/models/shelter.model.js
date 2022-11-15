@@ -27,6 +27,10 @@ const Shelter = db.define("shelter", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  modifiedBy: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 });
 
 module.exports = { Shelter };

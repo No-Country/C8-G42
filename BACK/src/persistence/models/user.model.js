@@ -48,6 +48,15 @@ const User = db.define("user", {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    modifiedBy: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    isDark: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    }
   });
   
   module.exports = { User };

@@ -1,4 +1,6 @@
 const { db, DataTypes } = require("../../../utils/database.util");
+const { Pet } = require("./pet.model");
+const { User } = require("./user.model");
 
 const FavoritePet = db.define("favoritePet", {
   id: {
@@ -10,15 +12,23 @@ const FavoritePet = db.define("favoritePet", {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: User,
+      key: "id",
+    },
   },
   petId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Pet,
+      key: "id",
+    },
   },
   isFavorite: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = { FavoritePet };

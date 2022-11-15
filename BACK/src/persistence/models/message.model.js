@@ -1,4 +1,6 @@
 const { db, DataTypes } = require("../../../utils/database.util");
+const { Shelter } = require("./shelter.model");
+const { User } = require("./user.model");
 
 const Message = db.define("message", {
   id: {
@@ -10,14 +12,26 @@ const Message = db.define("message", {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: User,
+      key: "id",
+    },
   },
-  sheltedId: {
+  shelterId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Shelter,
+      key: "id",
+    },
   },
   text: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  modifiedBy: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });
 
