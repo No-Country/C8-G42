@@ -1,18 +1,19 @@
 const { db } = require('../../utils/database.util');
+const boom = require('@hapi/boom');
 
 const getById = async(id) => {
     const user = await db.models.user.findByPk(id);
     if(user) {
       return user;
     } else {
-      throw new Error('User Not Found')
+      throw boom.notFound('User Not Found')
     }
   }
 
 module.exports = {
   get: async () => {
-    const user = await db.models.user.findAll();
-    return user;
+    const users = await db.models.user.findAll();
+    return users;
   },
   getById,
   create: async (userData) => {
@@ -30,9 +31,7 @@ module.exports = {
         id
       }
     });
-    console.log({id})
-    console.log({rta})
     if (rta !== 0) return({message: 'Deleted'})
-    else throw new Error('This user does not exists!');
+    else throw boom.notFound('User not found');
   }
 }
