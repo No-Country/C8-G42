@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
+const routerApi = require('./routers/index');
 
 // Routers
 
@@ -10,6 +11,7 @@ const morgan = require("morgan");
 // Init our Express app
 const app = express();
 
+routerApi(app);
 // Enable Express app to receive JSON data
 app.use(express.json());
 
