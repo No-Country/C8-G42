@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("./../../controllers/users");
+const schemaValidator = require("../../middlewares/schema.validator");
+const { createUserSchema } = require("./../../schemas/user.schema")
 
 router.get("/", async (req, res, next) => {
   try {
@@ -21,14 +23,16 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
-  try {
-    const userData = req.body;
-    const newUser = await userController.create(userData);
-    return res.status(200).send(newUser);
-  } catch (error) {
-    next(error);
-  }
+router.post("/",
+  schemaValidator(createUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const userData = req.body;
+      const newUser = await userController.create(userData);
+      return res.status(200).send(newUser);
+    } catch (error) {
+      next(error);
+    }
 });
 
 router.put("/:id", async (req, res, next) => {
