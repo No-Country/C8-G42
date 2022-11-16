@@ -1,5 +1,6 @@
 const { db } = require('../../utils/database.util');
 const boom = require('@hapi/boom');
+const bcrypt = require("bcrypt");
 
 const getById = async(id) => {
     const user = await db.models.user.findByPk(id);
@@ -17,13 +18,33 @@ module.exports = {
   },
   getById,
   create: async (userData) => {
-    const newUser = await db.models.user.create(userData);
+    const hash = await bcrypt.hash(userData.password, 10);
+    const newUser = await db.models.user.create({
+      ...userData,
+      password: hash
+    });
     return newUser;
   },
   update: async (id, userData) => {
     const user = await getById(id);
-    const updatedUser = user.update(userData);
-    return(updatedUser);
+    const match = await bcrypt.compare(userData.password, user.password);
+
+    if (match) {
+      // const updatedUser = {
+      //   ...user,
+      //   ...userData,
+      // }
+      // if(userData.newPassword){
+      //   const newHash = await bcrypt.hash(userData.password, 10);
+      //   updatedUser.password = newHash;
+      // } else {
+      //   updatedUser.password = user.password
+      // }
+      return({message: 'Continuaremos :)'});
+    } else {
+      throw boom.unauthorized('Invalid password')
+    }
+    // const updatedUser = user.update(userData);
   },
   delete: async (id) => {
     const rta = await db.models.user.destroy({
