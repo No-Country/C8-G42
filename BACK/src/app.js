@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 const routerApi = require('./routers/index');
+const { logErrors, errorHandler, boomErrorHandler, queryErrorHandler } = require('./middlewares/error.handler');
 
 // Init our Express app
 const app = express();
@@ -31,5 +32,13 @@ app.all("*", (req, res) => {
     message: `${req.method} ${req.url} does not exists in our server`,
   });
 });
+
+// Log all errors
+app.use(logErrors);
+// Catch errors raised by boom
+app.use(boomErrorHandler);
+// Catch the rest of the errors
+app.use(errorHandler);
+
 
 module.exports = { app };
