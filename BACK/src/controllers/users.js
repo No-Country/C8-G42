@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const getById = async(id) => {
     const user = await db.models.user.findByPk(id);
     if(user) {
+      delete user.dataValues.password
       return user;
     } else {
       throw boom.notFound('User Not Found')
@@ -23,6 +24,8 @@ module.exports = {
       ...userData,
       password: hash
     });
+    
+    delete newUser.dataValues.password
     return newUser;
   },
   update: async (id, userData) => {
@@ -30,17 +33,24 @@ module.exports = {
     const match = await bcrypt.compare(userData.password, user.password);
 
     if (match) {
-      // const updatedUser = {
-      //   ...user,
-      //   ...userData,
-      // }
-      // if(userData.newPassword){
-      //   const newHash = await bcrypt.hash(userData.password, 10);
-      //   updatedUser.password = newHash;
-      // } else {
-      //   updatedUser.password = user.password
-      // }
-      return({message: 'Continuaremos :)'});
+      const newData = {
+        ...user.dataValues,
+        ...userData,
+      };
+
+      let password
+      if(userData.newPassword){
+        const newHash = await bcrypt.hash(userData.newPassword, 10);
+        password = newHash;
+      } else {
+        password = user.dataValues.password
+      }
+      newData.password = password
+      console.log({newData})
+      const updatedUser = await user.update(newData)
+
+      delete updatedUser.dataValues.password
+      return updatedUser;
     } else {
       throw boom.unauthorized('Invalid password')
     }
