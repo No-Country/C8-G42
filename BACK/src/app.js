@@ -4,6 +4,7 @@ const compression = require("compression");
 const morgan = require("morgan");
 
 // Routers
+const routerApi = require('./routers/index');
 
 // Controllers
 
@@ -20,6 +21,7 @@ app.use(compression());
 app.use(morgan("dev"));
 
 // Define endpoints
+routerApi(app);
 
 // Catch non-existing endpoints
 app.all("*", (req, res) => {
