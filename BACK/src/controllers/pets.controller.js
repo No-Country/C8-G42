@@ -16,22 +16,103 @@ const getAllPets = async (req, res, next) => {
   }
 };
 
-const createPet = async (req, res, next) => {
+const getPetById = async (req, res, next) => {
   try {
-    const { name, breed, weight, size, description, isSterilized } = req.body;
-    const { shelterId } = req.params;
+    const { pet } = req;
 
-    const newPet = await Pet.create({
-      name,
-      breed,
-      weight,
-      size,
-      description,
-      isSterilized,
+    res.status(200).json({
+      status: "success",
+      data: {
+        pet,
+      },
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getAllPets, createPet };
+const createPet = async (req, res, next) => {
+  try {
+    const petData = req.body;
+    const { shelter } = req;
+
+    petData.shelterId = shelter.id;
+
+    petData.adoptedDate =
+      petData.status === "adopted" ? new Date().toISOString() : null;
+
+    const newPet = await Pet.create(petData);
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        newPet,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updatePet = async (req, res, next) => {
+  try {
+    const { pet } = req;
+    const petData = req.body;
+
+    petData.adoptedDate =
+      petData.status === "adopted" ? new Date().toISOString() : null;
+
+    await pet.update(petData);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        pet,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deletePet = async (req, res, next) => {
+  try {
+    const { pet } = req;
+    await pet.destroy();
+
+    res.status(204).json({
+      status: "success",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const adoptPet = async (req, res, next) => {
+  try {
+    const { pet } = req;
+
+    await pet.update({
+      status: "adopted",
+      adoptedDate: new Date().toISOString(),
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        pet,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getAllPets,
+  getPetById,
+  createPet,
+  updatePet,
+  deletePet,
+  adoptPet,
+};

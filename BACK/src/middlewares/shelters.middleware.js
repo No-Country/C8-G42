@@ -1,21 +1,20 @@
 const { Shelter } = require("../persistence/models/shelter.model");
+const boom = require("@hapi/boom");
 
 const shelterExist = async (req, res, next) => {
   try {
     const { id, shelterId } = req.params;
 
-    const shelter = Shelter.findOne({ where: { id: id || shelterId } });
+    const shelter = await Shelter.findOne({ where: { id: id || shelterId } });
 
     if (!shelter) {
-      return res.status(404).json({
-        status: "error",
-        message: "shelter not found",
-      });
+      throw boom.notFound("Shelter Not Found");
     }
 
+    req.shelter = shelter;
     next();
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
