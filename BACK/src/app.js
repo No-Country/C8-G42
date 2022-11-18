@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 const routerApi = require('./routers/index');
-const { logErrors, errorHandler, boomErrorHandler, queryErrorHandler } = require('./middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
 
 // Init our Express app
 const app = express();
@@ -24,14 +24,6 @@ app.use(morgan("dev"));
 app.listen(3000, () => {
   console.log(`Servidor funcionando en el puerto 3000`)
 })
-
-// Catch non-existing endpoints
-app.all("*", (req, res) => {
-  res.status(404).json({
-    status: "error",
-    message: `${req.method} ${req.url} does not exists in our server`,
-  });
-});
 
 // Log all errors
 app.use(logErrors);

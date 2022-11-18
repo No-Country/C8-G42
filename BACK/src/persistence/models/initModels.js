@@ -8,8 +8,8 @@ const { User } = require("./user.model");
 
 const initModels = () => {
   //1 User <----> M Shelter
-  User.hasMany(Shelter, { foreignKey: "ownerId" });
-  Shelter.belongsTo(User, { foreignKey: "ownerId" });
+  User.hasMany(Shelter, { foreignKey: "ownerId", as: "shelter" });
+  Shelter.belongsTo(User, { foreignKey: "ownerId", as: "user" });
 
   //M User <-- FavoritePet --> M pet
   User.belongsToMany(Pet, { through: FavoritePet, foreignKey: "userId" });
