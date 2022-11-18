@@ -24,6 +24,7 @@ usersRouter.get(
     try {
       const { id } = req.params;
       const user = await userController.getById(id);
+      delete user.dataValues.password
       return res.status(200).send(user);
     } catch (error) {
       next(error);
@@ -38,6 +39,7 @@ usersRouter.post(
     try {
       const userData = req.body;
       const newUser = await userController.create(userData);
+      delete newUser.dataValues.password
       return res.status(200).send(newUser);
     } catch (error) {
       next(error);
@@ -53,7 +55,8 @@ usersRouter.put(
     try {
       const { id } = req.params;
       const userData = req.body;
-      const updatedUser = await userController.update(id, userData);
+      const updatedUser = await userController.update(id, userData, id);
+      delete updatedUser.dataValues.password
       return res.status(200).send(updatedUser);
     } catch (error) {
       next(error);

@@ -3,9 +3,10 @@ const boom = require('@hapi/boom');
 const bcrypt = require("bcrypt");
 
 const getById = async(id) => {
-    const user = await db.models.user.findByPk(id);
+    const user = await db.models.user.findByPk(id, {
+      include: ['shelter']
+    });
     if(user) {
-      delete user.dataValues.password
       return user;
     } else {
       throw boom.notFound('User Not Found')
@@ -25,10 +26,9 @@ module.exports = {
       password: hash
     });
     
-    delete newUser.dataValues.password
     return newUser;
   },
-  update: async (id, userData) => {
+  update: async (id, userData, modifiedBy) => {
     const user = await getById(id);
     const match = await bcrypt.compare(userData.password, user.password);
 
@@ -36,6 +36,7 @@ module.exports = {
       const newData = {
         ...user.dataValues,
         ...userData,
+        modifiedBy
       };
 
       let password
@@ -46,10 +47,9 @@ module.exports = {
         password = user.dataValues.password
       }
       newData.password = password
-      console.log({newData})
+
       const updatedUser = await user.update(newData)
 
-      delete updatedUser.dataValues.password
       return updatedUser;
     } else {
       throw boom.unauthorized('Invalid password')
