@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const shelterController = require("./../../controllers/shelters");
+const shelterController = require("../../controllers/shelters");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
   createShelterSchema, getShelterSchema, updateShelterSchema
-} = require("./../../schemas/shelter.schema");
+} = require("../../schemas/shelter.schema");
 
 router.get("/", async (req, res, next) => {
   try {

@@ -1,7 +1,7 @@
 const express = require("express");
 const { petsRouter } = require("./api/pets.routes");
 const userRouter = require('./api/users.routes');
-const shelterRouter = require('./api/shelters');
+const shelterRouter = require('./api/shelters.routes');
 const notFoundRouter = require('./404');
 
 function routerApi(app) {
@@ -10,7 +10,7 @@ function routerApi(app) {
 
   router.use('/users', userRouter);
   router.use("/pets", petsRouter);
-  router.use('/shelter', shelterRouter);
+  router.use('/shelters', shelterRouter);
   router.use('*', notFoundRouter);
 }
 
