@@ -8,6 +8,7 @@ const {
   deletePet,
   getPetById,
   adoptPet,
+  toogleFavoritePet,
 } = require("../../controllers/pets.controller");
 
 //shelter middlewares
@@ -61,10 +62,17 @@ petsRouter.delete(
 );
 
 petsRouter.put(
-  "/adopt-pet/:id",
+  "/adopt/:id",
   schemaValidator(verifyPetParamsId, "params"),
   petExist,
   adoptPet
+);
+
+petsRouter.post(
+  "/favorite/:id",
+  schemaValidator(verifyPetParamsId, "params"),
+  petExist,
+  toogleFavoritePet
 );
 
 module.exports = { petsRouter };
