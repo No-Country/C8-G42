@@ -1,14 +1,14 @@
 const express = require("express");
-const router = express.Router();
-const userController = require("./../../controllers/users");
+const usersRouter = express.Router();
+const userController = require("../../controllers/users.controller");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
   createUserSchema,
   getUserSchema,
   updateUserSchema,
-} = require("./../../schemas/user.schema");
+} = require("../../schemas/user.schema");
 
-router.get("/", async (req, res, next) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
     const user = await userController.get();
     return res.status(200).send(user);
@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get(
+usersRouter.get(
   "/:id",
   schemaValidator(getUserSchema, "params"),
   async (req, res, next) => {
@@ -32,7 +32,7 @@ router.get(
   }
 );
 
-router.post(
+usersRouter.post(
   "/",
   schemaValidator(createUserSchema, "body"),
   async (req, res, next) => {
@@ -47,7 +47,7 @@ router.post(
   }
 );
 
-router.put(
+usersRouter.put(
   "/:id",
   schemaValidator(getUserSchema, "params"),
   schemaValidator(updateUserSchema, "body"),
@@ -64,7 +64,7 @@ router.put(
   }
 );
 
-router.delete(
+usersRouter.delete(
   "/:id",
   schemaValidator(getUserSchema, "params"),
   async (req, res, next) => {
@@ -78,4 +78,4 @@ router.delete(
   }
 );
 
-module.exports = router;
+module.exports = usersRouter;
