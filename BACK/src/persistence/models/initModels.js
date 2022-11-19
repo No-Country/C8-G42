@@ -12,24 +12,64 @@ const initModels = () => {
   Shelter.belongsTo(User, { foreignKey: "ownerId", as: "user" });
 
   //M User <-- FavoritePet --> M pet
-  User.belongsToMany(Pet, { through: FavoritePet, foreignKey: "userId" });
-  Pet.belongsToMany(User, { through: FavoritePet, foreignKey: "petId" });
+  User.belongsToMany(Pet, {
+    through: { model: FavoritePet, unique: false },
+    foreignKey: "userId",
+    constraints: false,
+  });
+  Pet.belongsToMany(User, {
+    through: { model: FavoritePet, unique: false },
+    foreignKey: "petId",
+    constraints: false,
+  });
 
   //M User <-- Message --> M Shelter
-  User.belongsToMany(Shelter, { through: Message, foreignKey: "userId" });
-  Shelter.belongsToMany(User, { through: Message, foreignKey: "shelterId" });
+  User.belongsToMany(Shelter, {
+    through: { model: Message, unique: false },
+    foreignKey: "userId",
+    constraints: false,
+  });
+  Shelter.belongsToMany(User, {
+    through: { model: Message, unique: false },
+    foreignKey: "shelterId",
+    constraints: false,
+  });
 
   //M User <-- Report --> M Shelter
-  User.belongsToMany(Shelter, { through: Report, foreignKey: "userId" });
-  Shelter.belongsToMany(User, { through: Report, foreignKey: "shelterId" });
+  User.belongsToMany(Shelter, {
+    through: { model: Report, unique: false },
+    foreignKey: "userId",
+    constraints: false,
+  });
+  Shelter.belongsToMany(User, {
+    through: { model: Report, unique: false },
+    foreignKey: "shelterId",
+    constraints: false,
+  });
 
   //M User <-- Request --> M Pet
-  User.belongsToMany(Pet, { through: Request, foreignKey: "userId" });
-  Pet.belongsToMany(User, { through: Request, foreignKey: "petId" });
+  User.belongsToMany(Pet, {
+    through: { model: Request, unique: false },
+    foreignKey: "userId",
+    constraints: false,
+  });
+  Pet.belongsToMany(User, {
+    through: { model: Request, unique: false },
+    foreignKey: "petId",
+    constraints: false,
+  });
 
   //M User <-- Pet --> M Shelter
-  User.belongsToMany(Shelter, { through: Pet, foreignKey: "userId" });
-  Shelter.belongsToMany(User, { through: Pet, foreignKey: "shelterId" });
+  User.belongsToMany(Shelter, {
+    through: { model: Pet, unique: false },
+    foreignKey: "userId",
+    constraints: false,
+  });
+  Shelter.belongsToMany(User, {
+    through: { model: Pet, unique: false },
+    foreignKey: "shelterId",
+    constraints: false,
+  });
 };
 
 module.exports = { initModels };
