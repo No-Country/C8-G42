@@ -1,6 +1,5 @@
 const { db } = require("../../utils/database.util");
 const boom = require("@hapi/boom");
-const bcrypt = require("bcrypt");
 
 const getById = async (id) => {
   const shelter = await db.models.shelter.findByPk(id, {
