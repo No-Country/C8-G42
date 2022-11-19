@@ -36,7 +36,7 @@ router.post(
     try {
       const shelterData = req.body;
       const newShelter = await shelterController.create(shelterData);
-      return res.status(200).send(newShelter);
+      return res.status(201).send(newShelter);
     } catch (error) {
       next(error);
     }

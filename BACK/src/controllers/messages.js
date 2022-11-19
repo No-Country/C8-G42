@@ -11,7 +11,11 @@ module.exports = {
       },
       order: [['createdAt']]
     });
-    return chat;
+    if(chat.length > 0) {
+      return chat;
+    } else {
+      return { message: 'Empty chat'}
+    }
   },
   create: async (messageData) => {
     console.log({messageData})
@@ -19,12 +23,12 @@ module.exports = {
     return newMessage;
   },
   delete: async (id) => {
-    const rta = await db.models.shelter.destroy({
+    const rta = await db.models.message.destroy({
       where: {
         id,
       },
     });
     if (rta !== 0) return { message: "Deleted" };
-    else throw boom.notFound("Shelter not found");
+    else throw boom.notFound("Message not found");
   },
 };
