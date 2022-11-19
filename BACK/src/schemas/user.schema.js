@@ -1,13 +1,10 @@
 const Joi = require("joi");
 
-const roles = ["user", "admin", "shelterOwner"];
-
 const id = Joi.number().integer();
 const firstName = Joi.string().min(3).max(20);
 const lastName = Joi.string().min(3).max(20);
 const email = Joi.string().email();
 const password = Joi.string().min(3).max(15);
-const role = Joi.string().valid(...roles);
 const address = Joi.string().min(3).max(255);
 const avatar = Joi.string().uri();
 const phone = Joi.string()

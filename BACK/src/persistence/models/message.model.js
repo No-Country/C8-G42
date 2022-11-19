@@ -16,6 +16,7 @@ const Message = db.define("message", {
       model: User,
       key: "id",
     },
+    unique: false,
   },
   shelterId: {
     type: DataTypes.INTEGER,
@@ -24,6 +25,7 @@ const Message = db.define("message", {
       model: Shelter,
       key: "id",
     },
+    unique: false,
   },
   text: {
     type: DataTypes.STRING,
