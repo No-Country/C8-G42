@@ -24,7 +24,7 @@ const {
 } = require("../../schemas/pets.schema");
 
 //pet middlewares
-const { petExist } = require("../../middlewares/pets.middlewares");
+const { petExist } = require("../../middlewares/pets.middleware");
 
 const petsRouter = express.Router();
 
