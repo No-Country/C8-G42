@@ -14,4 +14,13 @@ module.exports = {
     database: process.env.DB,
     logging: false,
   },
+  dbLocalConfig: {
+    dialect: "postgres",
+    host: "localhost",
+    username: "ale",
+    password: "admin123",
+    port: 5432,
+    database: "huellitas",
+    logging: true,
+  }
 };
