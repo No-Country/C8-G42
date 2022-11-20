@@ -12,10 +12,6 @@ const app = express();
 // Enable Express app to receive JSON data
 app.use(express.json());
 
-app.listen(3000, () => {
-  console.log('My port: 3000')
-})
-
 // Routers
 routerApi(app);
 
