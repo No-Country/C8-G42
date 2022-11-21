@@ -12,7 +12,7 @@ function App() {
     <Auth0Provider
       domain="huellitas-auth.us.auth0.com"
       clientId="8JQNSVZD8ZdTMi9dNN9C5D66xES2gDrH"
-      audience="https://huellitas-auth.us.auth0.com/api/v2/"
+      audience="api-autenticacion-huellitas"
       redirectUri={window.location.origin}
     >
       <BrowserRouter>
