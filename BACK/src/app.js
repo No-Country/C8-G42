@@ -21,9 +21,10 @@ app.use(compression());
 app.use(morgan("dev"));
 
 // Define endpoints
-app.listen(3000, () => {
-  console.log(`Servidor funcionando en el puerto 3000`)
-})
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`Servidor funcionando en el puerto: ` + PORT);
+});
 
 // Catch non-existing endpoints
 app.all("*", (req, res) => {
