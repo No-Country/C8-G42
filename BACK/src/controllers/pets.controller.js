@@ -2,10 +2,12 @@
 const { Pet } = require("../persistence/models/pet.model");
 const { FavoritePet } = require("../persistence/models/favoritePet.model");
 
+const boom = require("@hapi/boom");
+
 const getAllPets = async (req, res, next) => {
   try {
     const pets = await Pet.findAll({
-      where: { isVisible: true },
+      where: { isVisible: true }
     });
 
     res.status(200).json({
@@ -99,6 +101,10 @@ const adoptPet = async (req, res, next) => {
   try {
     const { pet } = req;
 
+    if (pet.status === "adopted") {
+      throw boom.badRequest("The pet is already adopted");
+    }
+
     await pet.update({
       status: "adopted",
       adoptedDate: new Date().toISOString(),
@@ -141,7 +147,7 @@ const toogleFavoritePet = async (req, res, next) => {
       });
     }
 
-    favoritePet = await FavoritePet.update({
+    await favoritePet.update({
       isFavorite: !favoritePet.isFavorite,
     });
 
