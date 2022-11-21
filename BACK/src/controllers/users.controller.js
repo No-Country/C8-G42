@@ -16,6 +16,9 @@ const getById = async(id) => {
 module.exports = {
   get: async () => {
     const users = await db.models.user.findAll();
+    for (const user of users) {
+      delete user.dataValues.password
+    }
     return users;
   },
   getById,

@@ -40,7 +40,7 @@ usersRouter.post(
       const userData = req.body;
       const newUser = await userController.create(userData);
       delete newUser.dataValues.password
-      return res.status(200).send(newUser);
+      return res.status(201).send(newUser);
     } catch (error) {
       next(error);
     }
