@@ -17,6 +17,17 @@ const startServer = async () => {
     initModels();
 
     await db.sync();
+    /* Para DROP  */
+    // await db.drop();
+    // db
+    //   .sync({force: true}) // create the database table for our model(s)
+    //   .then(function () {
+    //     // do some work
+    //   })
+    //   .then(function () {
+    //     console.log("llegó");
+    //     return db.drop({force: true}); // drop all tables in the db
+    //   });
 
     // Set server to listen
     const PORT = 3000;
