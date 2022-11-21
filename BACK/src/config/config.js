@@ -22,5 +22,9 @@ module.exports = {
     port: 5432,
     database: "huellitas",
     logging: true,
+  },
+  emailConfig: {
+    emailAccount: process.env.EMAIL_ACCOUNT,
+    emailPass: process.env.EMAIL_PASS,
   }
 };

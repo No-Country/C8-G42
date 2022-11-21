@@ -3,7 +3,6 @@ const boom = require("@hapi/boom");
 
 module.exports = {
   getChat: async (userId, shelterId) => {
-    console.log({userId, shelterId})
     const chat = await db.models.message.findAll({
       where: {
         userId,
@@ -18,7 +17,6 @@ module.exports = {
     }
   },
   create: async (messageData) => {
-    console.log({messageData})
     const newMessage = await db.models.message.create(messageData);
     return newMessage;
   },
