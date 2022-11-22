@@ -1,12 +1,13 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import HomeIcon from './Icons/HomeIcon'
-import PawIcon from "./Icons/PawIcon";
+/* import PawIcon from "./Icons/PawIcon"; */
 import BellIcon from "./Icons/BellIcon"
 import SettIcon from "./Icons/SettIcon"
 import ToggleColorMode from "./theme/ToggleColorMode";
 import Lottie from 'react-lottie-player'
 import cat from "./assets/78625-le-petit-chat-cat-noir.json"
+import PawIcon from "./Icons/PawIcon";
 
 const MobileNavbar = () => {
   return (
@@ -18,7 +19,7 @@ const MobileNavbar = () => {
       </Flex>
     <Flex w="100%" bg="#AEC3B0" justifyContent="space-around" display={{base:"flex", md:"none"}}>
     <HomeIcon />
-  {/*   <PawIcon /> */}
+    <PawIcon />
     <BellIcon/>
     <SettIcon /> 
     <ToggleColorMode />

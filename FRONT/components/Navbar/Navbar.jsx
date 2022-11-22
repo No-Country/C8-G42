@@ -1,8 +1,6 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import React from "react";
 import ToggleColorMode from "./theme/ToggleColorMode";
-import logo from "./assets/logo.png";
-import Image from "next/image";
+import LogoBox from "./Icons/Logo";
 
 const Navbar = () => {
   return (
@@ -15,12 +13,13 @@ const Navbar = () => {
       direction="row"
       justifyContent="space-between"
       alignItems="center"
+      cursor="pointer"
     >
       <Flex pos="relative" pl="2%" alignItems="center">
         <Flex pos="absolute" w="35%">
-          <Image src={logo} style={{ padding: "2px" }} alt="logo" />
+         <LogoBox/>
         </Flex>
-        <Box pl="30%">
+        <Box pl="27%">
           <Text fontSize="3xl" pt="10px">
             Huellitas
           </Text>

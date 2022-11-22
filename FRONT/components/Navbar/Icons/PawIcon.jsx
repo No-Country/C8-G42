@@ -1,13 +1,12 @@
-import { Flex } from '@chakra-ui/react'
-import Image from 'next/image'
+import { Box, IconButton} from '@chakra-ui/react'
 import React from 'react'
-import paw from '../assets/paw.ico'
+import Paw from './Paw'
 
 const PawIcon = () => {
   return (
-    <Flex w="11%"> 
-        <Image src={paw} style={{padding:"2px"}}alt="like" />
-    </Flex>
+    <Box>
+      <IconButton bg="inherit" icon={<Paw boxSize={7}/>}/>
+   </Box>
   )
 }
 
