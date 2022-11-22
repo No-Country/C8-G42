@@ -5,6 +5,7 @@ import Admin from './pages/Admin';
 // import PrivateLayout from './layouts/PrivateLayout';
 import PrivateRoute from './components/PrivateRoute';
 import { Auth0Provider } from "@auth0/auth0-react";
+import User from './pages/User';
 
 
 function App() {
@@ -25,6 +26,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Admin />
+                </PrivateRoute>
+              }>
+            </Route>
+            <Route
+              path='/users'
+              element={
+                <PrivateRoute>
+                  <User />
                 </PrivateRoute>
               }>
             </Route>
