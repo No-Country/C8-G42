@@ -14,4 +14,18 @@ module.exports = {
     database: process.env.DB,
     logging: false,
   },
+  whiteListCors: ['http://localhost:8080', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'],
+  dbLocalConfig: {
+    dialect: "postgres",
+    host: "localhost",
+    username: "ale",
+    password: "admin123",
+    port: 5432,
+    database: "huellitas",
+    logging: true,
+  },
+  emailConfig: {
+    emailAccount: process.env.EMAIL_ACCOUNT,
+    emailPass: process.env.EMAIL_PASS,
+  }
 };

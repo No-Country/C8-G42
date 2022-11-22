@@ -17,12 +17,23 @@ const startServer = async () => {
     initModels();
 
     await db.sync();
+    /* Para DROP  */
+    
+    // db
+    //   .sync({force: true}) // create the database table for our model(s)
+    //   .then(function () {
+    //     // do some work
+    //   })
+    //   .then(function () {
+    //     console.log("llegó");
+    //     return db.drop({force: true}); // drop all tables in the db
+    //   });
 
     // Set server to listen
-    const PORT = 4000;
+    const PORT = 5000;
 
     app.listen(PORT, () => {
-      console.log("Express app running!");
+      console.log(`Express app running! in port ${PORT}`);
     });
   } catch (error) {
     console.log(error);
