@@ -10,7 +10,7 @@ const Home = () => {
     <>
       <h4>Este es Home</h4>
       {isAuthenticated ?
-        <div> Bienvenido {user?.nickname}
+        <div> Bienvenido <span style={{color: "green", fontWeight:"bold"}}>{user?.nickname}</span>
           <button onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
         </div>
         :
