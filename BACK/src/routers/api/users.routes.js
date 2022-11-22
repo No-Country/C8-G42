@@ -1,12 +1,12 @@
 const express = require("express");
-const router = express.Router();
-const userController = require("./../../controllers/users");
+const usersRouter = express.Router();
+const userController = require("../../controllers/users.controller");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
   createUserSchema,
   getUserSchema,
   updateUserSchema,
-} = require("./../../schemas/user.schema");
+} = require("../../schemas/user.schema");
 
 /*-------Auth0 (verify token with midlleware)------------------------*/
 const { auth } = require('express-oauth2-jwt-bearer');
@@ -20,7 +20,7 @@ const checkJwt = auth({
 /*-----------------------------------*/
 
 
-router.get("/",checkJwt,async (req, res, next) => {
+usersRouter.get("/", checkJwt, async (req, res, next) => {
   try {
     const user = await userController.get();
     return res.status(200).send(user);
@@ -29,13 +29,14 @@ router.get("/",checkJwt,async (req, res, next) => {
   }
 });
 
-router.get(
+usersRouter.get(
   "/:id",
   schemaValidator(getUserSchema, "params"),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const user = await userController.getById(id);
+      delete user.dataValues.password
       return res.status(200).send(user);
     } catch (error) {
       next(error);
@@ -43,13 +44,14 @@ router.get(
   }
 );
 
-router.post(
+usersRouter.post(
   "/",
   schemaValidator(createUserSchema, "body"),
   async (req, res, next) => {
     try {
       const userData = req.body;
       const newUser = await userController.create(userData);
+      delete newUser.dataValues.password
       return res.status(200).send(newUser);
     } catch (error) {
       next(error);
@@ -57,7 +59,7 @@ router.post(
   }
 );
 
-router.put(
+usersRouter.put(
   "/:id",
   schemaValidator(getUserSchema, "params"),
   schemaValidator(updateUserSchema, "body"),
@@ -65,7 +67,8 @@ router.put(
     try {
       const { id } = req.params;
       const userData = req.body;
-      const updatedUser = await userController.update(id, userData);
+      const updatedUser = await userController.update(id, userData, id);
+      delete updatedUser.dataValues.password
       return res.status(200).send(updatedUser);
     } catch (error) {
       next(error);
@@ -73,7 +76,7 @@ router.put(
   }
 );
 
-router.delete(
+usersRouter.delete(
   "/:id",
   schemaValidator(getUserSchema, "params"),
   async (req, res, next) => {
@@ -87,4 +90,4 @@ router.delete(
   }
 );
 
-module.exports = router;
+module.exports = usersRouter;
