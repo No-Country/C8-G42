@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
-
 const { app } = require("./app");
+const socketIO = require('./../utils/socket')
 
 const { initModels } = require("./persistence/models/initModels");
 
@@ -30,11 +30,13 @@ const startServer = async () => {
     //   });
 
     // Set server to listen
-    const PORT = 5000;
+    const PORT = 3000;
 
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`Express app running! in port ${PORT}`);
     });
+
+    socketIO(server);
   } catch (error) {
     console.log(error);
   }
