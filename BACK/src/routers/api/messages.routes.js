@@ -34,18 +34,18 @@ router.post(
   }
 );
 
-// router.delete(
-//   "/:id",
-//   schemaValidator(getShelterSchema, "params"),
-//   async (req, res, next) => {
-//     try {
-//       const { id } = req.params;
-//       const rta = await shelterController.delete(id);
-//       return res.status(200).send(rta);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+router.delete(
+  "/:id",
+  schemaValidator(getChatSchema, "params"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const rta = await messageController.delete(id);
+      return res.status(200).send(rta);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
