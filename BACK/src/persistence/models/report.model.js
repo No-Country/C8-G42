@@ -2,7 +2,8 @@ const { db, DataTypes } = require("../../../utils/database.util");
 const { Shelter } = require("./shelter.model");
 const { User } = require("./user.model");
 
-const Report = db.define("report", {
+const REPORT_TABLE = "report";
+const reportSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -39,6 +40,8 @@ const Report = db.define("report", {
     type: DataTypes.STRING,
     allowNull: true
   }
-});
+};
 
-module.exports = { Report };
+const Report = db.define(REPORT_TABLE, reportSchema);
+
+module.exports = { Report, REPORT_TABLE, reportSchema };

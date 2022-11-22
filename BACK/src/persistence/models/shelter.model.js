@@ -1,6 +1,8 @@
 const { db, DataTypes } = require("../../../utils/database.util");
 
-const Shelter = db.define("shelter", {
+const SHELTER_TABLE = "shelter";
+
+const shelterSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -31,6 +33,8 @@ const Shelter = db.define("shelter", {
     type: DataTypes.STRING,
     allowNull: true
   }
-});
+}
 
-module.exports = { Shelter };
+const Shelter = db.define(SHELTER_TABLE, shelterSchema);
+
+module.exports = { Shelter, SHELTER_TABLE, shelterSchema };

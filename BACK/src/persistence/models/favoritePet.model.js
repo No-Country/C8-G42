@@ -2,7 +2,9 @@ const { db, DataTypes } = require("../../../utils/database.util");
 const { Pet } = require("./pet.model");
 const { User } = require("./user.model");
 
-const FavoritePet = db.define("favoritePet", {
+const FAVORITE_PET_TABLE = "favoritePet";
+
+const favoritePetSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -29,6 +31,8 @@ const FavoritePet = db.define("favoritePet", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-});
+};
 
-module.exports = { FavoritePet };
+const FavoritePet = db.define(FAVORITE_PET_TABLE, favoritePetSchema);
+
+module.exports = { FavoritePet, FAVORITE_PET_TABLE, favoritePetSchema };

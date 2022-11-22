@@ -2,7 +2,9 @@ const { db, DataTypes } = require("../../../utils/database.util");
 const { Shelter } = require("./shelter.model");
 const { User } = require("./user.model");
 
-const Pet = db.define("pet", {
+const PET_TABLE = "pet";
+
+const petSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -71,6 +73,8 @@ const Pet = db.define("pet", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-});
+};
 
-module.exports = { Pet };
+const Pet = db.define(PET_TABLE, petSchema);
+
+module.exports = { Pet, PET_TABLE, petSchema };

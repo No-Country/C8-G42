@@ -2,7 +2,9 @@ const { db, DataTypes } = require("../../../utils/database.util");
 const { Shelter } = require("./shelter.model");
 const { User } = require("./user.model");
 
-const Message = db.define("message", {
+const MESSAGE_TABLE = "message";
+
+const messageSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -35,6 +37,8 @@ const Message = db.define("message", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-});
+};
 
-module.exports = { Message };
+const Message = db.define(MESSAGE_TABLE, messageSchema);
+
+module.exports = { Message, MESSAGE_TABLE, messageSchema };

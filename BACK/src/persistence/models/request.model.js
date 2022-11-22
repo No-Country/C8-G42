@@ -2,7 +2,9 @@ const { db, DataTypes } = require("../../../utils/database.util");
 const { Pet } = require("./pet.model");
 const { User } = require("./user.model");
 
-const Request = db.define("request", {
+const REQUEST_TABLE = "request";
+
+const requestSchema =  {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -39,6 +41,8 @@ const Request = db.define("request", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-});
+};
 
-module.exports = { Request };
+const Request = db.define(REQUEST_TABLE, requestSchema);
+
+module.exports = { Request, REQUEST_TABLE, requestSchema };
