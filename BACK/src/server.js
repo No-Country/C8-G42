@@ -18,7 +18,7 @@ const startServer = async () => {
 
     await db.sync();
     /* Para DROP  */
-    // await db.drop();
+    
     // db
     //   .sync({force: true}) // create the database table for our model(s)
     //   .then(function () {
@@ -30,7 +30,7 @@ const startServer = async () => {
     //   });
 
     // Set server to listen
-    const PORT = 3000;
+    const PORT = 5000;
 
     app.listen(PORT, () => {
       console.log(`Express app running! in port ${PORT}`);
