@@ -4,8 +4,9 @@ import axios from 'axios';
 
 const User = () => {
     const URL_SERVER = "http://localhost:5000";
-    const PATH_USERS = "/user";
-    const URL_API = URL_SERVER + PATH_USERS;
+    const API_VERSION = "/api/v1";
+    const PATH_USERS = "/users";
+    const URL_API = URL_SERVER + API_VERSION + PATH_USERS;
 
     const { user, isAuthenticated, isLoading, logout } = useAuth0();
     const [userList, setUserList] = useState([]);
