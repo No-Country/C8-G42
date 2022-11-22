@@ -966,6 +966,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/italiana@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/italiana/-/italiana-4.5.11.tgz#064d73f606d5c52ba752641022fab525a4b64f5a"
+  integrity sha512-wDwETyigBeyRCy5GVJvM/WwIo+1WffaL/mOfGyDArYQf6v6UfR9U/6RTedRvdolmQWFuYtzeCRPJf7gVCyYimA==
+
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.7.tgz#38aec044c6c828f6ed51d5d7ae3d9b9faf6dbb0f"
