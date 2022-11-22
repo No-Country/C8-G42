@@ -18,7 +18,7 @@ const startServer = async () => {
 
     await db.sync();
     /* Para DROP  */
-    // await db.drop();
+    
     // db
     //   .sync({force: true}) // create the database table for our model(s)
     //   .then(function () {
