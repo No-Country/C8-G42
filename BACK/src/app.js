@@ -4,12 +4,18 @@ const compression = require("compression");
 const morgan = require("morgan");
 const routerApi = require('./routers/index');
 const { logErrors, errorHandler, boomErrorHandler, queryErrorHandler } = require('./middlewares/error.handler');
+const corsOptions = require("./config/corsOptions");
 
 // Init our Express app
 const app = express();
 
 // Enable Express app to receive JSON data
 app.use(express.json());
+
+// cors
+const cors = require('cors');
+// Usar cors con opciones (para todas las conexiones)
+app.use(cors(corsOptions));
 
 // Routers
 routerApi(app);
