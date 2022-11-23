@@ -1,13 +1,13 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import HomeIcon from './Icons/HomeIcon'
-/* import PawIcon from "./Icons/PawIcon"; */
-import BellIcon from "./Icons/BellIcon"
-import SettIcon from "./Icons/SettIcon"
+import HomeIcon from '../../Icons/HomeIcon'
+import BellIcon from "../../Icons/BellIcon"
+import SettIcon from "../../Icons/SettIcon"
 import ToggleColorMode from "./theme/ToggleColorMode";
 import Lottie from 'react-lottie-player'
 import cat from "./assets/78625-le-petit-chat-cat-noir.json"
-import PawIcon from "./Icons/PawIcon";
+import PawIcon from "../../Icons/Paw";
+
 
 const MobileNavbar = () => {
   return (

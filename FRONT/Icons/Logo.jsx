@@ -1,5 +1,5 @@
 import { createIcon } from "@chakra-ui/icons";
-import { Box, IconButton } from "@chakra-ui/react";
+import { Box} from "@chakra-ui/react";
 
 export const Logo = createIcon({
   displayName: "Logo",
