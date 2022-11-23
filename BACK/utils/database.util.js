@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-const { dbConfig } = require("../src/config/config");
+const { dbLocalConfig } = require("../src/config/config");
 
 // Establish db connection
-const db = new Sequelize(dbConfig);
+const db = new Sequelize(dbLocalConfig);
 
 module.exports = { db, DataTypes };

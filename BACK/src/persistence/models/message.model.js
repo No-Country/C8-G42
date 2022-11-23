@@ -1,6 +1,6 @@
 const { db, DataTypes } = require("../../../utils/database.util");
-const { Shelter } = require("./shelter.model");
-const { User } = require("./user.model");
+const { SHELTER_TABLE } = require("./shelter.model");
+const { USER_TABLE } = require("./user.model");
 
 const MESSAGE_TABLE = "message";
 
@@ -13,18 +13,20 @@ const messageSchema = {
   },
   userId: {
     type: DataTypes.INTEGER,
+    field: "user_id",
     allowNull: false,
     references: {
-      model: User,
+      model: USER_TABLE,
       key: "id",
     },
     unique: false,
   },
   shelterId: {
     type: DataTypes.INTEGER,
+    field: "shelter_id",
     allowNull: false,
     references: {
-      model: Shelter,
+      model: SHELTER_TABLE,
       key: "id",
     },
     unique: false,
@@ -35,6 +37,7 @@ const messageSchema = {
   },
   modifiedBy: {
     type: DataTypes.STRING,
+    field: "modified_by",
     allowNull: true,
   },
 };

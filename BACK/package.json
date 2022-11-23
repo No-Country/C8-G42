@@ -4,7 +4,12 @@
   "description": "backend for pets adoption platform",
   "scripts": {
     "start": "cd src && nodemon server.js",
-    "migrations:generate": "sequelize-cli migration:generate --name"
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo",
+    "migrations:delete": "sequelize-cli db:migrate:undo:all",
+    "seeds:generate": "sequelize-cli seed:generate --name",
+    "seeds:run": "sequelize-cli db:seed:all"
   },
   "main": "src/server.js",
   "repository": "https://github.com/No-Country/c8-42-t-pern-BACK.git",

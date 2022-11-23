@@ -1,6 +1,6 @@
 const { db, DataTypes } = require("../../../utils/database.util");
-const { Pet } = require("./pet.model");
-const { User } = require("./user.model");
+const { PET_TABLE } = require("./pet.model");
+const { USER_TABLE } = require("./user.model");
 
 const FAVORITE_PET_TABLE = "favoritePet";
 
@@ -13,22 +13,25 @@ const favoritePetSchema = {
   },
   userId: {
     type: DataTypes.INTEGER,
+    field: "user_id",
     allowNull: false,
     references: {
-      model: User,
+      model: USER_TABLE,
       key: "id",
     },
   },
   petId: {
     type: DataTypes.INTEGER,
+    field: "pet_id",
     allowNull: false,
     references: {
-      model: Pet,
+      model: PET_TABLE,
       key: "id",
     },
   },
   isFavorite: {
     type: DataTypes.BOOLEAN,
+    field: "is_favorite",
     allowNull: false,
   },
 };

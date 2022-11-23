@@ -10,10 +10,12 @@ const userSchema = {
   },
   firstName: {
     type: DataTypes.STRING,
+    field: "first_name",
     allowNull: false,
   },
   lastName: {
     type: DataTypes.STRING,
+    field: "last_name",
     allowNull: false,
   },
   email: {
@@ -51,10 +53,12 @@ const userSchema = {
   },
   modifiedBy: {
     type: DataTypes.STRING,
+    field: "modified_by",
     allowNull: true
   },
   isDark: {
     type: DataTypes.BOOLEAN,
+    field: "is_dark",
     defaultValue: false,
     allowNull: false
   }

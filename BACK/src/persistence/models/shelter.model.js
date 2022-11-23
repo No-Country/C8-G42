@@ -1,4 +1,5 @@
 const { db, DataTypes } = require("../../../utils/database.util");
+const { USER_TABLE } = require("./user.model")
 
 const SHELTER_TABLE = "shelter";
 
@@ -26,12 +27,18 @@ const shelterSchema = {
     allowNull: true,
   },
   ownerId: {
+    field: "owner_id",
+    references: {
+      model: USER_TABLE,
+      key: "id"
+    },
     type: DataTypes.INTEGER,
     allowNull: false,
   },
   modifiedBy: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    field: "modified_by"
   }
 }
 
