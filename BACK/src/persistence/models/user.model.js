@@ -68,7 +68,7 @@ class User extends Model {
   static associate(models) {
     this.hasOne(models.Shelter, {
       as: "shelter",
-      foreignKey: "userId"
+      foreignKey: "ownerId"
     });
     this.hasMany(models.Pet, {
       as: "pet",

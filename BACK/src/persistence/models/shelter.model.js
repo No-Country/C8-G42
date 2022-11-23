@@ -44,7 +44,7 @@ const shelterSchema = {
 
 class Shelter extends Model {
   static associate(models) {
-    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.User, { as: "owner" });
     this.hasMany(models.Pet, {
       as: "pet",
       foreignKey: "shelterId"

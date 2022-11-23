@@ -17,4 +17,8 @@ const getChatSchema = Joi.object({
   shelterId: id,
 });
 
-module.exports = { createMessageSchema, getChatSchema };
+const getMessageSchema = Joi.object({
+  id
+})
+
+module.exports = { createMessageSchema, getChatSchema, getMessageSchema };

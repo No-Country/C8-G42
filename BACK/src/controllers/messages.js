@@ -1,32 +1,23 @@
 const { db } = require("../../utils/database.util");
 const boom = require("@hapi/boom");
+const service = require("./services");
+const modelName = "Message"
 
 module.exports = {
   getChat: async (userId, shelterId) => {
-    const chat = await db.models.message.findAll({
-      where: {
-        userId,
-        shelterId
-      },
-      order: [['createdAt']]
-    });
-    if(chat.length > 0) {
-      return chat;
-    } else {
-      return { message: 'Empty chat'}
+    const where = {
+      userId,
+      shelterId
     }
+    const chat = await service.getBy(where, modelName)
+    return chat
   },
   create: async (messageData) => {
-    const newMessage = await db.models.message.create(messageData);
+    const newMessage = await service.create(modelName, messageData);
     return newMessage;
   },
   delete: async (id) => {
-    const rta = await db.models.message.destroy({
-      where: {
-        id,
-      },
-    });
-    if (rta !== 0) return { message: "Deleted" };
-    else throw boom.notFound("Message not found");
+    const rta = await service.delete(id, modelName);
+    return rta
   },
 };

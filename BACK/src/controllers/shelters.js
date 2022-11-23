@@ -2,34 +2,34 @@ const { db } = require("../../utils/database.util");
 const boom = require("@hapi/boom");
 const service = require("./services")
 
-const shelter = "shelter"
+const modelName = "Shelter"
 const options = {
-  include: ["user"]
+  include: ["owner"]
 }
 
 module.exports = {
   get: async (limit, offset) => {
-    const shelters = await service.getAll(shelter, limit, offset, options);
+    const shelters = await service.getAll(modelName, limit, offset, options);
+    for (const shelter of shelters) {
+      delete shelter.dataValues.owner.dataValues.password;
+    }
     return shelters;
   },
   getById: async(id) => {
-    const shelter = await service.getById(id, shelter, options)
+    const shelter = await service.getById(id, modelName, options)
+    delete shelter.dataValues.owner.dataValues.password;
     return shelter
   },
   create: async (shelterData) => {
-    const newShelter = await service.create(shelter, shelterData);
+    const newShelter = await service.create(modelName, shelterData);
     return newShelter;
   },
-  update: async (id, shelterData, modifiedBy) => {
-    const newData = {
-      ...shelterData,
-      modifiedBy,
-    };
-    const updatedShelter = await service.update(id, shelter, newData);
+  update: async (id, shelterData) => {
+    const updatedShelter = await service.update(id, modelName, shelterData);
     return updatedShelter;
   },
   delete: async (id) => {
-    const rta = await service.delete(id, shelter);
+    const rta = await service.delete(id, modelName);
     return rta;
   },
 };

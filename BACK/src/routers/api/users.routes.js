@@ -22,7 +22,8 @@ const checkJwt = auth({
 
 usersRouter.get("/", checkJwt, async (req, res, next) => {
   try {
-    const user = await userController.get();
+    const { limit, offset } = req.query;
+    const user = await userController.getAll(limit, offset);
     return res.status(200).send(user);
   } catch (error) {
     next(error);
@@ -36,7 +37,6 @@ usersRouter.get(
     try {
       const { id } = req.params;
       const user = await userController.getById(id);
-      delete user.dataValues.password
       return res.status(200).send(user);
     } catch (error) {
       next(error);
@@ -51,7 +51,6 @@ usersRouter.post(
     try {
       const userData = req.body;
       const newUser = await userController.create(userData);
-      delete newUser.dataValues.password
       return res.status(201).send(newUser);
     } catch (error) {
       next(error);
