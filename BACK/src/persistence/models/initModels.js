@@ -70,6 +70,10 @@ const initModels = () => {
     foreignKey: "shelterId",
     constraints: false,
   });
+  Pet.belongsTo(User);
+  Pet.belongsTo(Shelter);
+  User.hasMany(Pet, { foreignKey: "userId" });
+  Shelter.hasMany(Pet, { foreignKey: "shelterId" });
 };
 
 module.exports = { initModels };
