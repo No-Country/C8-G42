@@ -1,8 +1,8 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
 const { SHELTER_TABLE } = require("./shelter.model");
 const { USER_TABLE } = require("./user.model");
 
-const REPORT_TABLE = "report";
+const REPORT_TABLE = "reports";
 const reportSchema = {
   id: {
     type: DataTypes.INTEGER,
@@ -45,6 +45,20 @@ const reportSchema = {
   }
 };
 
-const Report = db.define(REPORT_TABLE, reportSchema);
+class Report extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Shelter, { as: "shelter" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: REPORT_TABLE,
+      modelName: 'Report',
+      timestamps: false
+    }
+  }
+}
 
 module.exports = { Report, REPORT_TABLE, reportSchema };

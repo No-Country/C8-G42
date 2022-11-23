@@ -1,8 +1,8 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
 const { PET_TABLE } = require("./pet.model");
 const { USER_TABLE } = require("./user.model");
 
-const FAVORITE_PET_TABLE = "favoritePet";
+const FAVORITE_PET_TABLE = "favoritePets";
 
 const favoritePetSchema = {
   id: {
@@ -36,6 +36,20 @@ const favoritePetSchema = {
   },
 };
 
-const FavoritePet = db.define(FAVORITE_PET_TABLE, favoritePetSchema);
+class FavoritePet extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Pet, { as: "pet" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: FAVORITE_PET_TABLE,
+      modelName: 'FavoritePet',
+      timestamps: false
+    }
+  }
+}
 
 module.exports = { FavoritePet, FAVORITE_PET_TABLE, favoritePetSchema };

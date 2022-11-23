@@ -1,8 +1,8 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
 const { SHELTER_TABLE } = require("./shelter.model");
 const { USER_TABLE } = require("./user.model");
 
-const MESSAGE_TABLE = "message";
+const MESSAGE_TABLE = "messages";
 
 const messageSchema = {
   id: {
@@ -42,6 +42,20 @@ const messageSchema = {
   },
 };
 
-const Message = db.define(MESSAGE_TABLE, messageSchema);
+class Message extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Shelter, { as: "shelter" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: MESSAGE_TABLE,
+      modelName: 'Message',
+      timestamps: false
+    }
+  }
+}
 
 module.exports = { Message, MESSAGE_TABLE, messageSchema };

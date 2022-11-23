@@ -1,8 +1,8 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
 const { SHELTER_TABLE } = require("./shelter.model");
 const { USER_TABLE } = require("./user.model");
 
-const PET_TABLE = "pet";
+const PET_TABLE = "pets";
 
 const petSchema = {
   id: {
@@ -81,6 +81,28 @@ const petSchema = {
   },
 };
 
-const Pet = db.define(PET_TABLE, petSchema);
+class Pet extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Shelter, { as: "shelter" });
+    this.hasMany(models.Request, {
+      as: "request",
+      foreignKey: "petId"
+    });
+    this.hasMany(models.FavoritePet, {
+      as: "favoritePet",
+      foreignKey: "petId"
+    });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: PET_TABLE,
+      modelName: 'Pet',
+      timestamps: false
+    }
+  }
+}
 
 module.exports = { Pet, PET_TABLE, petSchema };

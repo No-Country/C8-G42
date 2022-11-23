@@ -2,16 +2,10 @@ const dotenv = require("dotenv");
 const { app } = require("./app");
 const socketIO = require('./../utils/socket')
 
-const { initModels } = require("./persistence/models/initModels");
-
-// Utils
-const { db } = require("../utils/database.util");
-
 dotenv.config({ path: "./config.env" });
 
 const startServer = async () => {
   try {
-    initModels();
     const PORT = 3000;
 
     const server = app.listen(PORT, () => {

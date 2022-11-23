@@ -1,8 +1,8 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
 const { PET_TABLE } = require("./pet.model");
 const { USER_TABLE } = require("./user.model");
 
-const REQUEST_TABLE = "request";
+const REQUEST_TABLE = "requests";
 
 const requestSchema =  {
   id: {
@@ -46,6 +46,20 @@ const requestSchema =  {
   },
 };
 
-const Request = db.define(REQUEST_TABLE, requestSchema);
+class Request extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Pet, { as: "pet" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: REQUEST_TABLE,
+      modelName: 'Request',
+      timestamps: false
+    }
+  }
+}
 
 module.exports = { Request, REQUEST_TABLE, requestSchema };

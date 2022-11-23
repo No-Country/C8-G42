@@ -1,6 +1,6 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
 
-const USER_TABLE = "user"
+const USER_TABLE = "users"
 const userSchema = {
   id: {
     type: DataTypes.INTEGER,
@@ -64,7 +64,43 @@ const userSchema = {
   }
 }
 
-const User = db.define(USER_TABLE, userSchema);
+class User extends Model {
+  static associate(models) {
+    this.hasOne(models.Shelter, {
+      as: "shelter",
+      foreignKey: "userId"
+    });
+    this.hasMany(models.Pet, {
+      as: "pet",
+      foreignKey: "userId"
+    });
+    this.hasMany(models.Message, {
+      as: "message",
+      foreignKey: "userId"
+    });
+    this.hasMany(models.Request, {
+      as: "request",
+      foreignKey: "userId"
+    });
+    this.hasMany(models.Report, {
+      as: "report",
+      foreignKey: "userId"
+    });
+    this.hasMany(models.FavoritePet, {
+      as: "favoritePet",
+      foreignKey: "userId"
+    });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: USER_TABLE,
+      modelName: 'User',
+      timestamps: false
+    }
+  }
+}
   
-  module.exports = { User, USER_TABLE, userSchema };
+module.exports = { User, USER_TABLE, userSchema };
   
