@@ -8,8 +8,9 @@ const {
 
 router.get("/", async (req, res, next) => {
   try {
-    const shelters = await shelterController.get();
-    return res.status(200).send(shelters);
+    const { limit, offset } = req.query;
+    const shelters = await shelterController.get(limit, offset);
+    return res.status(200).json(shelters);
   } catch (error) {
     next(error);
   }
@@ -22,7 +23,7 @@ router.get(
     try {
       const { id } = req.params;
       const user = await shelterController.getById(id);
-      return res.status(200).send(user);
+      return res.status(200).json(user);
     } catch (error) {
       next(error);
     }
@@ -36,7 +37,7 @@ router.post(
     try {
       const shelterData = req.body;
       const newShelter = await shelterController.create(shelterData);
-      return res.status(201).send(newShelter);
+      return res.status(201).json(newShelter);
     } catch (error) {
       next(error);
     }
@@ -52,7 +53,7 @@ router.put(
       const { id } = req.params;
       const shelterData = req.body;
       const updatedShelter = await shelterController.update(id, shelterData);
-      return res.status(200).send(updatedShelter);
+      return res.status(200).json(updatedShelter);
     } catch (error) {
       next(error);
     }
@@ -66,7 +67,7 @@ router.delete(
     try {
       const { id } = req.params;
       const rta = await shelterController.delete(id);
-      return res.status(200).send(rta);
+      return res.status(200).json(rta);
     } catch (error) {
       next(error);
     }

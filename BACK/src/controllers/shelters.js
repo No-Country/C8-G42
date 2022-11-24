@@ -1,48 +1,35 @@
 const { db } = require("../../utils/database.util");
 const boom = require("@hapi/boom");
+const service = require("./services")
 
-const getById = async (id) => {
-  const shelter = await db.models.shelter.findByPk(id, {
-    include: ["user"],
-  });
-  if (shelter) {
-    delete shelter.dataValues.user.dataValues.password;
-    return shelter;
-  } else {
-    throw boom.notFound("Shelter Not Found");
-  }
-};
+const shelter = "shelter"
+const options = {
+  include: ["user"]
+}
 
 module.exports = {
-  get: async () => {
-    const shelters = await db.models.shelter.findAll();
+  get: async (limit, offset) => {
+    const shelters = await service.getAll(shelter, limit, offset, options);
     return shelters;
   },
-  getById,
+  getById: async(id) => {
+    const shelter = await service.getById(id, shelter, options)
+    return shelter
+  },
   create: async (shelterData) => {
-    const newShelter = await db.models.shelter.create(shelterData);
+    const newShelter = await service.create(shelter, shelterData);
     return newShelter;
   },
   update: async (id, shelterData, modifiedBy) => {
-    const shelter = await getById(id);
-
     const newData = {
-      ...shelter.dataValues,
       ...shelterData,
-      modifiedBy: modifiedBy | shelterData.modifiedBy,
+      modifiedBy,
     };
-
-    const updatedShelter = await shelter.update(newData);
-
+    const updatedShelter = await service.update(id, shelter, newData);
     return updatedShelter;
   },
   delete: async (id) => {
-    const rta = await db.models.shelter.destroy({
-      where: {
-        id,
-      },
-    });
-    if (rta !== 0) return { message: "Deleted" };
-    else throw boom.notFound("Shelter not found");
+    const rta = await service.delete(id, shelter);
+    return rta;
   },
 };
