@@ -1,6 +1,7 @@
 import { createIcon } from "@chakra-ui/icons";
+import { Box, IconButton } from "@chakra-ui/react";
 
-const Paw = createIcon({
+export const Paw = createIcon({
   displayName: "Paw",
   viewBox: "0 0 512 512",
   path: [
@@ -14,4 +15,12 @@ const Paw = createIcon({
   ],
 });
 
-export default Paw;
+const PawIcon = () => {
+  return (
+    <Box>
+      <IconButton bg="inherit" icon={<Paw boxSize={7}/>}/>
+   </Box>
+  )
+}
+
+export default PawIcon
