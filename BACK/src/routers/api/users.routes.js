@@ -19,11 +19,29 @@ const checkJwt = auth({
 });
 /*-----------------------------------*/
 
+const genericCallback = (res) => (err, result) => {
+  if (err) {
+    res.status(500).send('Error fetching users');
+  } else {
+    res.json(result);
+  }
+};
+
 
 usersRouter.get("/", checkJwt, async (req, res, next) => {
   try {
     const user = await userController.get();
     return res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Self: route to obtain info from user (Fetch or Create New User)
+usersRouter.get("/self", checkJwt, async (req, res, next) => {
+  try {
+    userController.fetchOrCreateUser(req, genericCallback(res));
+    // return res.status(200).send(user);
   } catch (error) {
     next(error);
   }
