@@ -1,13 +1,15 @@
 //models
 const { Pet } = require("../persistence/models/pet.model");
 const { FavoritePet } = require("../persistence/models/favoritePet.model");
+const { Shelter } = require("../persistence/models/shelter.model");
 
 const boom = require("@hapi/boom");
 
 const getAllPets = async (req, res, next) => {
   try {
     const pets = await Pet.findAll({
-      where: { isVisible: true }
+      where: { isVisible: true },
+      include: { model: Shelter, as: "shelter" },
     });
 
     res.status(200).json({
