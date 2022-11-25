@@ -41,7 +41,7 @@ const userSchema = {
   },
   address: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   avatar: {
     type: DataTypes.STRING,
@@ -49,7 +49,7 @@ const userSchema = {
   },
   phone: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   modifiedBy: {
     type: DataTypes.STRING,

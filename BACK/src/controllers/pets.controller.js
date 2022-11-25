@@ -1,15 +1,20 @@
 //models
-const { Pet } = require("../persistence/models/pet.model");
 const { FavoritePet } = require("../persistence/models/favoritePet.model");
-const { Shelter } = require("../persistence/models/shelter.model");
+
+const service = require("./services");
+const modelName = "Pet";
+const options = {
+  include: ["shelter"],
+};
 
 const boom = require("@hapi/boom");
 
 const getAllPets = async (req, res, next) => {
   try {
-    const pets = await Pet.findAll({
+    const { limit, offsset } = req.query;
+    const pets = await service.getAll(modelName, limit, offsset, {
+      ...options,
       where: { isVisible: true },
-      include: { model: Shelter, as: "shelter" },
     });
 
     res.status(200).json({
@@ -52,7 +57,7 @@ const createPet = async (req, res, next) => {
     petData.adoptedDate =
       petData.status === "adopted" ? new Date().toISOString() : null;
 
-    const newPet = await Pet.create(petData);
+    const newPet = await service.create(modelName, petData);
 
     res.status(201).json({
       status: "success",
