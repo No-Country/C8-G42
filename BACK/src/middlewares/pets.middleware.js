@@ -1,17 +1,17 @@
 //models
-const { Pet } = require("../persistence/models/pet.model");
+const service = require("../controllers/services");
+const modelName = "Pet";
+const options = {
+  include: ["shelter"],
+};
 
 const boom = require("@hapi/boom");
-const { Shelter } = require("../persistence/models/shelter.model");
 
 const petExist = async (req, res, next) => {
   try {
     const { id, petId } = req.params;
 
-    const pet = await Pet.findOne({
-      where: { id: id || petId },
-      include: { model: Shelter },
-    });
+    const pet = await service.getById(id || petId, modelName, options);
 
     if (!pet) {
       throw boom.notFound("Pet Not Found");

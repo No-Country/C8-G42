@@ -1,8 +1,10 @@
-const { db, DataTypes } = require("../../../utils/database.util");
-const { Shelter } = require("./shelter.model");
-const { User } = require("./user.model");
+const { Model, DataTypes } = require('sequelize');
+const { SHELTER_TABLE } = require("./shelter.model");
+const { USER_TABLE } = require("./user.model");
 
-const Pet = db.define("pet", {
+const PET_TABLE = "pets";
+
+const petSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -32,6 +34,7 @@ const Pet = db.define("pet", {
   },
   isSterilized: {
     type: DataTypes.BOOLEAN,
+    field: "is_sterilized",
     allowNull: false,
   },
   image: {
@@ -40,9 +43,10 @@ const Pet = db.define("pet", {
   },
   shelterId: {
     type: DataTypes.INTEGER,
+    field: "shelter_id",
     allowNull: false,
     references: {
-      model: Shelter,
+      model: SHELTER_TABLE,
       key: "id",
     },
   },
@@ -53,24 +57,52 @@ const Pet = db.define("pet", {
   },
   userId: {
     type: DataTypes.INTEGER,
+    field: "user_id",
     allowNull: false,
     references: {
-      model: User,
+      model: USER_TABLE,
       key: "id",
     },
   },
   adoptedDate: {
     type: DataTypes.DATE,
+    field: "adopted_date",
     allowNull: true,
   },
   isVisible: {
     type: DataTypes.BOOLEAN,
+    field: "is_visible",
     allowNull: false,
   },
   modifiedBy: {
     type: DataTypes.STRING,
+    field: "modified_by",
     allowNull: true,
   },
-});
+};
 
-module.exports = { Pet };
+class Pet extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Shelter, { as: "shelter" });
+    this.hasMany(models.Request, {
+      as: "request",
+      foreignKey: "petId"
+    });
+    this.hasMany(models.FavoritePet, {
+      as: "favoritePet",
+      foreignKey: "petId"
+    });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: PET_TABLE,
+      modelName: 'Pet',
+      timestamps: false
+    }
+  }
+}
+
+module.exports = { Pet, PET_TABLE, petSchema };

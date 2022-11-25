@@ -1,8 +1,12 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
+const { dbLocalConfig, dbConfig } = require("../src/config/config");
+const { setupModels } = require("./../src/persistence/models/initModels");
 
-const { dbConfig } = require("../src/config/config");
+const USER = encodeURIComponent(dbLocalConfig.username);
+const PASSWORD = encodeURIComponent(dbLocalConfig.password);
+//const URI = `${dbLocalConfig.dialect}://${USER}:${PASSWORD}@${dbLocalConfig.host}:${dbLocalConfig.port}/${dbLocalConfig.database}`;
+const sequelize = new Sequelize(dbConfig);
 
-// Establish db connection
-const db = new Sequelize(dbConfig);
+setupModels(sequelize);
 
-module.exports = { db, DataTypes };
+module.exports = sequelize;

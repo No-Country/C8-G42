@@ -3,7 +3,7 @@ const router = express.Router();
 const messageController = require("../../controllers/messages");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
-  createMessageSchema, getChatSchema
+  createMessageSchema, getChatSchema, getMessageSchema
 } = require("../../schemas/messages.schema");
 
 router.get(
@@ -36,7 +36,7 @@ router.post(
 
 router.delete(
   "/:id",
-  schemaValidator(getChatSchema, "params"),
+  schemaValidator(getMessageSchema, "params"),
   async (req, res, next) => {
     try {
       const { id } = req.params;

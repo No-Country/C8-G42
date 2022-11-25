@@ -1,8 +1,10 @@
-const { db, DataTypes } = require("../../../utils/database.util");
-const { Pet } = require("./pet.model");
-const { User } = require("./user.model");
+const { Model, DataTypes } = require('sequelize');
+const { PET_TABLE } = require("./pet.model");
+const { USER_TABLE } = require("./user.model");
 
-const FavoritePet = db.define("favoritePet", {
+const FAVORITE_PET_TABLE = "favoritePets";
+
+const favoritePetSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,24 +13,43 @@ const FavoritePet = db.define("favoritePet", {
   },
   userId: {
     type: DataTypes.INTEGER,
+    field: "user_id",
     allowNull: false,
     references: {
-      model: User,
+      model: USER_TABLE,
       key: "id",
     },
   },
   petId: {
     type: DataTypes.INTEGER,
+    field: "pet_id",
     allowNull: false,
     references: {
-      model: Pet,
+      model: PET_TABLE,
       key: "id",
     },
   },
   isFavorite: {
     type: DataTypes.BOOLEAN,
+    field: "is_favorite",
     allowNull: false,
   },
-});
+};
 
-module.exports = { FavoritePet };
+class FavoritePet extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Pet, { as: "pet" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: FAVORITE_PET_TABLE,
+      modelName: 'FavoritePet',
+      timestamps: false
+    }
+  }
+}
+
+module.exports = { FavoritePet, FAVORITE_PET_TABLE, favoritePetSchema };
