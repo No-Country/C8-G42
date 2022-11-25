@@ -7,7 +7,7 @@ const theme = {
     useSystemColorMode: true,
   },
   fonts: {
-    body: `'Italiana', sans-serif`,
+    body: `sans-serif, 'Italiana'`,
   },
   breakpoints : {
     sm: '320px',
