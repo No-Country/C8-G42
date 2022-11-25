@@ -23,10 +23,6 @@ const userSchema = {
     allowNull: false,
     unique: true,
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   role: {
     type: DataTypes.ENUM,
     values: ["user", "admin", "shelterOwner"],
@@ -41,7 +37,7 @@ const userSchema = {
   },
   address: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   avatar: {
     type: DataTypes.STRING,
@@ -49,7 +45,7 @@ const userSchema = {
   },
   phone: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   modifiedBy: {
     type: DataTypes.STRING,
