@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Search2Icon } from "@chakra-ui/icons";
+import { HiPaperAirplane } from "react-icons/hi";
 import {
   useDisclosure,
   Avatar,
@@ -8,36 +11,41 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  Input,
+  InputGroup,
+  Stack,
+  Text,
+  Textarea,
 } from "@chakra-ui/react";
-
 const defaultMessages = [
-	{
-		"id": 4,
-		"userId": 15,
-		"shelterId": 1,
-		"text": "Hola",
-		"modifiedBy": "user"
-	},
-	{
-		"id": 5,
-		"userId": 15,
-		"shelterId": 1,
-		"text": "Buenas tardes",
-		"modifiedBy": "shelterOwner"
-	},
-	{
-		"id": 6,
-		"userId": 15,
-		"shelterId": 1,
-		"text": "Necesito un gatito :)",
-		"modifiedBy": "user"
-	}
-]
+  {
+    id: 4,
+    userId: 15,
+    shelterId: 1,
+    text: "Hola",
+    modifiedBy: "user",
+  },
+  {
+    id: 5,
+    userId: 15,
+    shelterId: 1,
+    text: "Buenas tardes",
+    modifiedBy: "shelterOwner",
+  },
+  {
+    id: 6,
+    userId: 15,
+    shelterId: 1,
+    text: "Necesito un gatito :)",
+    modifiedBy: "user",
+  },
+];
+const placement = "right";
+const isUser = true;
 
 const Chat = ({ name, online }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const placement = "right";
+  const [messages, setMessages] = useState(defaultMessages);
+
   const handleChange = (e) => {
     console.log(e.target.value);
   };
@@ -63,17 +71,40 @@ const Chat = ({ name, online }) => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px"> {name} </DrawerHeader>
-          <DrawerBody display="flex" flexDir="column" justifyContent="space-between">
-            <Box>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            </Box>
-            <Input
-              position="relative"
-            //   placeholder=""
-              onChange={handleChange}
-            />
+          <DrawerBody
+            display="flex"
+            flexDir="column"
+            justifyContent="space-between"
+          >
+            <Stack>
+              {messages.map((message) => (
+                <Box
+                  display="flex"
+                  justifyContent={
+                    isUser && message.modifiedBy === "user" ? "right" : "left"
+                  }
+                >
+                  <Text
+                    borderRadius="md"
+                    padding="2"
+                    bg="green.500"
+                    maxW="85%"
+                    fontSize="md"
+                    display="flex"
+                  >
+                    {message.text} | {message.modifiedBy}{" "}
+                  </Text>
+                </Box>
+              ))}
+            </Stack>
+            <InputGroup>
+              <Textarea
+                variant="outline"
+                position="relative"
+                //   placeholder=""
+                onChange={handleChange}
+              />
+            </InputGroup>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

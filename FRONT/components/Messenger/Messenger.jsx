@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Search2Icon } from '@chakra-ui/icons'
 import {
   useDisclosure,
   Button,
@@ -7,8 +8,10 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  Stack,
   Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
 } from "@chakra-ui/react";
 import Chat from "./Chat";
 
@@ -73,11 +76,14 @@ const Messenger = () => {
                 <Chat key={shelter.name} name={shelter.name} online={shelter.online} />
               ))}
             </Stack>
-            <Input
-              position="relative"
-              placeholder="Search shelter"
-              onChange={handleChange}
-            />
+            <InputGroup>
+              <Input
+                position="relative"
+                placeholder="Search shelter"
+                onChange={handleChange}
+              />
+              <InputRightElement pointerEvents="none" children={<Search2Icon />} />
+            </InputGroup>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
