@@ -5,7 +5,10 @@ const PASSWORD = encodeURIComponent(dbLocalConfig.password);
 const URI = `${dbLocalConfig.dialect}://${USER}:${PASSWORD}@${dbLocalConfig.host}:${dbLocalConfig.port}/${dbLocalConfig.database}`
 
 module.exports = {
-  development: dbConfig,
+  development: {
+    url: URI,
+    dialect: dbLocalConfig.dialect
+  },
   production: {
     url: URI,
     dialect: dbLocalConfig.dialect,

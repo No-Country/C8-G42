@@ -1,5 +1,3 @@
-const { db } = require("../../utils/database.util");
-const boom = require("@hapi/boom");
 const service = require("./services")
 
 const modelName = "Shelter"
