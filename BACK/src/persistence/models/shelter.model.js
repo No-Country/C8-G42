@@ -1,6 +1,9 @@
-const { db, DataTypes } = require("../../../utils/database.util");
+const { Model, DataTypes } = require('sequelize');
+const { USER_TABLE } = require("./user.model")
 
-const Shelter = db.define("shelter", {
+const SHELTER_TABLE = "shelters";
+
+const shelterSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -24,13 +27,46 @@ const Shelter = db.define("shelter", {
     allowNull: true,
   },
   ownerId: {
+    field: "owner_id",
+    references: {
+      model: USER_TABLE,
+      key: "id"
+    },
     type: DataTypes.INTEGER,
     allowNull: false,
   },
   modifiedBy: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    field: "modified_by"
   }
-});
+}
 
-module.exports = { Shelter };
+class Shelter extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "owner" });
+    this.hasMany(models.Pet, {
+      as: "pet",
+      foreignKey: "shelterId"
+    });
+    this.hasMany(models.Message, {
+      as: "message",
+      foreignKey: "shelterId"
+    });
+    this.hasMany(models.Report, {
+      as: "report",
+      foreignKey: "shelterId"
+    });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: SHELTER_TABLE,
+      modelName: 'Shelter',
+      timestamps: false
+    }
+  }
+}
+
+module.exports = { Shelter, SHELTER_TABLE, shelterSchema };

@@ -3,7 +3,7 @@ const router = express.Router();
 const messageController = require("../../controllers/messages");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
-  createMessageSchema, getChatSchema
+  createMessageSchema, getChatSchema, getMessageSchema
 } = require("../../schemas/messages.schema");
 
 router.get(
@@ -34,18 +34,18 @@ router.post(
   }
 );
 
-// router.delete(
-//   "/:id",
-//   schemaValidator(getShelterSchema, "params"),
-//   async (req, res, next) => {
-//     try {
-//       const { id } = req.params;
-//       const rta = await shelterController.delete(id);
-//       return res.status(200).send(rta);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+router.delete(
+  "/:id",
+  schemaValidator(getMessageSchema, "params"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const rta = await messageController.delete(id);
+      return res.status(200).send(rta);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;

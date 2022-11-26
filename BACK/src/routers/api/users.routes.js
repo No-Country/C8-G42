@@ -7,16 +7,8 @@ const {
   getUserSchema,
   updateUserSchema,
 } = require("../../schemas/user.schema");
-
 /*-------Auth0 (verify token with midlleware)------------------------*/
-const { auth } = require('express-oauth2-jwt-bearer');
 
-// Authorization middleware. When used, the Access Token must
-// exist and be verified against the Auth0 JSON Web Key Set.
-const checkJwt = auth({
-  audience: 'api-autenticacion-huellitas',
-  issuerBaseURL: `https://huellitas-auth.us.auth0.com/`,
-});
 /*-----------------------------------*/
 
 
@@ -29,9 +21,10 @@ const genericCallback = (res) => (err, result) => {
 };
 
 
-usersRouter.get("/", checkJwt, async (req, res, next) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
-    const user = await userController.get();
+    const { limit, offset } = req.query;
+    const user = await userController.getAll(limit, offset);
      
     console.log("req.user: ", req.user);
     return res.status(200).send(user);
@@ -41,7 +34,7 @@ usersRouter.get("/", checkJwt, async (req, res, next) => {
 });
 
 // Self: route to obtain info from user (Fetch or Create New User)
-usersRouter.get("/self", checkJwt, async (req, res, next) => {
+usersRouter.get("/self", async (req, res, next) => {
   try {
     userController.fetchOrCreateUser(req, genericCallback(res));
     // return res.status(200).send(user);
@@ -57,7 +50,6 @@ usersRouter.get(
     try {
       const { id } = req.params;
       const user = await userController.getById(id);
-      delete user.dataValues.password
       return res.status(200).send(user);
     } catch (error) {
       next(error);
@@ -72,8 +64,7 @@ usersRouter.post(
     try {
       const userData = req.body;
       const newUser = await userController.create(userData);
-      delete newUser.dataValues.password
-      return res.status(200).send(newUser);
+      return res.status(201).send(newUser);
     } catch (error) {
       next(error);
     }

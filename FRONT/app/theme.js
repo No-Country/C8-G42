@@ -1,12 +1,13 @@
 const { extendTheme } = require("@chakra-ui/react");
+import "@fontsource/italiana"
 
 const theme = {
   config: {
     initialColorMode: "ligth",
     useSystemColorMode: true,
   },
-  styles: {
-    global: {},
+  fonts: {
+    body: `sans-serif, 'Italiana'`,
   },
   breakpoints : {
     sm: '320px',

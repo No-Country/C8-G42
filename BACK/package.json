@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "description": "backend for pets adoption platform",
   "scripts": {
-    "start": "cd src && nodemon server.js"
+    "start": "cd src && nodemon server.js",
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo",
+    "migrations:delete": "sequelize-cli db:migrate:undo:all",
+    "seeds:generate": "sequelize-cli seed:generate --name",
+    "seeds:run": "sequelize-cli db:seed:all"
   },
   "main": "src/server.js",
   "repository": "https://github.com/No-Country/c8-42-t-pern-BACK.git",
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@hapi/boom": "^10.0.0",
     "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
@@ -23,11 +30,14 @@
     "jwt-decode": "^3.1.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "pino": "^8.7.0",
     "pino-pretty": "^9.1.1",
-    "sequelize": "^6.25.5"
+    "sequelize": "^6.25.5",
+    "sequelize-cli": "^6.5.2",
+    "socket.io": "^4.5.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

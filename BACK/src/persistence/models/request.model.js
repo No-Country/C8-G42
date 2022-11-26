@@ -1,8 +1,10 @@
-const { db, DataTypes } = require("../../../utils/database.util");
-const { Pet } = require("./pet.model");
-const { User } = require("./user.model");
+const { Model, DataTypes } = require('sequelize');
+const { PET_TABLE } = require("./pet.model");
+const { USER_TABLE } = require("./user.model");
 
-const Request = db.define("request", {
+const REQUEST_TABLE = "requests";
+
+const requestSchema =  {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,17 +13,19 @@ const Request = db.define("request", {
   },
   userId: {
     type: DataTypes.INTEGER,
+    field: "user_id",
     allowNull: false,
     references: {
-      model: User,
+      model: USER_TABLE,
       key: "id",
     },
   },
   petId: {
     type: DataTypes.INTEGER,
+    field: "pet_id",
     allowNull: false,
     references: {
-      model: Pet,
+      model: PET_TABLE,
       key: "id",
     },
   },
@@ -37,8 +41,25 @@ const Request = db.define("request", {
   },
   modifiedBy: {
     type: DataTypes.STRING,
+    field: "modified_by",
     allowNull: true,
   },
-});
+};
 
-module.exports = { Request };
+class Request extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Pet, { as: "pet" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: REQUEST_TABLE,
+      modelName: 'Request',
+      timestamps: false
+    }
+  }
+}
+
+module.exports = { Request, REQUEST_TABLE, requestSchema };
