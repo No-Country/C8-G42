@@ -19,6 +19,7 @@ const checkJwt = auth({
 });
 /*-----------------------------------*/
 
+
 const genericCallback = (res) => (err, result) => {
   if (err) {
     res.status(500).send('Error fetching users');
@@ -31,6 +32,8 @@ const genericCallback = (res) => (err, result) => {
 usersRouter.get("/", checkJwt, async (req, res, next) => {
   try {
     const user = await userController.get();
+     
+    console.log("req.user: ", req.user);
     return res.status(200).send(user);
   } catch (error) {
     next(error);

@@ -19,8 +19,8 @@ const fetchOrCreateUser = async (req, callback) => {
   // 6.1. Fetching User data FROM Auth0 Token (Token comming from Frontend)
   const token = req.headers.authorization.split('Bearer ')[1];
   const user = jwt_decode(token)['http://localhost/userData'];
-  // console.log(user);
-
+  req.user = user;
+  console.log("fetch... req.user: ", req.user);
   // 6.2. Verifying if User not exists in DB (with email) it will create it, otherwise user will be returned 
   const [userFoundOrCreated, created] = await db.models.user.findOrCreate({
     where: {
@@ -40,8 +40,8 @@ const fetchOrCreateUser = async (req, callback) => {
 
   // console.log("userFoundOrCreated: ", userFoundOrCreated);
   // console.log("user was created?: ", created);
-  
-    callback(null, userFoundOrCreated); 
+
+  callback(null, userFoundOrCreated);
 };
 
 module.exports = {
