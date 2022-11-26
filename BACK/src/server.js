@@ -1,12 +1,13 @@
-const dotenv = require("dotenv");
+const { serverConfig } = require('./config/config');
 const { app } = require("./app");
-const socketIO = require('./../utils/socket')
-
-dotenv.config({ path: "./config.env" });
+const socketIO = require('./../utils/socket');
 
 const startServer = async () => {
   try {
-    const PORT = 5000;
+    
+    console.log("Express Environment:", app.get('env'));
+
+    const PORT = serverConfig.port;
 
     const server = app.listen(PORT, () => {
       console.log(`Express app running! in port ${PORT}`);

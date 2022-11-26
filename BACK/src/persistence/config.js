@@ -1,16 +1,16 @@
-const { dbLocalConfig, dbConfig } = require('./../config/config');
+const { dbConfig } = require('./../config/config');
 
-const USER = encodeURIComponent(dbLocalConfig.username);
-const PASSWORD = encodeURIComponent(dbLocalConfig.password);
-const URI = `${dbLocalConfig.dialect}://${USER}:${PASSWORD}@${dbLocalConfig.host}:${dbLocalConfig.port}/${dbLocalConfig.database}`
+const USER = encodeURIComponent(dbConfig.username);
+const PASSWORD = encodeURIComponent(dbConfig.password);
+const URI = `${dbConfig.dialect}://${USER}:${PASSWORD}@${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`
 
 module.exports = {
   development: {
     url: URI,
-    dialect: dbLocalConfig.dialect
+    dialect: dbConfig.dialect
   },
   production: {
     url: URI,
-    dialect: dbLocalConfig.dialect,
+    dialect: dbConfig.dialect,
   }
 }
