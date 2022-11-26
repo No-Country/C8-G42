@@ -1,8 +1,10 @@
-const { db, DataTypes } = require("../../../utils/database.util");
-const { Shelter } = require("./shelter.model");
-const { User } = require("./user.model");
+const { Model, DataTypes } = require('sequelize');
+const { SHELTER_TABLE } = require("./shelter.model");
+const { USER_TABLE } = require("./user.model");
 
-const Message = db.define("message", {
+const MESSAGE_TABLE = "messages";
+
+const messageSchema = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -11,18 +13,20 @@ const Message = db.define("message", {
   },
   userId: {
     type: DataTypes.INTEGER,
+    field: "user_id",
     allowNull: false,
     references: {
-      model: User,
+      model: USER_TABLE,
       key: "id",
     },
     unique: false,
   },
   shelterId: {
     type: DataTypes.INTEGER,
+    field: "shelter_id",
     allowNull: false,
     references: {
-      model: Shelter,
+      model: SHELTER_TABLE,
       key: "id",
     },
     unique: false,
@@ -33,8 +37,25 @@ const Message = db.define("message", {
   },
   modifiedBy: {
     type: DataTypes.STRING,
+    field: "modified_by",
     allowNull: true,
   },
-});
+};
 
-module.exports = { Message };
+class Message extends Model {
+  static associate(models) {
+    this.belongsTo(models.User, { as: "user" });
+    this.belongsTo(models.Shelter, { as: "shelter" });
+  }
+
+  static config(sequelize) {
+    return {
+      sequelize,
+      tableName: MESSAGE_TABLE,
+      modelName: 'Message',
+      timestamps: false
+    }
+  }
+}
+
+module.exports = { Message, MESSAGE_TABLE, messageSchema };

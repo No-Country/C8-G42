@@ -1,10 +1,17 @@
 const { Report } = require("../persistence/models/report.model");
+const services = require("./services");
+const modelName = "Report";
+const options = {};
 
 const getReportByShelterId = async (req, res, next) => {
   try {
     const { shelter } = req;
+    const { limit, offset } = req.query;
 
-    const reports = await Report.findAll({ where: { shelterId: shelter.id } });
+    const reports = await services.getAll(modelName, limit, offset, {
+      ...options,
+      where: { shelterId: shelter.id },
+    });
 
     res.status(200).json({
       status: "success",
@@ -25,7 +32,7 @@ const createReport = async (req, res, next) => {
     //get user auth
     let user;
 
-    const newReport = await Report.create({
+    const newReport = await services.create(modelName,{
       shelterId: shelter.id,
       message,
       userId: user.id,

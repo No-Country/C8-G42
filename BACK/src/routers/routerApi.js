@@ -5,9 +5,11 @@ const shelterRouter = require("./api/shelters.routes");
 const messageRouter = require("./api/messages.routes");
 const notFoundRouter = require("./404");
 const { reportsRouter } = require("./api/reports.routes");
+const { checkJwt } = require("./../middlewares/auth0.middleware");
 
 function routerApi(app) {
   const router = express.Router();
+  app.use(checkJwt)
   app.use("/api/v1", router);
 
   router.use("/users", userRouter);

@@ -1,75 +1,27 @@
-const { FavoritePet } = require("./favoritePet.model");
-const { Message } = require("./message.model");
-const { Pet } = require("./pet.model");
-const { Report } = require("./report.model");
-const { Request } = require("./request.model");
-const { Shelter } = require("./shelter.model");
-const { User } = require("./user.model");
+const { User, userSchema } = require("./user.model");
+const { Shelter, shelterSchema } = require("./shelter.model");
+const { Message, messageSchema } = require("./message.model");
+const { Pet, petSchema } = require("./pet.model");
+const { FavoritePet, favoritePetSchema } = require("./favoritePet.model");
+const { Report, reportSchema } = require("./report.model");
+const { Request, requestSchema } = require("./request.model");
 
-const initModels = () => {
-  //1 User <----> M Shelter
-  User.hasMany(Shelter, { foreignKey: "ownerId", as: "shelter" });
-  Shelter.belongsTo(User, { foreignKey: "ownerId", as: "user" });
-
-  //M User <-- FavoritePet --> M pet
-  User.belongsToMany(Pet, {
-    through: { model: FavoritePet, unique: false },
-    foreignKey: "userId",
-    constraints: false,
-  });
-  Pet.belongsToMany(User, {
-    through: { model: FavoritePet, unique: false },
-    foreignKey: "petId",
-    constraints: false,
-  });
-
-  //M User <-- Message --> M Shelter
-  User.belongsToMany(Shelter, {
-    through: { model: Message, unique: false },
-    foreignKey: "userId",
-    constraints: false,
-  });
-  Shelter.belongsToMany(User, {
-    through: { model: Message, unique: false },
-    foreignKey: "shelterId",
-    constraints: false,
-  });
-
-  //M User <-- Report --> M Shelter
-  User.belongsToMany(Shelter, {
-    through: { model: Report, unique: false },
-    foreignKey: "userId",
-    constraints: false,
-  });
-  Shelter.belongsToMany(User, {
-    through: { model: Report, unique: false },
-    foreignKey: "shelterId",
-    constraints: false,
-  });
-
-  //M User <-- Request --> M Pet
-  User.belongsToMany(Pet, {
-    through: { model: Request, unique: false },
-    foreignKey: "userId",
-    constraints: false,
-  });
-  Pet.belongsToMany(User, {
-    through: { model: Request, unique: false },
-    foreignKey: "petId",
-    constraints: false,
-  });
-
-  //M User <-- Pet --> M Shelter
-  User.belongsToMany(Shelter, {
-    through: { model: Pet, unique: false },
-    foreignKey: "userId",
-    constraints: false,
-  });
-  Shelter.belongsToMany(User, {
-    through: { model: Pet, unique: false },
-    foreignKey: "shelterId",
-    constraints: false,
-  });
+const setupModels = (sequelize) => {
+  User.init(userSchema, User.config(sequelize));
+  Shelter.init(shelterSchema, Shelter.config(sequelize));
+  Message.init(messageSchema, Message.config(sequelize));
+  Pet.init(petSchema, Pet.config(sequelize));
+  FavoritePet.init(favoritePetSchema, FavoritePet.config(sequelize));
+  Report.init(reportSchema, Report.config(sequelize));
+  Request.init(requestSchema, Request.config(sequelize));
+  
+  User.associate(sequelize.models);
+  Shelter.associate(sequelize.models);
+  Message.associate(sequelize.models);
+  Pet.associate(sequelize.models);
+  FavoritePet.associate(sequelize.models);
+  Report.associate(sequelize.models);
+  Request.associate(sequelize.models);
 };
 
-module.exports = { initModels };
+module.exports = { setupModels };

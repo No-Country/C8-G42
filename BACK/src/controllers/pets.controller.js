@@ -1,10 +1,19 @@
 //models
-const { Pet } = require("../persistence/models/pet.model");
 const { FavoritePet } = require("../persistence/models/favoritePet.model");
+
+const service = require("./services");
+const modelName = "Pet";
+const options = {
+  include: ["shelter"],
+};
+
+const boom = require("@hapi/boom");
 
 const getAllPets = async (req, res, next) => {
   try {
-    const pets = await Pet.findAll({
+    const { limit, offsset } = req.query;
+    const pets = await service.getAll(modelName, limit, offsset, {
+      ...options,
       where: { isVisible: true },
     });
 
@@ -48,7 +57,7 @@ const createPet = async (req, res, next) => {
     petData.adoptedDate =
       petData.status === "adopted" ? new Date().toISOString() : null;
 
-    const newPet = await Pet.create(petData);
+    const newPet = await service.create(modelName, petData);
 
     res.status(201).json({
       status: "success",
@@ -99,6 +108,10 @@ const adoptPet = async (req, res, next) => {
   try {
     const { pet } = req;
 
+    if (pet.status === "adopted") {
+      throw boom.badRequest("The pet is already adopted");
+    }
+
     await pet.update({
       status: "adopted",
       adoptedDate: new Date().toISOString(),
@@ -141,7 +154,7 @@ const toogleFavoritePet = async (req, res, next) => {
       });
     }
 
-    favoritePet = await FavoritePet.update({
+    await favoritePet.update({
       isFavorite: !favoritePet.isFavorite,
     });
 

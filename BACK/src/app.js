@@ -4,7 +4,7 @@ const compression = require("compression");
 const morgan = require("morgan");
 const corsOptions = require("./config/corsOptions");
 const routerApi = require('./routers/routerApi');
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler, sequelizeErrorHandler } = require('./middlewares/error.handler');
 // Init our Express app
 const app = express();
 
@@ -26,6 +26,7 @@ app.use(compression());
 app.use(morgan("dev"));
 
 app.use(logErrors);
+app.use(sequelizeErrorHandler);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
