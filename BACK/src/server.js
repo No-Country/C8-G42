@@ -2,12 +2,16 @@ const { serverConfig } = require('./config/config');
 const { app } = require("./app");
 const socketIO = require('./../utils/socket');
 
+const dbConnection = require('./../utils/database.util')
+
 const startServer = async () => {
   try {
     
     console.log("Express Environment:", app.get('env'));
 
     const PORT = serverConfig.port;
+
+    dbConnection();
 
     const server = app.listen(PORT, () => {
       console.log(`Express app running! in port ${PORT}`);
