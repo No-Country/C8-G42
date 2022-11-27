@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { fetchUserData } from '../utils/api';
 
 
 const PrivateRoute = ({ children }) => {
     const { user, isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently } = useAuth0();
 
+    const [token, setToken] = useState("");
 
     useEffect(() => {
         const getJWTAuth0Token = async () => {
@@ -12,7 +14,20 @@ const PrivateRoute = ({ children }) => {
                 audience: `api-autenticacion-huellitas`
             });
             localStorage.setItem("token", accessToken);
-            // console.log("accesToken: ", accessToken);
+
+            setToken(accessToken);
+            console.log("accesToken: ", accessToken);
+
+            // 3. Fetching User Data (Sending Token to Backend)
+            await fetchUserData(
+                (response) => {
+                    console.log('response con datos del usuario', response);
+                    // setUserData(response.data);  // To do: implement a CONTEXT
+                },
+                (err) => {
+                    console.log('err', err);
+                }
+            );
         };
 
         // Solicitar Token cada vez que se autentique
@@ -34,7 +49,12 @@ const PrivateRoute = ({ children }) => {
     }
 
     return (
-        <div>{children}</div>
+        <div>
+            <div>{children}</div>
+            <br></br>
+            <div>Token:</div>
+            <textarea value={token} style={{ height: "400px", width: "600px" }}></textarea>
+        </div>
     );
 };
 

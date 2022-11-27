@@ -1,46 +1,63 @@
-const { db } = require("../../utils/database.util");
-const boom = require("@hapi/boom");
-const bcrypt = require("bcrypt");
+const jwt_decode = require("jwt-decode");
 const { sendMail } = require("../../utils/sendMail");
-const service = require("./services")
+const service = require("./services");
 const modelName = "User";
+const boom = require("@hapi/boom");
+const { models } = require("../../utils/database.util");
+
 const options = {
-  include: ["shelter", "pet"]
-}
+  include: ["shelter", "pet"],
+};
+
+const getById = async (id) => {
+  const user = await models.User.findByPk(id, {
+    include: ["shelter"],
+  });
+  if (user) {
+    return user;
+  } else {
+    throw boom.notFound("User Not Found");
+  }
+};
+
+const fetchOrCreateUser = async (req, callback) => {
+  // 6.1. Fetching User data FROM Auth0 Token (Token comming from Frontend)
+  const token = req.headers.authorization.split("Bearer ")[1];
+  const user = jwt_decode(token)["http://localhost/userData"];
+  req.user = user;
+  console.log("fetch... req.user: ", req.user);
+  // 6.2. Verifying if User not exists in DB (with email) it will create it, otherwise user will be returned
+  const [userFoundOrCreated, created] = await models.User.findOrCreate({
+    where: {
+      email: user.email,
+    },
+    defaults: {
+      firstName: user.given_name || user.name,
+      lastName: user.family_name || "without lastName",
+      avatar: user.picture,
+      modifiedBy: user._id,
+      isDark: false,
+    },
+  });
+
+  // console.log("userFoundOrCreated: ", userFoundOrCreated);
+  // console.log("user was created?: ", created);
+  sendMail(user.email, "Welcome!!!", `Welcome ${user.name} to huellitas`);
+  callback(null, userFoundOrCreated);
+};
 
 module.exports = {
   getAll: async (limit, offset) => {
     const users = await service.getAll(modelName, limit, offset, options);
-    for (const user of users) {
-      delete user.dataValues.password;
-    }
     return users;
   },
-  getById: async (id) => {
-    const row = await service.getById(id, modelName, options);
-    return row;
-  },
-  create: async (userData) => {
-    const hash = await bcrypt.hash(userData.password, 10);
-    const newUser = await service.create(modelName, {
-      ...userData,
-      password: hash
-    });
-    if (newUser) {
-      await sendMail(
-        userData.email,
-        "New Account",
-        `Hello ${userData.firstName}, welcome to Huellitas`
-      );
-      delete newUser.dataValues.password
-      return newUser;
-    }
-  },
+  fetchOrCreateUser,
+  getById,
   update: async (id, userData, modifiedBy) => {
     const updatedUser = await service.update(id, modelName, {
       ...userData,
-      modifiedBy: modifiedBy | userData.id
-    })
+      modifiedBy: modifiedBy | userData.id,
+    });
     return updatedUser;
   },
   delete: async (id) => {
