@@ -4,6 +4,8 @@
   "description": "backend for pets adoption platform",
   "scripts": {
     "start": "cd src && nodemon server.js",
+    "drop:db": "sequelize-cli db:drop",
+    "create:db": "sequelize-cli db:create",
     "migrations:generate": "sequelize-cli migration:generate --name",
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:revert": "sequelize-cli db:migrate:undo",
