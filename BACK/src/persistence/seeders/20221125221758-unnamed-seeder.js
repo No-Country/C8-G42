@@ -30,9 +30,9 @@ module.exports = {
         description: faker.lorem.sentence(5),
         is_sterilized: faker.datatype.boolean(),
         image: faker.image.cats(),
-        shelter_id: Math.floor(Math.random()*4),
+        shelter_id: Math.floor(Math.random()*3 +1),
         status: faker.helpers.arrayElement(["adopted", "available", "inProgress"]),
-        user_id: Math.floor(Math.random()*25),
+        user_id: Math.floor(Math.random()*25 + 1),
         adopted_date: faker.datatype.datetime(),
         is_visible: faker.datatype.boolean(),
       };
