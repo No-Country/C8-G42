@@ -31,7 +31,8 @@ const Navbar = () => {
           <Button bg="inherit">Perros</Button>
           <Button bg="inherit">Gatos</Button>
           <Button bg="inherit">Otros</Button>
-          <Button variant='outline' borderRadius="30px">Login</Button>
+          {/* <Button variant='outline' borderRadius="30px">Login</Button> */}
+          <Button variant='outline' borderRadius="30px"><a href="/api/auth/login">Login</a></Button>
           <ToggleColorMode />
         </Flex>
       </Flex>
