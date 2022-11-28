@@ -1,5 +1,5 @@
 'use client';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import PetsGrid from '../components/PetsGrid/PetsGrid';
 // import SinglePet from '../components/SinglePet/SinglePet';
@@ -28,9 +28,19 @@ const page = () => {
     getPets();
   }, []);
 
+  if (isLoading) {
+    return (
+      <Flex w="100%" h="100vh" justify="center" align="center">
+        <Text color='blue.600' fontSize='3xl'>
+          LOADING...
+        </Text>
+      </Flex>
+    );
+  }
+
   return (
     <Flex w="100%" mt="60px" pos="relative" direction="column">
-      {/* Principal  */}      
+      {/* Principal  */}
       {pets && <PetsGrid pets={pets} />}
     </Flex>
   );
