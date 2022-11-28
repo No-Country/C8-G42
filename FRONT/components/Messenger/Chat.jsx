@@ -78,7 +78,7 @@ const Chat = ({ name, online }) => {
           >
             <Stack>
               {messages.map((message) => (
-                <Box
+                <Box key={message.id}
                   display="flex"
                   justifyContent={
                     isUser && message.modifiedBy === "user" ? "right" : "left"
