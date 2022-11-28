@@ -11,8 +11,8 @@ const boom = require("@hapi/boom");
 
 const getAllPets = async (req, res, next) => {
   try {
-    const { limit, offsset } = req.query;
-    const pets = await service.getAll(modelName, limit, offsset, {
+    const { limit, offset } = req.query;
+    const pets = await service.getAll(modelName, limit, offset, {
       ...options,
       where: { isVisible: true },
     });
