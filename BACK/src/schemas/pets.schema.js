@@ -14,7 +14,7 @@ const description = Joi.string().min(10);
 const isSterilized = Joi.boolean();
 const image = Joi.string().uri();
 const status = Joi.string().valid(...statuses);
-const adoptedDate = Joi.string().isoDate();
+const shelterId = Joi.number().min(1);
 const isVisible = Joi.boolean();
 
 const verifyCreatePet = Joi.object({
@@ -27,6 +27,7 @@ const verifyCreatePet = Joi.object({
   image,
   status: status.required(),
   isVisible: isVisible.required(),
+  shelterId: shelterId.required(),
 });
 
 const verifyPetParamsId = Joi.object({

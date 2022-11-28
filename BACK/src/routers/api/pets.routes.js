@@ -9,6 +9,7 @@ const {
   getPetById,
   adoptPet,
   toogleFavoritePet,
+  getPetsByShelterId,
 } = require("../../controllers/pets.controller");
 
 //shelter middlewares
@@ -26,8 +27,11 @@ const {
 //pet middlewares
 const { petExist } = require("../../middlewares/pets.middleware");
 
-//User middlewares
-const { fetchOrCreateUser } = require("../../controllers/users.controller");
+//auth middlewares
+const {
+  protectSession,
+  protectUsersPets,
+} = require("../../middlewares/auth0.middleware");
 
 const petsRouter = express.Router();
 
@@ -40,20 +44,29 @@ petsRouter.get(
   getPetById
 );
 
-//doesnt work need auth to get userId
-petsRouter.post(
-  "/:shelterId",
-  fetchOrCreateUser,
+petsRouter.get(
+  "/shelter/:shelterId",
   schemaValidator(verifyShelterParamsId, "params"),
   shelterExist,
-  schemaValidator(verifyCreatePet, "body"),
-  createPet
+  getPetsByShelterId
+);
+
+petsRouter.use(protectSession);
+
+petsRouter.post("/", schemaValidator(verifyCreatePet, "body"), createPet);
+
+petsRouter.post(
+  "/favorite/:id",
+  schemaValidator(verifyPetParamsId, "params"),
+  petExist,
+  toogleFavoritePet
 );
 
 petsRouter.put(
   "/:id",
   schemaValidator(verifyPetParamsId, "params"),
   petExist,
+  protectUsersPets,
   schemaValidator(verifyUpdatePet, "body"),
   updatePet
 );
@@ -62,6 +75,7 @@ petsRouter.delete(
   "/:id",
   schemaValidator(verifyPetParamsId, "params"),
   petExist,
+  protectUsersPets,
   deletePet
 );
 
@@ -69,14 +83,8 @@ petsRouter.put(
   "/adopt/:id",
   schemaValidator(verifyPetParamsId, "params"),
   petExist,
+  protectUsersPets,
   adoptPet
-);
-
-petsRouter.post(
-  "/favorite/:id",
-  schemaValidator(verifyPetParamsId, "params"),
-  petExist,
-  toogleFavoritePet
 );
 
 module.exports = { petsRouter };

@@ -8,6 +8,7 @@ const options = {
 };
 
 const boom = require("@hapi/boom");
+const { Shelter } = require("../persistence/models/shelter.model");
 
 const getAllPets = async (req, res, next) => {
   try {
@@ -43,16 +44,38 @@ const getPetById = async (req, res, next) => {
   }
 };
 
+const getPetsByShelterId = async (req, res, next) => {
+  const { shelter } = req;
+  const { limit, offsset } = req.query;
+
+  const pets = await service.getAll(modelName, limit, offsset, {
+    where: { shelterId: shelter.id },
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      pets,
+    },
+  });
+};
+
 const createPet = async (req, res, next) => {
   try {
     const petData = req.body;
-    const { shelter, user } = req;
+    const { sessionUser } = req;
 
-    //take user in session
-    console.log(user);
+    petData.userId = sessionUser.id;
 
-    /* petData.shelterId = shelter.id;
-    petData.userId = user.id;
+    const shelter = await Shelter.findOne({ where: { id: petData.shelterId } });
+
+    if (!shelter) {
+      throw boom.notFound("Shelter Not Found");
+    }
+
+    if(sessionUser.id !== shelter.userId){
+      throw boom.forbidden("You are not employee of this shelter");
+    }
 
     petData.adoptedDate =
       petData.status === "adopted" ? new Date().toISOString() : null;
@@ -64,7 +87,7 @@ const createPet = async (req, res, next) => {
       data: {
         newPet,
       },
-    }); */
+    });
   } catch (error) {
     next(error);
   }
@@ -74,6 +97,10 @@ const updatePet = async (req, res, next) => {
   try {
     const { pet } = req;
     const petData = req.body;
+
+    // cannot change shelterId and userId
+    petData.shelterId = undefined;
+    petData.userId = undefined;
 
     petData.adoptedDate =
       petData.status === "adopted" ? new Date().toISOString() : null;
@@ -130,19 +157,17 @@ const adoptPet = async (req, res, next) => {
 
 const toogleFavoritePet = async (req, res, next) => {
   try {
-    const { pet } = req;
-    //take user in session
-    const user = 1;
+    const { pet, sessionUser } = req;
 
     let favoritePet = await FavoritePet.findOne({
-      where: { petId: pet.id, userId: user.id },
+      where: { petId: pet.id, userId: sessionUser.id },
       attributes: ["id", "isFavorite"],
     });
 
     if (!favoritePet) {
       favoritePet = await FavoritePet.create({
         petId: pet.id,
-        userId: user.id,
+        userId: sessionUser.id,
         isFavorite: true,
       });
 
@@ -177,4 +202,5 @@ module.exports = {
   deletePet,
   adoptPet,
   toogleFavoritePet,
+  getPetsByShelterId
 };

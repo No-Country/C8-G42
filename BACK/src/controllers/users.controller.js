@@ -20,7 +20,7 @@ const getById = async (id) => {
   }
 };
 
-const fetchOrCreateUser = async (req, res) => {
+const fetchOrCreateUser = async (req, callback) => {
   // 6.1. Fetching User data FROM Auth0 Token (Token comming from Frontend)
   const token = req.headers.authorization.split("Bearer ")[1];
   const user = jwt_decode(token)["http://localhost/userData"];
@@ -39,11 +39,11 @@ const fetchOrCreateUser = async (req, res) => {
       isDark: false,
     },
   });
-
+  //console.log(userFoundOrCreated.dataValues)
   // console.log("userFoundOrCreated: ", userFoundOrCreated);
   // console.log("user was created?: ", created);
   sendMail(user.email, "Welcome!!!", `Welcome ${user.name} to huellitas`);
-  /* callback(null, userFoundOrCreated); */
+  //callback(null, userFoundOrCreated);
 };
 
 module.exports = {
@@ -51,7 +51,6 @@ module.exports = {
     const users = await service.getAll(modelName, limit, offset, options);
     return users;
   },
-  fetchOrCreateUser,
   getById,
   update: async (id, userData, modifiedBy) => {
     const updatedUser = await service.update(id, modelName, {
