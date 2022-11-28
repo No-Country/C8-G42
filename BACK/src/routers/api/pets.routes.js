@@ -26,6 +26,9 @@ const {
 //pet middlewares
 const { petExist } = require("../../middlewares/pets.middleware");
 
+//User middlewares
+const { fetchOrCreateUser } = require("../../controllers/users.controller");
+
 const petsRouter = express.Router();
 
 petsRouter.get("/", getAllPets);
@@ -40,6 +43,7 @@ petsRouter.get(
 //doesnt work need auth to get userId
 petsRouter.post(
   "/:shelterId",
+  fetchOrCreateUser,
   schemaValidator(verifyShelterParamsId, "params"),
   shelterExist,
   schemaValidator(verifyCreatePet, "body"),

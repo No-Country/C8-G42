@@ -46,12 +46,12 @@ const getPetById = async (req, res, next) => {
 const createPet = async (req, res, next) => {
   try {
     const petData = req.body;
-    const { shelter } = req;
+    const { shelter, user } = req;
 
     //take user in session
-    const user = 1;
+    console.log(user);
 
-    petData.shelterId = shelter.id;
+    /* petData.shelterId = shelter.id;
     petData.userId = user.id;
 
     petData.adoptedDate =
@@ -64,7 +64,7 @@ const createPet = async (req, res, next) => {
       data: {
         newPet,
       },
-    });
+    }); */
   } catch (error) {
     next(error);
   }

@@ -20,7 +20,7 @@ const getById = async (id) => {
   }
 };
 
-const fetchOrCreateUser = async (req, callback) => {
+const fetchOrCreateUser = async (req, res) => {
   // 6.1. Fetching User data FROM Auth0 Token (Token comming from Frontend)
   const token = req.headers.authorization.split("Bearer ")[1];
   const user = jwt_decode(token)["http://localhost/userData"];
@@ -43,7 +43,7 @@ const fetchOrCreateUser = async (req, callback) => {
   // console.log("userFoundOrCreated: ", userFoundOrCreated);
   // console.log("user was created?: ", created);
   sendMail(user.email, "Welcome!!!", `Welcome ${user.name} to huellitas`);
-  callback(null, userFoundOrCreated);
+  /* callback(null, userFoundOrCreated); */
 };
 
 module.exports = {
@@ -63,4 +63,5 @@ module.exports = {
   delete: async (id) => {
     const rta = await service.delete(id, modelName);
   },
+  fetchOrCreateUser,
 };
