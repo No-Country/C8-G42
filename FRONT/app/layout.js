@@ -6,23 +6,27 @@ import MobileNavbar from "../components/Navbar/MobileNavbar";
 import Navbar from "../components/Navbar/Navbar";
 import theme from "./theme";
 import Messenger from "./../components/Messenger/Messenger";
+import { UserProvider } from "@auth0/nextjs-auth0";
 
-function RootLayout({ children }) {
+const RootLayout = ({ children }) => {
+  
   return (
     <html>
       <head />
       <body>
-        <Provider store={store}>
-          <ChakraProvider theme={theme}>
-            <Navbar />
-            <Messenger />
-            {children}
-            <MobileNavbar />
-          </ChakraProvider>
-        </Provider>
+        <UserProvider>
+          <Provider store={store}>
+            <ChakraProvider theme={theme}>
+              <Navbar />
+              <Messenger />
+              {children}
+              <MobileNavbar />
+            </ChakraProvider>
+          </Provider>
+        </UserProvider>
       </body>
     </html>
   );
-}
+};
 
 export default RootLayout;
