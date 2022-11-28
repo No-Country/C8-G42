@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const shelterController = require("../../controllers/shelters");
+const shelterController = require("../../controllers/shelters.controller");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
   createShelterSchema, getShelterSchema, updateShelterSchema
