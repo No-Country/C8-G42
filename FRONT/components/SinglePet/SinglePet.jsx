@@ -14,12 +14,13 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import Image from "next/image";
 import AdoptIcon from "../../Icons/AdoptIcon";
 import PawIcon from "../../Icons/Paw";
-import pet from './rocket.png'
+import pet from './rocket.png';
 
-const SinglePet = () => {
+const SinglePet = ({ pet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -31,17 +32,17 @@ const SinglePet = () => {
         <ModalContent>
           <ModalHeader>
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar name="Fundacion xs" src="" />
+              <Avatar name={pet.shelter.name} src={pet.shelter.avatar} />
               <Box>
-                <Heading size="sm">Fundacion x's</Heading>
-                <Text>Juanito, 2 anios</Text>
+                <Heading size="sm">{pet.shelter.name}</Heading>
+                <Text>{pet.name}, tamaño: {pet.size}</Text>
               </Box>
             </Flex>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex>
-              <Image src={pet} alt="Mascota" width={400} height={200}/>
+              <Image src={`${pet.image}?random=${pet.id}`} alt="Mascota" width={400} height={200}/>
             </Flex>
             <Text>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eius accusantium repudiandae possimus voluptatem dignissimos, ipsam, repellat quam distinctio quos ipsum fugit, laudantium iste reprehenderit magni omnis sed porro tempora?
@@ -55,6 +56,7 @@ const SinglePet = () => {
         </ModalContent>
       </Modal>
     </>
+   
   );
 };
 
