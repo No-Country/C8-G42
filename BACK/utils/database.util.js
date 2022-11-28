@@ -6,7 +6,10 @@ const USER = encodeURIComponent(dbConfig.username);
 const PASSWORD = encodeURIComponent(dbConfig.password);
 const URI = `${dbConfig.dialect}://${USER}:${PASSWORD}@${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`;
 
-const sequelize = new Sequelize(URI);
+const sequelize = new Sequelize(URI, {
+  logging: false,
+  dialect: dbConfig.dialect
+});
 
 setupModels(sequelize);
 
