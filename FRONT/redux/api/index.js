@@ -1,8 +1,17 @@
-import axios from "axios";
+import instance from "./../instance"
 
-export const getUser = () => {
-  return axios
-    .get("http://localhost:5000/api/v1/users")
-    .then((res) => console.log(res))
+export const getPage = (endPoint, limit, offset) => {
+  const params = {}
+  if (limit && offset) {
+    params.limit = limit;
+    params.offset = offset;
+  }
+  return instance()
+    .get(endPoint, {
+      params
+    })
+    .then((res) => {
+      return res.data
+    })
     .catch((err) => console.log(err))
 }
