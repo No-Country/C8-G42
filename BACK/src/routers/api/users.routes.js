@@ -26,7 +26,6 @@ usersRouter.get("/", async (req, res, next) => {
     const { limit, offset } = req.query;
     const user = await userController.getAll(limit, offset);
      
-    console.log("req.user: ", req.user);
     return res.status(200).send(user);
   } catch (error) {
     next(error);

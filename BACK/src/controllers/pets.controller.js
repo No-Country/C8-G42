@@ -67,18 +67,18 @@ const createPet = async (req, res, next) => {
 
     petData.userId = sessionUser.id;
 
+    //cannot change status
+    petData.status = "available";
+
     const shelter = await Shelter.findOne({ where: { id: petData.shelterId } });
 
     if (!shelter) {
       throw boom.notFound("Shelter Not Found");
     }
 
-    if(sessionUser.id !== shelter.userId){
+    if (sessionUser.id !== shelter.ownerId) {
       throw boom.forbidden("You are not employee of this shelter");
     }
-
-    petData.adoptedDate =
-      petData.status === "adopted" ? new Date().toISOString() : null;
 
     const newPet = await service.create(modelName, petData);
 
@@ -95,15 +95,17 @@ const createPet = async (req, res, next) => {
 
 const updatePet = async (req, res, next) => {
   try {
-    const { pet } = req;
+    const { pet, sessionUser } = req;
     const petData = req.body;
 
-    // cannot change shelterId and userId
+    // cannot change shelterId, userId
     petData.shelterId = undefined;
     petData.userId = undefined;
 
+    petData.modifiedBy = `${sessionUser.firstName} ${sessionUser.lastName}`;
+
     petData.adoptedDate =
-      petData.status === "adopted" ? new Date().toISOString() : null;
+      petData.status === "adopted" ? new Date().toISOString() : undefined;
 
     await pet.update(petData);
 
@@ -133,7 +135,7 @@ const deletePet = async (req, res, next) => {
 
 const adoptPet = async (req, res, next) => {
   try {
-    const { pet } = req;
+    const { pet, sessionUser } = req;
 
     if (pet.status === "adopted") {
       throw boom.badRequest("The pet is already adopted");
@@ -142,6 +144,7 @@ const adoptPet = async (req, res, next) => {
     await pet.update({
       status: "adopted",
       adoptedDate: new Date().toISOString(),
+      modifiedBy: `${sessionUser.firstName} ${sessionUser.lastName}`,
     });
 
     res.status(200).json({
@@ -202,5 +205,5 @@ module.exports = {
   deletePet,
   adoptPet,
   toogleFavoritePet,
-  getPetsByShelterId
+  getPetsByShelterId,
 };
