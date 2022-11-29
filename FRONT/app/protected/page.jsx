@@ -7,44 +7,10 @@ import { Center, Flex, Input, Button, Text, Link, InputGroup, InputRightElement 
 import { useState } from 'react';
 import ReactLoading from 'react-loading';
 
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser, getSession } from "@auth0/nextjs-auth0";
 
 function ProtectedPage() {
   const { user, isLoading } = useUser();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [show, setShow] = useState(false);
-
-  const handleShowPass = () => setShow(!show);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      const res = await fetch('', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      if (res.status === 200) {
-        window.location.href = '';
-      } else {
-        setError('Invalid email or password');
-      }
-    } catch (err) {
-      setError('Invalid email or password');
-    }
-    setLoading(false);
-  };
-
 
 
 
@@ -61,6 +27,10 @@ function ProtectedPage() {
               <div>
                 Welcome {user.name}!
                 <button><a href="/api/auth/logout">Logout</a></button>
+                <br />
+                <br />               
+                <div>Este es tu Token:</div>
+                <textarea value={user.Token} style={{ height: "400px", width: "600px" }}></textarea>
               </div>
               :
               <div>
