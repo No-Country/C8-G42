@@ -18,6 +18,7 @@ function routerApi(app) {
         { url: /^\/api\/v1\/pets\/.*/, methods: ["GET"] },
         { url: /^\/api\/v1\/pets\/shelter\/.*/, methods: ["GET"] },
         { url: "/api/v1/pets", methods: ["GET"] },
+        { url: /^\/api\/v1\/reports\/.*/, methods: ["GET"] },
       ],
     })
   );
