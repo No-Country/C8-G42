@@ -1,12 +1,13 @@
-'use client';
+'use client'
 import { Flex, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import PetsGrid from '../components/PetsGrid/PetsGrid';
 // import SinglePet from '../components/SinglePet/SinglePet';
 import { fetchPets } from '../utils/api';
+import Pets from './Pets'
 
 const page = () => {
-  const [pets, setPets] = useState('');
+/* const [pets, setPets] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
 
@@ -14,7 +15,6 @@ const page = () => {
       setIsLoading(true);
       await fetchPets(
         (response) => {
-          // console.log('la respuesta que se recibio fue', response);
           setPets(response.data.data.pets);
           setIsLoading(false);
         },
@@ -27,7 +27,7 @@ const page = () => {
 
     getPets();
   }, []);
-
+ 
   if (isLoading) {
     return (
       <Flex w="100%" h="100vh" justify="center" align="center">
@@ -36,14 +36,15 @@ const page = () => {
         </Text>
       </Flex>
     );
-  }
+  }  */
 
   return (
     <Flex w="100%" mt="60px" pos="relative" direction="column">
-      {/* Principal  */}
-      {pets && <PetsGrid pets={pets} />}
+     {/*  <Pets /> */}
+      <PetsGrid /* pets={pets} */ /> 
     </Flex>
   );
 };
 
 export default page;
+

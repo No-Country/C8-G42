@@ -1,3 +1,5 @@
+'use client'
+
 const { extendTheme } = require("@chakra-ui/react");
 import "@fontsource/italiana"
 
