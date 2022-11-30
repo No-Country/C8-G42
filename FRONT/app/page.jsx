@@ -38,8 +38,8 @@ const [pets, setPets] = useState('');
   }  
 
   return (
-    <Flex w="100%" mt="60px" pos="relative" direction="column">
-      <PetsGrid /* pets={pets} */ /> 
+    <Flex w="100%" mt="60px">
+      <PetsGrid  pets={pets} /> 
     </Flex>
   );
 };

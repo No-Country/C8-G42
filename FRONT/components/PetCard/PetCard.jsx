@@ -5,12 +5,12 @@ import { Card, CardHeader, CardBody, CardFooter, Stack, Divider, ButtonGroup, He
 
 const PetCard = ({ pet }) => {
     return (
-            <Card maxW='sm'>
+            <Card>
                 <CardBody>
                     <Image
                         src=""
                         alt=''
-                        width={400} height={200}
+                        w="100%"
                         borderRadius='lg'
                     />
                     <CardFooter>
