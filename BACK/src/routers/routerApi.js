@@ -11,9 +11,10 @@ const { checkJwt } = require("./../middlewares/auth0.middleware");
 function routerApi(app) {
   const router = express.Router();
 
-  checkJwt.unless = unless;
-  app.use(checkJwt.unless({ path: ['/api/v1/pets'] }));
-  
+  // checkJwt.unless = unless;
+  // app.use(checkJwt.unless({ path: ['/api/v1/pets'] }));
+  app.use(checkJwt);
+
   app.use("/api/v1", router);
 
   router.use("/users", userRouter);
