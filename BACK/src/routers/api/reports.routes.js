@@ -24,6 +24,12 @@ const {
   verifyReportParamsId,
 } = require("../../schemas/reports.schema");
 
+//auth middleware
+const {
+  protectSession,
+  protectUsersReports,
+} = require("../../middlewares/auth0.middleware");
+
 const reportsRouter = express.Router();
 
 reportsRouter.get(
@@ -32,6 +38,8 @@ reportsRouter.get(
   shelterExist,
   getReportByShelterId
 );
+
+reportsRouter.use(protectSession);
 
 reportsRouter.post(
   "/:shelterId",
@@ -45,6 +53,7 @@ reportsRouter.put(
   "/:id",
   schemaValidator(verifyReportParamsId, "params"),
   reportExist,
+  protectUsersReports,
   updateReport
 );
 
@@ -52,6 +61,7 @@ reportsRouter.delete(
   "/:id",
   schemaValidator(verifyReportParamsId, "params"),
   reportExist,
+  protectUsersReports,
   deleteReport
 );
 

@@ -8,6 +8,7 @@ const options = {
 };
 
 const boom = require("@hapi/boom");
+const { Shelter } = require("../persistence/models/shelter.model");
 
 const getAllPets = async (req, res, next) => {
   try {
@@ -43,19 +44,41 @@ const getPetById = async (req, res, next) => {
   }
 };
 
+const getPetsByShelterId = async (req, res, next) => {
+  const { shelter } = req;
+  const { limit, offsset } = req.query;
+
+  const pets = await service.getAll(modelName, limit, offsset, {
+    where: { shelterId: shelter.id },
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      pets,
+    },
+  });
+};
+
 const createPet = async (req, res, next) => {
   try {
     const petData = req.body;
-    const { shelter } = req;
+    const { sessionUser } = req;
 
-    //take user in session
-    const user = 1;
+    petData.userId = sessionUser.id;
 
-    petData.shelterId = shelter.id;
-    petData.userId = user.id;
+    //cannot change status
+    petData.status = "available";
 
-    petData.adoptedDate =
-      petData.status === "adopted" ? new Date().toISOString() : null;
+    const shelter = await Shelter.findOne({ where: { id: petData.shelterId } });
+
+    if (!shelter) {
+      throw boom.notFound("Shelter Not Found");
+    }
+
+    if (sessionUser.id !== shelter.ownerId) {
+      throw boom.forbidden("You are not employee of this shelter");
+    }
 
     const newPet = await service.create(modelName, petData);
 
@@ -72,11 +95,17 @@ const createPet = async (req, res, next) => {
 
 const updatePet = async (req, res, next) => {
   try {
-    const { pet } = req;
+    const { pet, sessionUser } = req;
     const petData = req.body;
 
+    // cannot change shelterId, userId
+    petData.shelterId = undefined;
+    petData.userId = undefined;
+
+    petData.modifiedBy = `${sessionUser.firstName} ${sessionUser.lastName}`;
+
     petData.adoptedDate =
-      petData.status === "adopted" ? new Date().toISOString() : null;
+      petData.status === "adopted" ? new Date().toISOString() : undefined;
 
     await pet.update(petData);
 
@@ -106,7 +135,7 @@ const deletePet = async (req, res, next) => {
 
 const adoptPet = async (req, res, next) => {
   try {
-    const { pet } = req;
+    const { pet, sessionUser } = req;
 
     if (pet.status === "adopted") {
       throw boom.badRequest("The pet is already adopted");
@@ -115,6 +144,7 @@ const adoptPet = async (req, res, next) => {
     await pet.update({
       status: "adopted",
       adoptedDate: new Date().toISOString(),
+      modifiedBy: `${sessionUser.firstName} ${sessionUser.lastName}`,
     });
 
     res.status(200).json({
@@ -130,19 +160,17 @@ const adoptPet = async (req, res, next) => {
 
 const toogleFavoritePet = async (req, res, next) => {
   try {
-    const { pet } = req;
-    //take user in session
-    const user = 1;
+    const { pet, sessionUser } = req;
 
     let favoritePet = await FavoritePet.findOne({
-      where: { petId: pet.id, userId: user.id },
+      where: { petId: pet.id, userId: sessionUser.id },
       attributes: ["id", "isFavorite"],
     });
 
     if (!favoritePet) {
       favoritePet = await FavoritePet.create({
         petId: pet.id,
-        userId: user.id,
+        userId: sessionUser.id,
         isFavorite: true,
       });
 
@@ -177,4 +205,5 @@ module.exports = {
   deletePet,
   adoptPet,
   toogleFavoritePet,
+  getPetsByShelterId,
 };

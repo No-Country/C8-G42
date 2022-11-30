@@ -39,7 +39,7 @@ const fetchOrCreateUser = async (req, callback) => {
     },
   });
   sendMail(user.email, "Welcome!!!", `Welcome ${user.name} to huellitas`);
-  callback(null, userFoundOrCreated);
+  //callback(null, userFoundOrCreated);
 };
 
 module.exports = {
@@ -47,7 +47,6 @@ module.exports = {
     const users = await service.getAll(modelName, limit, offset, options);
     return users;
   },
-  fetchOrCreateUser,
   getByEmail: async (email) => {
     const user = await models[modelName].findOne({
       where: {
@@ -72,4 +71,5 @@ module.exports = {
     const rta = await service.delete(id, modelName);
     return rta
   },
+  fetchOrCreateUser,
 };

@@ -11,9 +11,18 @@ const { reportsRouter } = require("./api/reports.routes");
 function routerApi(app) {
   const router = express.Router();
 
-  // checkJwt.unless = unless;
-  // app.use(checkJwt.unless({ path: ['/api/v1/pets'] }));
-  
+  checkJwt.unless = unless;
+  app.use(
+    checkJwt.unless({
+      path: [
+        { url: /^\/api\/v1\/pets\/.*/, methods: ["GET"] },
+        { url: /^\/api\/v1\/pets\/shelter\/.*/, methods: ["GET"] },
+        { url: "/api/v1/pets", methods: ["GET"] },
+        { url: /^\/api\/v1\/reports\/.*/, methods: ["GET"] },
+      ],
+    })
+  );
+
   app.use("/api/v1", router);
 
   router.use("/users", userRouter);

@@ -1,7 +1,10 @@
-const { Report } = require("../persistence/models/report.model");
+const boom = require("@hapi/boom");
+const { Shelter } = require("../persistence/models/shelter.model");
 const services = require("./services");
 const modelName = "Report";
-const options = {};
+const options = {
+  include: ["user"]
+};
 
 const getReportByShelterId = async (req, res, next) => {
   try {
@@ -26,16 +29,13 @@ const getReportByShelterId = async (req, res, next) => {
 
 const createReport = async (req, res, next) => {
   try {
-    const { shelter } = req;
+    const { shelter, sessionUser } = req;
     const { message } = req.body;
 
-    //get user auth
-    let user;
-
-    const newReport = await services.create(modelName,{
+    const newReport = await services.create(modelName, {
       shelterId: shelter.id,
       message,
-      userId: user.id,
+      userId: sessionUser.id,
       status: "pending",
     });
 
@@ -52,10 +52,12 @@ const createReport = async (req, res, next) => {
 
 const updateReport = async (req, res, next) => {
   try {
-    const { report } = req;
+    const { report, sessionUser } = req;
     const { message } = req.body;
 
-    await report.update({ message });
+    const modifiedBy = `${sessionUser.firstName} ${sessionUser.lastName}`;
+
+    await report.update({ message, modifiedBy });
 
     res.status(200).json({
       status: "success",
@@ -84,9 +86,20 @@ const deleteReport = async (req, res, next) => {
 
 const resolvedReport = async (req, res, next) => {
   try {
-    const { report } = req;
+    const { report, sessionUser } = req;
 
-    await report.update({ status: "resolved" });
+    //only the shelter can resolve a report
+    const isShelterOwner = await Shelter.findOne({
+      where: { id: report.shelterId, ownerId: sessionUser.id },
+    });
+
+    if (!isShelterOwner) {
+      throw boom.unauthorized("You are not the owner of this shelter");
+    }
+
+    const modifiedBy = `${sessionUser.firstName} ${sessionUser.lastName}`;
+
+    await report.update({ status: "resolved", modifiedBy });
 
     res.status(200).json({
       status: "success",
