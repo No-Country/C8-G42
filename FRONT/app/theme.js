@@ -3,7 +3,7 @@ import "@fontsource/italiana"
 
 const theme = {
   config: {
-    initialColorMode: "ligth",
+    initialColorMode: "light",
     useSystemColorMode: true,
   },
   fonts: {

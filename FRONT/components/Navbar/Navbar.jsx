@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import ToggleColorMode from "./theme/ToggleColorMode";
 import LogoBox from "../../Icons/Logo";
 
@@ -8,6 +8,8 @@ const Navbar = () => {
       w="100%"
       h="60px"
       pos="fixed"
+      zIndex={9999999999}
+      bgColor={useColorModeValue("gray.50", "#151b26")}
       top="0"
       display={{ base: "none", md: "flex" }}
       direction="row"
