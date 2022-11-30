@@ -60,7 +60,7 @@ function ProtectedPage() {
             user ?
               <div>
                 Welcome {user.name}!
-                <button><a href="/api/auth/logout">Logout</a></button>
+                <button onClick={()=>{localStorage.setItem("token", null)}}><a href="/api/auth/logout">Logout</a></button>
               </div>
               :
               <div>
