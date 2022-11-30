@@ -1,25 +1,27 @@
 const SocketIO = require('socket.io');
+const { socketConfig } = require('./../src/config/config')
+const userController = require('../src/controllers/users.controller')
 
 function socketIO(server) {
   const io = SocketIO(server, {
     cors: {
-      origin: 'http://localhost:5173',
+      origin: socketConfig.origin,
       methods: ["GET", "POST"]
     },
   });
 
-  io.use((socket, next) => {
-    const userId = socket.handshake.auth.userId;
-    const userEmail = socket.handshake.auth.userEmail;
-    
-    socket.userId = userId;
-    socket.id = userEmail;
+  io.use(async (socket, next) => {
+    const userEmail = socket.handshake.auth.userId;
+    const user = await userController.getByEmail(userEmail);
+    socket.id = user.dataValues.id;
 
     next();
   });
 
   io.on('connection', (socket) => {
     console.log('New conection')
+    const id = socket.id
+    io.to(id).emit('conect', {id});
   });
 }
 

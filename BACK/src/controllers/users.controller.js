@@ -6,7 +6,7 @@ const boom = require("@hapi/boom");
 const { models } = require("../../utils/database.util");
 
 const options = {
-  include: ["shelter", "pet"],
+  // include: ["shelter", "pet"],
 };
 
 const getById = async (id) => {
@@ -25,7 +25,6 @@ const fetchOrCreateUser = async (req, callback) => {
   const token = req.headers.authorization.split("Bearer ")[1];
   const user = jwt_decode(token)["http://localhost/userData"];
   req.user = user;
-  console.log("fetch... req.user: ", req.user);
   // 6.2. Verifying if User not exists in DB (with email) it will create it, otherwise user will be returned
   const [userFoundOrCreated, created] = await models.User.findOrCreate({
     where: {
@@ -39,9 +38,6 @@ const fetchOrCreateUser = async (req, callback) => {
       isDark: false,
     },
   });
-
-  // console.log("userFoundOrCreated: ", userFoundOrCreated);
-  // console.log("user was created?: ", created);
   sendMail(user.email, "Welcome!!!", `Welcome ${user.name} to huellitas`);
   callback(null, userFoundOrCreated);
 };
@@ -52,7 +48,19 @@ module.exports = {
     return users;
   },
   fetchOrCreateUser,
+  getByEmail: async (email) => {
+    const user = await models[modelName].findOne({
+      where: {
+        email
+      },
+    });
+    return user;
+  },
   getById,
+  create: async (data) => {
+    const newUser = await service.create(modelName, data);
+    return newUser
+  },
   update: async (id, userData, modifiedBy) => {
     const updatedUser = await service.update(id, modelName, {
       ...userData,
@@ -62,5 +70,6 @@ module.exports = {
   },
   delete: async (id) => {
     const rta = await service.delete(id, modelName);
+    return rta
   },
 };

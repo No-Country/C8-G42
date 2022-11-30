@@ -4,15 +4,15 @@ const userRouter = require("./api/users.routes");
 const shelterRouter = require("./api/shelters.routes");
 const messageRouter = require("./api/messages.routes");
 const notFoundRouter = require("./404");
-const { unless } = require("express-unless");
+// const { unless } = require("express-unless");
 const { reportsRouter } = require("./api/reports.routes");
-const { checkJwt } = require("./../middlewares/auth0.middleware");
+// const { checkJwt } = require("./../middlewares/auth0.middleware");
 
 function routerApi(app) {
   const router = express.Router();
 
-  checkJwt.unless = unless;
-  app.use(checkJwt.unless({ path: ['/api/v1/pets'] }));
+  // checkJwt.unless = unless;
+  // app.use(checkJwt.unless({ path: ['/api/v1/pets'] }));
   
   app.use("/api/v1", router);
 

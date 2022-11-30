@@ -11,7 +11,6 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 function ProtectedPage() {
   const { user, isLoading } = useUser();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

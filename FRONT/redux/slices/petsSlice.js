@@ -9,7 +9,6 @@ const initialState = {
 export const fetchPets = createAsyncThunk(
   "pets/fetchPets",
   async ({limit, offset}, { dispatch }) => {
-    console.log({limit, offset})
     dispatch(setLoading(true));
     const res = await getPage("/pets", limit, offset);
     dispatch(setPets(res));
