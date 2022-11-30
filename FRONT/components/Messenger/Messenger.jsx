@@ -57,7 +57,7 @@ const Messenger = () => {
   };
   return (
     <>
-      <Button
+      {!isOpen && <Button
         colorScheme="blue"
         position="fixed"
         zIndex={9999999999}
@@ -66,7 +66,7 @@ const Messenger = () => {
         onClick={onOpen}
       >
         Messenger
-      </Button>
+      </Button>}
       <Drawer placement={placement} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
