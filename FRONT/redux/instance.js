@@ -12,9 +12,9 @@ const token = localStorage.getItem("token");
 //   // }`,
 // };
 
-if (token) {
-  headers.Authorization = `Bearer ${token}`;
-}
+// if (token) {
+//   headers.Authorization = `Bearer ${token}`;
+// }
 
 const instance = () => {
   return axios.create({
