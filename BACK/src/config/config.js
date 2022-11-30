@@ -17,6 +17,9 @@ module.exports = {
     host: process.env.NODE_HOST,
     port: process.env.NODE_PORT
   },
+  socketConfig: {
+    origin: process.env.SOCKET_ORIGIN,
+  },
   dbConfig: {
     dialect: "postgres",
     host: process.env.DB_HOST,

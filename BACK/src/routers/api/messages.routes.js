@@ -8,11 +8,11 @@ const {
 
 router.get(
   "/",
-  schemaValidator(getChatSchema, "body"),
+  schemaValidator(getChatSchema, "query"),
   async (req, res, next) => {
     try {
-      const { userId, shelterId } = req.body;
-      const chat = await messageController.getChat(userId, shelterId);
+      const { userId, shelterId, limit, offset } = req.query;
+      const chat = await messageController.getChat(userId, shelterId, limit, offset);
       return res.status(200).json(chat);
     } catch (error) {
       next(error);

@@ -35,8 +35,9 @@ usersRouter.get("/", async (req, res, next) => {
 // Self: route to obtain info from user (Fetch or Create New User)
 usersRouter.get("/self", async (req, res, next) => {
   try {
-    userController.fetchOrCreateUser(req, genericCallback(res));
-    // return res.status(200).send(user);
+    const user = userController.fetchOrCreateUser(req, genericCallback(res));
+    console.log({user})
+    return res.status(200).send(user);
   } catch (error) {
     next(error);
   }
