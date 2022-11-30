@@ -9,9 +9,9 @@ const pet= fakeData.data
 
   return (
     <Grid templateColumns={{base:'repeat(2, 1fr)',md:'repeat(4, 1fr)'}} gap={{base:2 , md:4}}>
-     {pet.map((pet) => {
+     {pet.map((pet,i) => {
         return (
-          <GridItem key={pet.id}>
+          <GridItem key={i}>
             <PetCard pet={pet} />
           </GridItem>
         );

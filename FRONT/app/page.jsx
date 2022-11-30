@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react';
 import PetsGrid from '../components/PetsGrid/PetsGrid';
 // import SinglePet from '../components/SinglePet/SinglePet';
 import { fetchPets } from '../utils/api';
-import Pets from './Pets'
 
 const page = () => {
-/* const [pets, setPets] = useState('');
+const [pets, setPets] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
 
@@ -36,11 +35,10 @@ const page = () => {
         </Text>
       </Flex>
     );
-  }  */
+  }  
 
   return (
     <Flex w="100%" mt="60px" pos="relative" direction="column">
-     {/*  <Pets /> */}
       <PetsGrid /* pets={pets} */ /> 
     </Flex>
   );
