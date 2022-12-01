@@ -6,13 +6,14 @@ import React, { useEffect } from 'react';
 import PetsGrid from '../components/PetsGrid/PetsGrid';
 import { fetchPets } from '../redux/slices/petsSlice';
 import { useUser } from "@auth0/nextjs-auth0";
+import { fetchUser } from "../redux/slices/userSlice";
 
 const page = () => {
   const { user, isLoading: loading } = useUser();
   useEffect(() => {
     if (user?.TokenAuth0) {
       localStorage.setItem("token", user?.TokenAuth0);
-    }
+    };
   }, [user]);
 
   const loginHandler = () => {
@@ -24,6 +25,10 @@ const page = () => {
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({ limit: 10, offset: 5 }));
+    if(user?.email) {
+      const email = user.email
+      dispatch(fetchUser({email}))
+    }
   }, [user]);
   return (
     <Flex w="100%" mt="60px" pos="relative" direction="column">

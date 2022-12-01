@@ -22,7 +22,7 @@ const createUserSchema = Joi.object({
 });
 
 const getUserSchema = Joi.object({
-  id
+  email: email.required(),
 });
 
 const updateUserSchema = Joi.object({

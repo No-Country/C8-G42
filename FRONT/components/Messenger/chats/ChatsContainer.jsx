@@ -15,11 +15,12 @@ import Chat from "./Chat";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchShelters } from "../../../redux/slices/sheltersSlice";
 
-const ChatsContainer = ({ user }) => {
+const ChatsContainer = () => {
   const loading = useSelector((state) => state.ui.loading);
+  const user = useSelector((state) => state.user.user);
   const shelters = useSelector((state) => state.shelters.shelters);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if(!(shelters.length > 0)){
       dispatch(fetchShelters({ limit: 10, offset: 0 }));
@@ -30,7 +31,7 @@ const ChatsContainer = ({ user }) => {
       };
       socket.connect();
     }
-  }, []);
+  }, [user]);
 
   const [searchValue, setSearchValue] = useState("");
 
