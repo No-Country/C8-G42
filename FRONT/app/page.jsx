@@ -26,7 +26,7 @@ const page = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
-    dispatch(fetchPets({ limit: 10, offset: 5 }));
+    dispatch(fetchPets({}));
   }, [user]);
   console.log({ users, pets });
   return (
@@ -40,6 +40,7 @@ const page = () => {
           <p> Si deseas iniciar sesión presiona:
             <Button onClick={() => { loginHandler(); }}><a href="/api/auth/login">Login</a></Button>
           </p>
+          {<PetsGrid pets={pets.data?.pets} />}
         </>
       )}
       {user && (
@@ -55,7 +56,7 @@ const page = () => {
         </>
       )}
       {isLoading && <h2>Loading pets...</h2>}
-      {user && <PetsGrid />}
+      {user && <PetsGrid pets={pets.data?.pets} />}
     </Flex>
   );
 };
