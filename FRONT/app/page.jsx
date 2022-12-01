@@ -2,22 +2,23 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../redux/slices/usersSlice";
 import { Flex, Button, } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PetsGrid from '../components/PetsGrid/PetsGrid';
 import { fetchPets } from '../redux/slices/petsSlice';
 import { useUser } from "@auth0/nextjs-auth0";
 
 const page = () => {
   const { user, isLoading: loading } = useUser();
+  const [isLogInClicked, setIsLogInClicked] = useState(false);
+  const [isLogOutClicked, setIsLogOutClicked] = useState(false);
+
   useEffect(() => {
     if (user?.TokenAuth0) {
       localStorage.setItem("token", user?.TokenAuth0);
     }
-  }, [user]);
-
-  const loginHandler = () => {
     localStorage.setItem("token", user?.TokenAuth0);
-  };
+    if (isLogOutClicked) { localStorage.setItem("token", null); }
+  }, [user, isLogInClicked, isLogOutClicked]);
 
   const users = useSelector((state) => state.users.users);
   const pets = useSelector((state) => state.pets.pets);
@@ -38,7 +39,7 @@ const page = () => {
       {!loading && !user && (
         <>
           <p> Si deseas iniciar sesión presiona:
-            <Button onClick={() => { loginHandler(); }}><a href="/api/auth/login">Login</a></Button>
+            <Button onClick={() => { setIsLogInClicked(true); }}><a href="/api/auth/login">Login</a></Button>
           </p>
         </>
       )}
@@ -49,7 +50,7 @@ const page = () => {
           <p>nickname: {user.nickname}</p>
           <p>user: {user.name}</p>
           <p>
-            <Button onClick={() => { localStorage.setItem("token", null); }}><a href="/api/auth/logout">Cerrar sesión</a></Button>
+            <Button onClick={() => { setIsLogOutClicked(true); }}><a href="/api/auth/logout">Cerrar sesión</a></Button>
           </p>
           {/* {console.log("user: ", user)} */}
         </>

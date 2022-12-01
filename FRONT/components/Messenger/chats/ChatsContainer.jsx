@@ -19,9 +19,9 @@ const ChatsContainer = ({ user }) => {
   const loading = useSelector((state) => state.ui.loading);
   const shelters = useSelector((state) => state.shelters.shelters);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
-    if(!(shelters.length > 0)){
+    if (!(shelters.length > 0)) {
       dispatch(fetchShelters({ limit: 10, offset: 0 }));
     }
     if (user) {
@@ -30,7 +30,7 @@ const ChatsContainer = ({ user }) => {
       };
       socket.connect();
     }
-  }, []);
+  }, [shelters.length, dispatch, user]);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -67,7 +67,7 @@ const ChatsContainer = ({ user }) => {
                   name={shelter.name}
                   shelter={shelter}
                   online={false}
-                  // shelterId={shelter}
+                // shelterId={shelter}
                 />
               ))}
             </Stack>
@@ -79,15 +79,17 @@ const ChatsContainer = ({ user }) => {
               />
               <InputRightElement
                 pointerEvents="none"
-                children={<Search2Icon />}
-              />
+              // children={<Search2Icon />}
+              >
+                <Search2Icon />
+              </InputRightElement>
             </InputGroup>
           </DrawerBody>
         </DrawerContent>
       </>
     );
   } else {
-    <>Loading...</>
+    <>Loading...</>;
   }
 };
 

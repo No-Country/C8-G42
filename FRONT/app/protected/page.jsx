@@ -2,50 +2,25 @@
 
 import Image from 'next/image';
 import bgimage from './assets/bgimage.png';
-import catImage from './assets/cat.png';
-import { Center, Flex, Input, Button, Text, Link, InputGroup, InputRightElement } from '@chakra-ui/react';
-import { useState } from 'react';
-import ReactLoading from 'react-loading';
+import { Center, Flex, Button } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+
 
 import { useUser } from "@auth0/nextjs-auth0";
 
-function ProtectedPage() {
+const ProtectedPage = () => {  
   const { user, isLoading } = useUser();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [show, setShow] = useState(false);
+  const [isLogInClicked, setIsLogInClicked] = useState(false);
+  const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
-  const handleShowPass = () => setShow(!show);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      const res = await fetch('', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      if (res.status === 200) {
-        window.location.href = '';
-      } else {
-        setError('Invalid email or password');
-      }
-    } catch (err) {
-      setError('Invalid email or password');
+  useEffect(() => {
+    if (user?.TokenAuth0) {
+      localStorage.setItem("token", user?.TokenAuth0);
     }
-    setLoading(false);
-  };
-
-
-
+    localStorage.setItem("token", user?.TokenAuth0);
+    if (isLogOutClicked) { localStorage.setItem("token", null); }
+  }, [user, isLogInClicked, isLogOutClicked]);
 
   return (
     <div>
@@ -59,27 +34,14 @@ function ProtectedPage() {
             user ?
               <div>
                 Welcome {user.name}!
-                <button onClick={()=>{localStorage.setItem("token", null)}}><a href="/api/auth/logout">Logout</a></button>
+                <Button onClick={() => { setIsLogOutClicked(true); }}><a href="/api/auth/logout">Cerrar sesión</a></Button>
               </div>
               :
               <div>
                 <h2>Esta es una ruta protegida, por favor inicia sesión</h2>
-                <button><a href="/api/auth/login">Login</a></button>
+                <Button onClick={() => { setIsLogInClicked(true); }}><a href="/api/auth/login">Login</a></Button>
               </div>
           }
-
-          {/* <Flex gap={14} p={6} justifyContent="center" alignItems="center" pos="relative" direction="column">
-            <Text fontSize='3xl'>PAGINA PROTEGIDA</Text >
-            {loading ? 
-              <ReactLoading type="spin" color="#AEC3B0"/>
-              :
-              <>
-                <Flex pos="absolute" top="47px" left="220px">
-                  <Image src={catImage} priority width="100" alt="heading" />
-                </Flex>
-              </>
-            }
-          </Flex> */}
         </Center>
       </Flex>
     </div>
