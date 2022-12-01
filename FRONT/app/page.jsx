@@ -1,10 +1,10 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../redux/slices/usersSlice";
-import { Flex, Button, } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
-import PetsGrid from '../components/PetsGrid/PetsGrid';
-import { fetchPets } from '../redux/slices/petsSlice';
+import { Flex, Button } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import PetsGrid from "../components/PetsGrid/PetsGrid";
+import { fetchPets } from "../redux/slices/petsSlice";
 import { useUser } from "@auth0/nextjs-auth0";
 
 const page = () => {
@@ -30,15 +30,28 @@ const page = () => {
   }, [user]);
   console.log({ users, pets });
   return (
-    <Flex w="100%" mt="60px" pos="relative" direction="column">
+    <Flex
+      w="100%"
+      mt={{ base: "10px", md: "60px" }}
+      pos="relative"
+      direction="column"
+    >
       {/* Principal  */}
 
       {loading && <p>Loading login info...</p>}
 
       {!loading && !user && (
         <>
-          <p> Si deseas iniciar sesión presiona:
-            <Button onClick={() => { loginHandler(); }}><a href="/api/auth/login">Login</a></Button>
+          <p>
+            {" "}
+            Si deseas iniciar sesión presiona:
+            <Button
+              onClick={() => {
+                loginHandler();
+              }}
+            >
+              <a href="/api/auth/login">Login</a>
+            </Button>
           </p>
           {<PetsGrid pets={pets.data?.pets} />}
         </>
@@ -46,11 +59,17 @@ const page = () => {
       {user && (
         <>
           <h2>Información del Usuario LOGUEADO: </h2>
-          <img src={user.picture} width={'130px'} alt="user picture" />
+          <img src={user.picture} width={"130px"} alt="user picture" />
           <p>nickname: {user.nickname}</p>
           <p>user: {user.name}</p>
           <p>
-            <Button onClick={() => { localStorage.setItem("token", null); }}><a href="/api/auth/logout">Cerrar sesión</a></Button>
+            <Button
+              onClick={() => {
+                localStorage.setItem("token", null);
+              }}
+            >
+              <a href="/api/auth/logout">Cerrar sesión</a>
+            </Button>
           </p>
           {/* {console.log("user: ", user)} */}
         </>
