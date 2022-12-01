@@ -5,25 +5,8 @@ import { fetchChats } from "../../../../redux/slices/messangerSlice";
 import socket from "../../../../utils/socket";
 import { Box, Stack } from "@chakra-ui/react";
 
-const MessageContainer = ({ shelter }) => {
-  const user = useSelector((state) => state.user.user, shallowEqual);
-  const chat = useSelector((state) => state.messenger[shelter.id], shallowEqual);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user.id) {
-      if (chat === undefined ) {
-        dispatch(
-          fetchChats({
-            userId: socket.id,
-            shelterId: shelter.id,
-            limit: 40,
-            offset: 0,
-          })
-        );
-      }
-    }
-  }, []);
+const MessageContainer = ({ chat, user }) => {
+  
   if(chat !== undefined){
     return (
       <Stack>

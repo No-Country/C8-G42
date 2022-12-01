@@ -13,9 +13,9 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { sendMessage } from "../../../redux/slices/messangerSlice";
+import { fetchChats, sendMessage } from "../../../redux/slices/messangerSlice";
 
 import MessageContainer from "./messages/MessageContainer";
 
@@ -23,9 +23,27 @@ const placement = "right";
 
 const Chat = ({ name, online, shelter }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
+  const chat = useSelector(
+    (state) => state.messenger[shelter.id],
+    shallowEqual
+  );
   const [message, setMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (user?.id) {
+      if (chat === undefined) {
+        dispatch(
+          fetchChats({
+            userId: user.id,
+            shelterId: shelter.id,
+            limit: 40,
+            offset: 0,
+          })
+        );
+      }
+    }
+  }, [shelter]);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
@@ -37,9 +55,8 @@ const Chat = ({ name, online, shelter }) => {
         shelterId: shelter.id,
         text: message,
         modifiedBy: user.role,
-        onOpen
       })
-    )
+    );
   };
   return (
     <>
@@ -59,6 +76,7 @@ const Chat = ({ name, online, shelter }) => {
         </Avatar>
         <p onClick={onOpen}> {name} </p>
       </Box>
+
       <Drawer placement={placement} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
@@ -69,7 +87,10 @@ const Chat = ({ name, online, shelter }) => {
             justifyContent="space-between"
           >
             <Stack>
-              <MessageContainer shelter={shelter} />
+              <MessageContainer
+                chat={chat}
+                user={user}
+              />
             </Stack>
             <InputGroup>
               <Textarea
