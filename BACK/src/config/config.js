@@ -29,7 +29,7 @@ module.exports = {
     database: process.env.DB,
     logging: false,
   },
-  whiteListCors: ['https://huellitas-auth.us.auth0.com', 'http://huellitas.ar', 'https://huellitas.ar', 'http://localhost:8080', 'http://localhost:3000', 'http://localhost:5000', 'http://localhost:3001', 'http://localhost:3002'],
+  whiteListCors: ['https://backend.huellitas.ar','http://backend.huellitas.ar', 'http://huellitas.ar', 'https://huellitas.ar', 'http://localhost:8080', 'http://localhost:3000', 'http://localhost:5000', 'http://localhost:3001', 'http://localhost:3002'],
   emailConfig: {
     emailAccount: process.env.EMAIL_ACCOUNT,
     emailPass: process.env.EMAIL_PASS,
