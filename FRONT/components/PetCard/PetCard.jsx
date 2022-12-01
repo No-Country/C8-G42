@@ -12,18 +12,22 @@ import {
   Button,
   Text,
   Box,
+  useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import SinglePet from "../SinglePet/SinglePet";
 
 const PetCard = ({ pet }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box>
-      <Card maxW={{ base: "sm", md: "none" }}>
+      <Card maxW={{ base: "sm", md: "none"}}>
         <CardBody>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Image
               src={`${pet.image}?random=${pet.id}`}
               alt=""
-              width={400}
+              width={300}
               height={200}
               borderRadius="lg"
             />
@@ -33,14 +37,9 @@ const PetCard = ({ pet }) => {
               {pet.name}, tamaño: {pet.size}
             </Heading>
             <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-              eius accusantium repudiandae possimus voluptatem dignissimos,
-              ipsam, repellat quam distinctio quos ipsum fugit, laudantium iste
-              reprehenderit magni omnis sed porro tempora? oluptatibus.
+              {pet.description}
             </Text>
-            <Text color="blue.600" fontSize="1xl">
-              Ver más...
-            </Text>
+            <SinglePet pet={pet} isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
           </Stack>
         </CardBody>
         <Divider />

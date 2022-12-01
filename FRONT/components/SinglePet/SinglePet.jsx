@@ -12,6 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -20,12 +21,13 @@ import AdoptIcon from "../../Icons/AdoptIcon";
 import PawIcon from "../../Icons/Paw";
 import pet from './rocket.png';
 
-const SinglePet = ({ pet }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const SinglePet = ({ pet, isOpen, onOpen, onClose }) => {
 
   return (
     <>
-      <Button onClick={onOpen}>Mascota</Button>
+      <Button  onClick={onOpen} w="fit-content" color={useColorModeValue("black", "white")} fontSize="1xl">
+              Ver más...
+      </Button>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
@@ -45,8 +47,7 @@ const SinglePet = ({ pet }) => {
               <Image src={`${pet.image}?random=${pet.id}`} alt="Mascota" width={400} height={200}/>
             </Flex>
             <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae eius accusantium repudiandae possimus voluptatem dignissimos, ipsam, repellat quam distinctio quos ipsum fugit, laudantium iste reprehenderit magni omnis sed porro tempora?
-              Quidem quae cum sint expedita voluptas. Quae possimus porro optio velit voluptate in nobis dolore facilis dolor perferendis illo quaerat similique, ipsam ipsa explicabo expedita consectetur tempora dicta beatae voluptatibus.
+              {pet.description}
             </Text>
           </ModalBody>
           <ModalFooter>

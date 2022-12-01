@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Search2Icon } from "@chakra-ui/icons";
 import { useUser } from "@auth0/nextjs-auth0";
 import {
   useDisclosure,

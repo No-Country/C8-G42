@@ -1,46 +1,109 @@
 import React, { useEffect, useState } from "react";
-import SinglePet from "../SinglePet/SinglePet";
-import { Wrap, WrapItem, Center, Grid } from "@chakra-ui/react";
-import {ArrowBackIcon} from "@chakra-ui/icons"
+import { Grid, Flex } from "@chakra-ui/react";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import PetCard from "../PetCard/PetCard";
+import PaginationBtnItems from "./PaginationBtnItems";
 
 const PetsGrid = ({ pets }) => {
-  console.log("pets:", pets);
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
-  const [petsByPage, setPetsByPage] = useState(itemsPerPage);
-  const [pageNumberLimit, setPageNumberLimit] = useState(9);
-  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(9);
-  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  const [petsByPage, setPetsByPage] = useState(12);
+  const [pageNumberLimit, setPageNumberLimit] = useState(4);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(4);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(1);
 
   const maxPages = [];
-  for (let i = 1; i <= Math.ceil(pets.length / petsByPage); i++) {
+  for (let i = 1; i <= Math.ceil(pets?.length / petsByPage); i++) {
     maxPages.push(i);
   }
   const indexOfLastItem = page * petsByPage;
   const indexOfFirstItem = indexOfLastItem - petsByPage;
-  const paginatedPets = pets.slice(indexOfFirstItem, indexOfLastItem);
+  const paginatedPets = pets?.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("paginated pets ", paginatedPets);
-
-  const changePage = (page) => {
-    setPage(page);
+  const changePage = (pageToChange) => {
+    setPage(pageToChange);
+    if (pageToChange === maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + 1);
+      setMinPageNumberLimit(minPageNumberLimit + 1);
+    }
+    if (pageToChange === minPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit - 1);
+      setMinPageNumberLimit(minPageNumberLimit - 1);
+    }
   };
   return (
     <>
       <div>Listado de Mascotas para adopción:</div>
-      <ArrowBackIcon />
+      <Flex justifyContent="center" gap="5px" mb={4}>
+        {page > 1 && (
+          <ArrowBackIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page - 1)}
+          />
+        )}
+        {maxPages.map((number) => {
+          if (number < maxPageNumberLimit + 1 && number >= minPageNumberLimit) {
+            return (
+              <PaginationBtnItems
+                key={number}
+                number={number}
+                changePage={changePage}
+                actualPage={page}
+              />
+            );
+          }
+        })}
+        {page < maxPages.length && (
+          <ArrowForwardIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page + 1)}
+          />
+        )}
+      </Flex>
       <Grid
         mx={{ base: 0, md: 4, lg: 6, xl: 8 }}
         justifyContent="center"
         alignItems={{ md: "center" }}
         gap="6"
-        templateColumns={{ md: "repeat(2, 1fr)", xl: "repeat(3, 1fr)" }}
+        templateColumns={{
+          md: "repeat(2, 1fr)",
+          xl: "repeat(3, 1fr)",
+          "2xl": "repeat(4, 1fr)",
+        }}
       >
-        {paginatedPets.map((pet) => {
+        {paginatedPets?.map((pet) => {
           return <PetCard key={pet.id} pet={pet} />;
         })}
       </Grid>
+      <Flex justifyContent="center" gap="5px" mt={4}>
+        {page > 1 && (
+          <ArrowBackIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page - 1)}
+          />
+        )}
+        {maxPages.map((number) => {
+          if (number < maxPageNumberLimit + 1 && number >= minPageNumberLimit) {
+            return (
+              <PaginationBtnItems
+                key={number}
+                number={number}
+                changePage={changePage}
+                actualPage={page}
+              />
+            );
+          }
+        })}
+        {page < maxPages.length && (
+          <ArrowForwardIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page + 1)}
+          />
+        )}
+      </Flex>
     </>
   );
 };
