@@ -4,9 +4,10 @@ import { extendTheme } from "@chakra-ui/react";
 import "@fontsource/italiana";
 import {mode} from '@chakra-ui/theme-tools'
 
+
 const theme = {
   config: {
-    initialColorMode: "ligth",
+    initialColorMode: "light",
     useSystemColorMode: true,
   },
   styles:{

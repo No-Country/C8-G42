@@ -21,7 +21,6 @@ module.exports = {
   },
   getById,
   getBy: async (where, model, options) => {
-    console.log({where, model, options})
     const row = await models[model].findAll({
       where,
       ...options
@@ -38,7 +37,6 @@ module.exports = {
   },
   update: async (id, model, data) => {
     const row = await getById(id, model);
-    console.log({row})
     const updatedRow = await row.update(data);
 
     return updatedRow;

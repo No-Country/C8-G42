@@ -4,12 +4,14 @@ const service = require("./services");
 const modelName = "Message"
 
 module.exports = {
-  getChat: async (userId, shelterId) => {
-    const where = {
-      userId,
-      shelterId
+  getChat: async (userId, shelterId, limit, offset) => {
+    const options = {
+      where: {
+        userId,
+        shelterId
+      }
     }
-    const chat = await service.getBy(where, modelName)
+    const chat = await service.getAll(modelName, limit, offset, options);
     return chat
   },
   create: async (messageData) => {
