@@ -33,8 +33,9 @@ const Messenger = () => {
       <>
         <Button
           colorScheme="blue"
+          zIndex={9999999999}
+          bottom={{ base: "14", md: "4" }}
           position="fixed"
-          bottom="4"
           right="4"
           onClick={onOpen}
         >

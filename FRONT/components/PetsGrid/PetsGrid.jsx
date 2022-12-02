@@ -1,38 +1,109 @@
-import React, { useEffect } from "react";
-import SinglePet from "../SinglePet/SinglePet";
-import { Wrap, WrapItem, Center } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Grid, Flex } from "@chakra-ui/react";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import PetCard from "../PetCard/PetCard";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPets } from "../../redux/slices/petsSlice";
+import PaginationBtnItems from "./PaginationBtnItems";
 
-const PetsGrid = () => {
-  const pets = useSelector((state) => state.pets.pets);
-  const isLoading = useSelector((state) => state.ui.loading);
+const PetsGrid = ({ pets }) => {
+  const [page, setPage] = useState(1);
+  const [petsByPage, setPetsByPage] = useState(12);
+  const [pageNumberLimit, setPageNumberLimit] = useState(4);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(4);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(1);
 
-  const dispatch = useDispatch();
+  const maxPages = [];
+  for (let i = 1; i <= Math.ceil(pets?.length / petsByPage); i++) {
+    maxPages.push(i);
+  }
+  const indexOfLastItem = page * petsByPage;
+  const indexOfFirstItem = indexOfLastItem - petsByPage;
+  const paginatedPets = pets?.slice(indexOfFirstItem, indexOfLastItem);
 
-  useEffect(() => {
-    dispatch(fetchPets({ limit: 20, offset: 0 }));
-  }, []);
-
+  const changePage = (pageToChange) => {
+    setPage(pageToChange);
+    if (pageToChange === maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + 1);
+      setMinPageNumberLimit(minPageNumberLimit + 1);
+    }
+    if (pageToChange === minPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit - 1);
+      setMinPageNumberLimit(minPageNumberLimit - 1);
+    }
+  };
   return (
     <>
       <div>Listado de Mascotas para adopción:</div>
-      {isLoading ? (
-        <>Loading</>
-      ) : (
-        <Wrap>
-          {pets?.data?.pets?.map((pet) => {
+      <Flex justifyContent="center" gap="5px" mb={4}>
+        {page > 1 && (
+          <ArrowBackIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page - 1)}
+          />
+        )}
+        {maxPages.map((number) => {
+          if (number < maxPageNumberLimit + 1 && number >= minPageNumberLimit) {
             return (
-              <WrapItem key={pet.id}>
-                {/* <Center w='280px' h='380px' bg='green.200'>                                     */}
-                <PetCard pet={pet} />
-                {/* </Center> */}
-              </WrapItem>
+              <PaginationBtnItems
+                key={number}
+                number={number}
+                changePage={changePage}
+                actualPage={page}
+              />
             );
-          })}
-        </Wrap>
-      )}
+          }
+        })}
+        {page < maxPages.length && (
+          <ArrowForwardIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page + 1)}
+          />
+        )}
+      </Flex>
+      <Grid
+        mx={{ base: 0, md: 4, lg: 6, xl: 8 }}
+        justifyContent="center"
+        alignItems={{ md: "center" }}
+        gap="6"
+        templateColumns={{
+          md: "repeat(2, 1fr)",
+          xl: "repeat(3, 1fr)",
+          "2xl": "repeat(4, 1fr)",
+        }}
+      >
+        {paginatedPets?.map((pet) => {
+          return <PetCard key={pet.id} pet={pet} />;
+        })}
+      </Grid>
+      <Flex justifyContent="center" gap="5px" mt={4}>
+        {page > 1 && (
+          <ArrowBackIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page - 1)}
+          />
+        )}
+        {maxPages.map((number) => {
+          if (number < maxPageNumberLimit + 1 && number >= minPageNumberLimit) {
+            return (
+              <PaginationBtnItems
+                key={number}
+                number={number}
+                changePage={changePage}
+                actualPage={page}
+              />
+            );
+          }
+        })}
+        {page < maxPages.length && (
+          <ArrowForwardIcon
+            style={{ cursor: "pointer" }}
+            boxSize="9"
+            onClick={() => changePage(page + 1)}
+          />
+        )}
+      </Flex>
     </>
   );
 };
