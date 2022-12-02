@@ -6,29 +6,32 @@ import React, { useEffect } from "react";
 import PetsGrid from "../components/PetsGrid/PetsGrid";
 import { fetchPets } from "../redux/slices/petsSlice";
 import { useUser } from "@auth0/nextjs-auth0";
+import { fetchUser } from "../redux/slices/userSlice";
 
 const page = () => {
   const { user, isLoading: loading } = useUser();
   useEffect(() => {
     if (user?.TokenAuth0) {
       localStorage.setItem("token", user?.TokenAuth0);
-    }
+    };
   }, [user]);
+
+  const pets = useSelector((state) => state.pets.pets);
 
   const loginHandler = () => {
     localStorage.setItem("token", user?.TokenAuth0);
   };
-
-  const users = useSelector((state) => state.users.users);
-  const pets = useSelector((state) => state.pets.pets);
   const isLoading = useSelector((state) => state.ui.loading);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({}));
+    if(user?.email) {
+      const email = user.email
+      dispatch(fetchUser({email}))
+    }
   }, [user]);
-  console.log({ users, pets });
   return (
     <Flex
       w="100%"

@@ -44,12 +44,12 @@ usersRouter.get("/self", async (req, res, next) => {
 });
 
 usersRouter.get(
-  "/:id",
+  "/:email",
   schemaValidator(getUserSchema, "params"),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const user = await userController.getById(id);
+      const { email } = req.params;
+      const user = await userController.getByEmail(email);
       return res.status(200).send(user);
     } catch (error) {
       next(error);

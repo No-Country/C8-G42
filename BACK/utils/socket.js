@@ -14,14 +14,16 @@ function socketIO(server) {
     const userEmail = socket.handshake.auth.userId;
     const user = await userController.getByEmail(userEmail);
     socket.id = user.dataValues.id;
-
+    socket.role = user.dataValues.role
     next();
   });
 
   io.on('connection', (socket) => {
     console.log('New conection')
     const id = socket.id
-    io.to(id).emit('conect', {id});
+    const role = socket.role
+    console.log({id, role})
+    io.to(id).emit('conect', {id, role});
   });
 }
 
