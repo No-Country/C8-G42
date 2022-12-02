@@ -4,6 +4,7 @@ import { setLoading } from "./uiSlice";
 import instance from "../instance";
 
 const initialState = {
+  isUpdated: false
 };
 
 export const sendMessage = createAsyncThunk(
@@ -21,6 +22,30 @@ export const sendMessage = createAsyncThunk(
 
 export const fetchChats = createAsyncThunk(
   "chats/fetchChats",
+  async ({ limit, offset, shelterId }, { dispatch }) => {
+    dispatch(setLoading(true));
+    const res = await instance().get(
+      `/messages?limit=${limit}&offset=${offset}&userId=${userId}&shelterId=${shelterId}`
+    );
+    if (res.data.length > 0) {
+      dispatch(setChat(res.data));
+    } else {
+      dispatch(setChat([
+        {
+          "id": 0,
+          "userId": userId,
+          "shelterId": shelterId,
+          "text": "En qué lo podemos ayudar?",
+          "modifiedBy": "shelterOwner"
+        }
+      ]))
+    }
+    dispatch(setLoading(false));
+  }
+);
+
+export const fetchChat = createAsyncThunk(
+  "chat/fetchChat",
   async ({ limit, offset, userId, shelterId }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await instance().get(

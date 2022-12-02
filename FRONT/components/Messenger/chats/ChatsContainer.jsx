@@ -16,23 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchShelters } from "../../../redux/slices/sheltersSlice";
 
 const ChatsContainer = () => {
-  const loading = useSelector((state) => state.ui.loading);
   const user = useSelector((state) => state.user.user);
   const shelters = useSelector((state) => state.shelters.shelters);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if(!(shelters.length > 0)){
-      dispatch(fetchShelters({ limit: 10, offset: 0 }));
-    }
-    if (user) {
-      socket.auth = {
-        userId: user.email,
-      };
-      socket.connect();
-    }
-  }, [user]);
-
+  
+  console.log({shelters})
   const [searchValue, setSearchValue] = useState("");
 
   let searchedShelters = [];
@@ -50,7 +37,7 @@ const ChatsContainer = () => {
   const handleChange = (e) => {
     setSearchValue(e.target.value);
   };
-  if (shelters.length > 0 && !loading) {
+  if (user.role === "user") {
     return (
       <>
         <DrawerOverlay />
@@ -64,11 +51,9 @@ const ChatsContainer = () => {
             <Stack direction="column">
               {searchedShelters.map((shelter) => (
                 <Chat
-                  key={shelter.name}
-                  name={shelter.name}
+                  key={shelter.id}
                   shelter={shelter}
                   online={false}
-                  // shelterId={shelter}
                 />
               ))}
             </Stack>

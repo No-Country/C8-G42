@@ -21,34 +21,18 @@ import MessageContainer from "./messages/MessageContainer";
 
 const placement = "right";
 
-const Chat = ({ name, online, shelter }) => {
+const Chat = ({ online, shelter }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
-  const chat = useSelector(
-    (state) => state.messenger[shelter.id],
-    shallowEqual
-  );
   const [message, setMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (user?.id) {
-      if (chat === undefined) {
-        dispatch(
-          fetchChats({
-            userId: user.id,
-            shelterId: shelter.id,
-            limit: 40,
-            offset: 0,
-          })
-        );
-      }
-    }
-  }, [shelter]);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
-  const handleSubmit = () => {
+
+  const dispatch = useDispatch()
+  const handleSubmit = (e) => {
+    e.preventDefault()
     dispatch(
       sendMessage({
         userId: user.id,
@@ -64,7 +48,7 @@ const Chat = ({ name, online, shelter }) => {
         <Avatar
           size="md"
           mr="2"
-          name={name}
+          name={shelter.name}
           src="https://bit.ly/broken-link"
           onClick={onOpen}
         >
@@ -74,29 +58,27 @@ const Chat = ({ name, online, shelter }) => {
             bg={online ? "green.500" : "tomato"}
           />
         </Avatar>
-        <p onClick={onOpen}> {name} </p>
+        <p onClick={onOpen}> {shelter.name} </p>
       </Box>
 
       <Drawer placement={placement} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px"> {name} </DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px"> {shelter.name} </DrawerHeader>
           <DrawerBody
             display="flex"
             flexDir="column"
             justifyContent="space-between"
           >
-            <Stack>
+            <Stack overflowY="auto" scrollSnapAlign="center" >
               <MessageContainer
-                chat={chat}
-                user={user}
+                shelter={shelter}
               />
             </Stack>
             <InputGroup>
               <Textarea
                 variant="outline"
                 position="relative"
-                // placeholder="Search"
                 onChange={handleChange}
               />
               <Button colorScheme="teal" size="xs" onClick={handleSubmit}>
