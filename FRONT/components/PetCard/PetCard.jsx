@@ -29,7 +29,7 @@ const PetCard = ({ pet }) => {
               alt=""
               width={300}
               height={200}
-              borderRadius="lg"
+              borderradius="lg"
             />
           </div>
           <Stack mt="6" spacing="3">
