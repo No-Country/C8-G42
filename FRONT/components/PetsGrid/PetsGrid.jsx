@@ -5,7 +5,6 @@ import PetCard from "../PetCard/PetCard";
 import PaginationBtnItems from "./PaginationBtnItems";
 
 const PetsGrid = ({ pets }) => {
-  console.log(pets);
   const [page, setPage] = useState(1);
   const [petsByPage, setPetsByPage] = useState(12);
   const [pageNumberLimit, setPageNumberLimit] = useState(4);
