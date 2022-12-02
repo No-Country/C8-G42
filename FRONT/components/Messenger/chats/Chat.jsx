@@ -13,7 +13,7 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { fetchChats, sendMessage } from "../../../redux/slices/messangerSlice";
 
@@ -25,12 +25,13 @@ const Chat = ({ online, shelter }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
   const [message, setMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const textArea = useRef("null")
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
 
   const dispatch = useDispatch()
+
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(
@@ -41,6 +42,13 @@ const Chat = ({ online, shelter }) => {
         modifiedBy: user.role,
       })
     );
+    setMessage("");
+  };
+
+  onkeydown = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(event)
+    }
   };
   return (
     <>
@@ -77,9 +85,11 @@ const Chat = ({ online, shelter }) => {
             </Stack>
             <InputGroup>
               <Textarea
+                ref={textArea}
                 variant="outline"
                 position="relative"
                 onChange={handleChange}
+                value={message}
               />
               <Button colorScheme="teal" size="xs" onClick={handleSubmit}>
                 Send
