@@ -16,6 +16,8 @@ const page = () => {
     };
   }, [user]);
 
+  const pets = useSelector((state) => state.pets.pets);
+
   const loginHandler = () => {
     localStorage.setItem("token", user?.TokenAuth0);
   };
