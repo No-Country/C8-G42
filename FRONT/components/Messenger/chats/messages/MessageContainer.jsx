@@ -4,44 +4,52 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { fetchChat } from "../../../../redux/slices/messangerSlice";
 
-const MessageContainer = ({ shelter }) => {
+const MessageContainer = ({ userId, shelterId }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
-  const bottomRef = useRef(null)
+  const bottomRef = useRef(null);
+  console.log({ user });
 
-  const chat = useSelector(
-    (state) => state.messenger[shelter.id],
-    shallowEqual
-  );
+  let chat = undefined;
+
+  if (user.role === "user") {
+    chat = useSelector((state) => state.messenger[shelterId], shallowEqual);
+  }
+  if (user.role === "shelterOwner") {
+    chat = useSelector((state) => state.messenger[userId], shallowEqual);
+  }
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user?.id) {
-      if (chat === undefined) {
-        dispatch(
-          fetchChat({
-            userId: user.id,
-            shelterId: shelter.id,
-            limit: 40,
-            offset: 0,
-          })
-        );
-      }
+    if (chat === undefined) {
+      dispatch(
+        fetchChat({
+          userId,
+          shelterId,
+          role: user.role,
+          limit: 40,
+          offset: 0,
+        })
+      );
     }
-  }, [shelter]);
+  }, [userId]);
 
   useEffect(() => {
-    bottomRef?.current?.scrollIntoView({behavior: 'auto'});
-  }, [])
+    bottomRef?.current?.scrollIntoView({ behavior: "auto" });
+  }, []);
 
   useEffect(() => {
-    bottomRef?.current?.scrollIntoView({behavior: 'smooth'});
-  }, [chat])
+    bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
 
-  if(chat !== undefined){
+  if (chat !== undefined) {
     return (
-      <Stack >
+      <Stack>
         {chat?.map((message) => (
-          <Box key={message.id} display="flex" justifyContent={message.modifiedBy === user.role ? "end" : "start"} >
+          <Box
+            key={message.id}
+            display="flex"
+            justifyContent={message.modifiedBy === user.role ? "end" : "start"}
+          >
             <Message message={message} />
           </Box>
         ))}

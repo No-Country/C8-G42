@@ -1,7 +1,7 @@
 import { useDisclosure, Button, Drawer } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchShelters } from "../../redux/slices/sheltersSlice";
+import { fetchShelter, fetchShelters } from "../../redux/slices/sheltersSlice";
 import ChatsContainer from "./chats/ChatsContainer";
 import socket from "../../utils/socket";
 
@@ -9,7 +9,7 @@ const placement = "right";
 
 const Messenger = () => {
   const user = useSelector((state) => state.user.user);
-  console.log({user})
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Messenger = () => {
       socket.connect();
     }
     if (user?.role === "shelterOwner"){
-      
+      dispatch(fetchShelter({shelterId: user.shelter.id}))
     }
   }, [user]);
 
