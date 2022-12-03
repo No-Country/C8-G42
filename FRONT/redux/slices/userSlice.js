@@ -5,12 +5,12 @@ import { setLoading } from "./uiSlice";
 const initialState = {
   user: null,
 }
-
+ 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async (_, { dispatch }) => {
+  async ({email} , { dispatch }) => {
     dispatch(setLoading(true));
-    const res = await getPage("/users");
+    const res = await getPage(`/users/${email}`);
     dispatch(setUser(res));
     dispatch(setLoading(false));
   }
