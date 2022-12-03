@@ -78,7 +78,7 @@ const page = () => {
         </>
       )}
       {isLoading && <h2>Loading pets...</h2>}
-      {user && <PetsGrid pets={pets.data?.pets} />}
+      {user && <PetsGrid pets={pets?.data?.pets} />}
     </Flex>
   );
 };

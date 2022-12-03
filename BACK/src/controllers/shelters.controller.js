@@ -14,7 +14,9 @@ module.exports = {
     return shelters;
   },
   getById: async(id) => {
-    const shelter = await service.getById(id, modelName, options)
+    const shelter = await service.getById(id, modelName, {
+      include: ["owner", "chats"]
+    })
     delete shelter.dataValues.owner.dataValues.password;
     return shelter
   },

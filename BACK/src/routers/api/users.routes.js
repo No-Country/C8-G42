@@ -36,7 +36,6 @@ usersRouter.get("/", async (req, res, next) => {
 usersRouter.get("/self", async (req, res, next) => {
   try {
     const user = userController.fetchOrCreateUser(req, genericCallback(res));
-    console.log({user})
     return res.status(200).send(user);
   } catch (error) {
     next(error);
