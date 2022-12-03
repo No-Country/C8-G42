@@ -31,8 +31,7 @@ const PetsGrid = ({ pets }) => {
     }
   };
   return (
-    <>
-      <div>Listado de Mascotas para adopción:</div>
+    <>  
       <Flex justifyContent="center" gap="5px" mb={4}>
         {page > 1 && (
           <ArrowBackIcon
