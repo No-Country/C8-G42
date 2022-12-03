@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 const { SHELTER_TABLE } = require("./shelter.model");
 const { USER_TABLE } = require("./user.model");
 
@@ -16,6 +16,10 @@ const petSchema = {
     allowNull: false,
   },
   breed: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  family: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -87,11 +91,11 @@ class Pet extends Model {
     this.belongsTo(models.Shelter, { as: "shelter" });
     this.hasMany(models.Request, {
       as: "request",
-      foreignKey: "petId"
+      foreignKey: "petId",
     });
     this.hasMany(models.FavoritePet, {
       as: "favoritePet",
-      foreignKey: "petId"
+      foreignKey: "petId",
     });
   }
 
@@ -99,9 +103,9 @@ class Pet extends Model {
     return {
       sequelize,
       tableName: PET_TABLE,
-      modelName: 'Pet',
-      timestamps: false
-    }
+      modelName: "Pet",
+      timestamps: false,
+    };
   }
 }
 

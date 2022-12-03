@@ -51,10 +51,11 @@ const SinglePet = ({ pet, isOpen, onOpen, onClose }) => {
           <ModalBody>
             <Flex>
               <Image
-                src={pet.image ? `${pet.image}?random=${pet.id}` : ""}
+                src={pet.image ? `${pet.image}` : ""}
                 alt="Mascota"
                 width={400}
-                height={200}
+                height={300}
+                style={{ maxHeight: "300px", objectFit: "cover" }}
               />
             </Flex>
             <Text>{pet.description}</Text>

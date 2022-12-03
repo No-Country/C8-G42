@@ -4,6 +4,8 @@ import LogoBox from "../../Icons/Logo";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchUserData } from "../../redux/api";
+import { useDispatch } from "react-redux";
+import { setPetsFamilyFilter } from "../../redux/slices/petsFamilySlice";
 
 const Navbar = () => {
   const {
@@ -14,6 +16,8 @@ const Navbar = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const [token, setToken] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getJWTAuth0Token = async () => {
@@ -43,6 +47,11 @@ const Navbar = () => {
     }
   }, []);
 
+  const filterPetsByFamily = (family) => {
+    console.log("family name: ", family);
+    dispatch(setPetsFamilyFilter(family));
+  };
+
   return (
     <Flex
       w="100%"
@@ -68,11 +77,17 @@ const Navbar = () => {
         </Box>
       </Flex>
       <Flex pr="5%">
-        <Flex alignItems="center" justifyContent="space-around">
+        <Flex alignItems="center" gap={2} justifyContent="space-around">
           <Button bg="inherit">Fundaciones</Button>
-          <Button bg="inherit">Perros</Button>
-          <Button bg="inherit">Gatos</Button>
-          <Button bg="inherit">Otros</Button>
+          <Button onClick={() => filterPetsByFamily("dog")} bg="inherit">
+            Perros
+          </Button>
+          <Button onClick={() => filterPetsByFamily("cat")} bg="inherit">
+            Gatos
+          </Button>
+          <Button onClick={() => filterPetsByFamily("")} bg="inherit">
+            Todos
+          </Button>
           {/* <Button variant='outline' borderRadius="30px">Login</Button> */}
           <Button variant="outline" borderRadius="30px">
             <a href="/api/auth/login">Login</a>

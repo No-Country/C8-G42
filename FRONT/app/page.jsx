@@ -13,10 +13,18 @@ const page = () => {
   useEffect(() => {
     if (user?.TokenAuth0) {
       localStorage.setItem("token", user?.TokenAuth0);
-    };
+    }
   }, [user]);
 
   const pets = useSelector((state) => state.pets.pets);
+  const petsFilter = useSelector((state) => state.petsFamilyFilter);
+
+  let filteredPets;
+  if (petsFilter) {
+    filteredPets = pets.data?.pets.filter((pet) => pet.family === petsFilter);
+  } else {
+    filteredPets = pets.data?.pets;
+  }
 
   const loginHandler = () => {
     localStorage.setItem("token", user?.TokenAuth0);
@@ -27,9 +35,9 @@ const page = () => {
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({}));
-    if(user?.email) {
-      const email = user.email
-      dispatch(fetchUser({email}))
+    if (user?.email) {
+      const email = user.email;
+      dispatch(fetchUser({ email }));
     }
   }, [user]);
   return (
@@ -56,7 +64,7 @@ const page = () => {
               <a href="/api/auth/login">Login</a>
             </Button>
           </p>
-          {<PetsGrid pets={pets.data?.pets} />}
+          {<PetsGrid pets={filteredPets} />}
         </>
       )}
       {user && (
@@ -78,7 +86,7 @@ const page = () => {
         </>
       )}
       {isLoading && <h2>Loading pets...</h2>}
-      {user && <PetsGrid pets={pets.data?.pets} />}
+      {user && <PetsGrid pets={filteredPets} />}
     </Flex>
   );
 };

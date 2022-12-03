@@ -7,17 +7,24 @@ import PaginationBtnItems from "./PaginationBtnItems";
 const PetsGrid = ({ pets }) => {
   const [page, setPage] = useState(1);
   const [petsByPage, setPetsByPage] = useState(12);
-  const [pageNumberLimit, setPageNumberLimit] = useState(4);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(4);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(1);
 
+  useEffect(() => {
+    setPage(1);
+    setMaxPageNumberLimit(4);
+    setMinPageNumberLimit(1);
+  }, [pets]);
+
+  const totalAmountOfPages = Math.ceil(pets?.length / petsByPage);
   const maxPages = [];
-  for (let i = 1; i <= Math.ceil(pets?.length / petsByPage); i++) {
+  for (let i = 1; i <= totalAmountOfPages; i++) {
     maxPages.push(i);
   }
   const indexOfLastItem = page * petsByPage;
   const indexOfFirstItem = indexOfLastItem - petsByPage;
   const paginatedPets = pets?.slice(indexOfFirstItem, indexOfLastItem);
+  console.log("pets length: ", Math.ceil(pets?.length / petsByPage));
 
   const changePage = (pageToChange) => {
     setPage(pageToChange);
