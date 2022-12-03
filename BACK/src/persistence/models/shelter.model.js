@@ -45,6 +45,12 @@ const shelterSchema = {
 class Shelter extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: "owner" });
+    this.belongsToMany(models.User, { //le paso la tabla con la que quiero conectar
+      as: 'chats',
+      through: models.Message, //Es latabla a travez de la cual me conecto
+      foreignKey: 'shelterId',
+      otherKey: 'userId'
+    })
     this.hasMany(models.Pet, {
       as: "pet",
       foreignKey: "shelterId"
