@@ -22,6 +22,7 @@ module.exports = {
   },
   create: async (shelterData) => {
     shelterData.id = shelterData.ownerId
+    await service.update(shelterData.ownerId, "User", {role: "shelterOwner"})
     const newShelter = await service.create(modelName, shelterData);
     return newShelter;
   },
