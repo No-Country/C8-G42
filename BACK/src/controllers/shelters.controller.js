@@ -21,6 +21,7 @@ module.exports = {
     return shelter
   },
   create: async (shelterData) => {
+    shelterData.id = shelterData.ownerId
     const newShelter = await service.create(modelName, shelterData);
     return newShelter;
   },
