@@ -17,7 +17,7 @@ const ChatsContainer = () => {
   const user = useSelector((state) => state.user.user);
 
   const [searchValue, setSearchValue] = useState("");
-
+  
   let chats;
 
   if (user.role === "user") {
@@ -49,7 +49,7 @@ const ChatsContainer = () => {
     <>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader borderBottomWidth="1px">Shelters</DrawerHeader>
+        <DrawerHeader borderBottomWidth="1px"> {user.role === "user" ? "Shelters" : "Chats"} </DrawerHeader>
         <DrawerBody
           display="flex"
           flexDir="column"

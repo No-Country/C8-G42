@@ -25,7 +25,6 @@ export const fetchChat = createAsyncThunk(
     const res = await instance().get(
       `/messages/?limit=${limit}&offset=${offset}&userId=${userId}&shelterId=${shelterId}`
     );
-    console.log("res.data: ", res.data)
     if (res.data.length > 0) {
       res.data.push(role)
       dispatch(setChat(res.data));
@@ -37,7 +36,7 @@ export const fetchChat = createAsyncThunk(
           "shelterId": shelterId,
           "text": "En qué lo podemos ayudar?",
           "modifiedBy": "shelterOwner"
-        }
+        }, role
       ]))
     }
     dispatch(setLoading(false));
