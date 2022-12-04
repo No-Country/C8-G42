@@ -29,6 +29,10 @@ const Messenger = () => {
     }
   }, [user]);
 
+  socket.on("message", () => {
+    
+  })
+
   if (user) {
     return (
       <>

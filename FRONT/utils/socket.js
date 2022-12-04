@@ -13,10 +13,6 @@ socket.on("conect", ( {id, role} ) => {
   socket.auth.role = role
   socket.auth.id = id
 })
-
-socket.on("message", (message) => {
-  addMessage(message)
-  console.log(message)
-})
+ 
 
 export default socket;
