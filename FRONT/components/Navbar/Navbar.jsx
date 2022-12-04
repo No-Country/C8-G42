@@ -14,11 +14,12 @@ import {
   useColorMode,
   Center,
   Text,
+  Link,
 } from "@chakra-ui/react";
 import ToggleColorMode from "./theme/ToggleColorMode";
 import LogoBox from "../../Icons/Logo";
 import { useState, useEffect } from "react";
-import Link from "next/link";
+// import Link from "next/link"; // Por alguna razón NO funciona bien en Next13 (experimental)
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -75,10 +76,15 @@ const Navbar = () => {
             <ToggleColorMode />
             {user ?
               <Button variant="outline" borderRadius="30px" onClick={() => { setIsLogOutClicked(true); }}>
-                <a href="/api/auth/logout">Logout</a>
+                <Link href="/api/auth/logout">
+                  Logout
+                </Link>
               </Button>
-              : <Button variant="outline" borderRadius="30px">
-                <a href="/api/auth/login">Login</a>
+              :
+              <Button variant="outline" borderRadius="30px">
+                <Link href="/api/auth/login">
+                  Login
+                </Link>
               </Button>
             }
             <Menu>
@@ -111,12 +117,12 @@ const Navbar = () => {
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
-                  <MenuItem onClick={() => { setIsLogOutClicked(true); }}><a href="/api/auth/logout">Logout</a></MenuItem>
+                  <MenuItem onClick={() => { setIsLogOutClicked(true); }}><Link href="/api/auth/logout">Logout</Link></MenuItem>
                 </MenuList>}
             </Menu>
           </Flex>
         </Flex>
-      </Flex>
+      </Flex >
     </>
   );
 };
