@@ -19,6 +19,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { sendMessage } from "../../../redux/slices/messangerSlice";
 
 import MessageContainer from "./messages/MessageContainer";
+import socket from "../../../utils/socket";
 
 const placement = "right";
 
@@ -26,29 +27,29 @@ const Chat = ({ online, userId, shelterId, name }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
   const [message, setMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const textArea = useRef("null")
+  const textArea = useRef("null");
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(
-      sendMessage({
-        userId,
-        shelterId,
-        text: message,
-        modifiedBy: user.role,
-      })
-    );
+    e.preventDefault();
+    const newMessage = {
+      userId,
+      shelterId,
+      text: message,
+      modifiedBy: user.role,
+    };
+    dispatch(sendMessage(newMessage));
+    socket.emit('message', newMessage);
     setMessage("");
   };
 
   onkeydown = (event) => {
     if (event.key === "Enter") {
-      handleSubmit(event)
+      handleSubmit(event);
     }
   };
   return (
@@ -79,13 +80,10 @@ const Chat = ({ online, userId, shelterId, name }) => {
             flexDir="column"
             justifyContent="space-between"
           >
-            <Stack overflowY="auto" scrollSnapAlign="center" >
-              <MessageContainer
-                userId={userId}
-                shelterId={shelterId}
-              />
+            <Stack overflowY="auto" scrollSnapAlign="center">
+              <MessageContainer userId={userId} shelterId={shelterId} />
             </Stack>
-            <InputGroup display="flex" flexDir="column" >
+            <InputGroup display="flex" flexDir="column">
               <Textarea
                 ref={textArea}
                 variant="outline"
@@ -93,7 +91,12 @@ const Chat = ({ online, userId, shelterId, name }) => {
                 onChange={handleChange}
                 value={message}
               />
-              <Button colorScheme="teal" size="xs" onClick={handleSubmit} rightIcon={<HiArrowCircleUp />}>
+              <Button
+                colorScheme="teal"
+                size="xs"
+                onClick={handleSubmit}
+                rightIcon={<HiArrowCircleUp />}
+              >
                 Send
               </Button>
             </InputGroup>

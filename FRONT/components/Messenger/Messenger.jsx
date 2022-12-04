@@ -15,16 +15,17 @@ const Messenger = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (user?.role ==="user") {
-
       dispatch(fetchShelters({ limit: 10, offset: 0 }));
-      socket.auth = {
-        userId: user.email,
-        userRole: user.role,
-      };
-      socket.connect();
     }
     if (user?.role === "shelterOwner"){
       dispatch(fetchShelter({shelterId: user.shelter.id}))
+    }
+    if (user?.role) {
+      socket.auth = {
+        userId: user.id,
+        userRole: user.role,
+      };
+      socket.connect();
     }
   }, [user]);
 
