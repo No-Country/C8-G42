@@ -48,7 +48,6 @@ const Navbar = () => {
       w="100%"
       h="60px"
       pos="fixed"
-      zIndex={9999999999}
       bgColor={useColorModeValue("gray.50", "#151b26")}
       top="0"
       display={{ base: "none", md: "flex" }}
