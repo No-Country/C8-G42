@@ -26,7 +26,7 @@ const Messenger = () => {
     if (user?.role === "shelterOwner"){
       
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   if (user) {
     return (
