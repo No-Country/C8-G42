@@ -1,9 +1,11 @@
 "use strict";
 
+const { USER_TABLE } = require('../models/user.model');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("users", [
+    return queryInterface.bulkInsert(USER_TABLE, [
       {
         first_name: "Krysta",
         last_name: "Beelby",
@@ -248,6 +250,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("users", null, {});
+    return queryInterface.bulkDelete(USER_TABLE, null, {});
   },
 };

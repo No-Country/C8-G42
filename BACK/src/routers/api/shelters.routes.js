@@ -3,8 +3,12 @@ const router = express.Router();
 const shelterController = require("../../controllers/shelters.controller");
 const schemaValidator = require("../../middlewares/schema.validator");
 const {
-  createShelterSchema, getShelterSchema, updateShelterSchema
+  createShelterSchema,
+  getShelterSchema,
+  updateShelterSchema,
 } = require("../../schemas/shelter.schema");
+const { protectSession } = require("../../middlewares/auth0.middleware");
+const services = require("../../controllers/services");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -33,10 +37,14 @@ router.get(
 router.post(
   "/",
   schemaValidator(createShelterSchema, "body"),
+  protectSession,
   async (req, res, next) => {
     try {
+      const { sessionUser } = req;
       const shelterData = req.body;
       const newShelter = await shelterController.create(shelterData);
+
+      await services.update(sessionUser.id, "User", { role: "shelterOwner" });
       return res.status(201).json(newShelter);
     } catch (error) {
       next(error);

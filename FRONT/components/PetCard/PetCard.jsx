@@ -21,14 +21,21 @@ const PetCard = ({ pet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box>
-      <Card maxW={{ base: "sm", md: "none"}}>
+      <Card maxW={{ base: "sm", md: "none" }}>
         <CardBody>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
             <Image
-              src={`${pet.image}?random=${pet.id}`}
-              alt=""
+              src={pet.image ? `${pet.image}` : ""}
+              alt="animal photo"
               width={300}
-              height={200}
+              height={"100"}
+              style={{ objectFit: "cover", height: "300px" }}
               borderradius="lg"
             />
           </div>
@@ -36,10 +43,13 @@ const PetCard = ({ pet }) => {
             <Heading size="md">
               {pet.name}, tamaño: {pet.size}
             </Heading>
-            <Text>
-              {pet.description}
-            </Text>
-            <SinglePet pet={pet} isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
+            <Text>{pet.description}</Text>
+            <SinglePet
+              pet={pet}
+              isOpen={isOpen}
+              onOpen={onOpen}
+              onClose={onClose}
+            />
           </Stack>
         </CardBody>
         <Divider />

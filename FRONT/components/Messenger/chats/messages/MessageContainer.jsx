@@ -28,7 +28,7 @@ const MessageContainer = ({ userId, shelterId }) => {
         })
       );
     }
-  }, [userId]);
+  }, [ userId, shelterId ]);
 
   useEffect(() => {
     bottomRef?.current?.scrollIntoView({ behavior: "smooth" });

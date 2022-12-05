@@ -7,12 +7,18 @@ import PaginationBtnItems from "./PaginationBtnItems";
 const PetsGrid = ({ pets }) => {
   const [page, setPage] = useState(1);
   const [petsByPage, setPetsByPage] = useState(12);
-  const [pageNumberLimit, setPageNumberLimit] = useState(4);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(4);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(1);
 
+  useEffect(() => {
+    setPage(1);
+    setMaxPageNumberLimit(4);
+    setMinPageNumberLimit(1);
+  }, [pets]);
+
+  const totalAmountOfPages = Math.ceil(pets?.length / petsByPage);
   const maxPages = [];
-  for (let i = 1; i <= Math.ceil(pets?.length / petsByPage); i++) {
+  for (let i = 1; i <= totalAmountOfPages; i++) {
     maxPages.push(i);
   }
   const indexOfLastItem = page * petsByPage;
@@ -32,7 +38,6 @@ const PetsGrid = ({ pets }) => {
   };
   return (
     <>
-      <div>Listado de Mascotas para adopción:</div>
       <Flex justifyContent="center" gap="5px" mb={4}>
         {page > 1 && (
           <ArrowBackIcon
