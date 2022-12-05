@@ -14,11 +14,15 @@ module.exports = {
     return shelters;
   },
   getById: async(id) => {
-    const shelter = await service.getById(id, modelName, options)
+    const shelter = await service.getById(id, modelName, {
+      include: ["owner", "chats"]
+    })
     delete shelter.dataValues.owner.dataValues.password;
     return shelter
   },
   create: async (shelterData) => {
+    shelterData.id = shelterData.ownerId
+    await service.update(shelterData.ownerId, "User", {role: "shelterOwner"})
     const newShelter = await service.create(modelName, shelterData);
     return newShelter;
   },
