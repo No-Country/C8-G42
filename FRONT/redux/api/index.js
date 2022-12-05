@@ -1,4 +1,5 @@
 import instance from "./../instance"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;  // Reading .env:   'http://localhost:5000/api/v1/' or 'https://backend.huellitas.ar/'
 
 export const getPage = (endPoint, limit, offset) => {
   const params = {
@@ -15,18 +16,3 @@ export const getPage = (endPoint, limit, offset) => {
     })
     .catch((err) => console.log(err))
 }
-
-const getToken = () => {
-  return `Bearer ${localStorage.getItem('token')}`;
-};
-
-export const fetchUserData = async (successCallback, errorCallback) => {
-  const options = {
-    method: 'GET',
-    url: 'http://localhost:5000/api/v1/users/self',
-    headers: {
-      Authorization: getToken(), // 3. enviarle el token a backend
-    },
-  };
-  await axios.request(options).then(successCallback).catch(errorCallback);
-};
