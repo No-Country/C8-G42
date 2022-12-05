@@ -1,15 +1,16 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../redux/slices/usersSlice";
-import { Flex, Text, Spinner } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import PetsGrid from '../components/PetsGrid/PetsGrid';
-import { fetchPets } from '../redux/slices/petsSlice';
+import { Flex, Text, Spinner } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import PetsGrid from "../components/PetsGrid/PetsGrid";
+import { fetchPets } from "../redux/slices/petsSlice";
 import { useUser } from "@auth0/nextjs-auth0";
 import { fetchUser } from "../redux/slices/userSlice";
 
 const page = () => {
-  const { user : userAuth0, isLoading: loading } = useUser();
+  const dispatch = useDispatch();
+  const { user: userAuth0, isLoading: loading } = useUser();
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
@@ -18,25 +19,39 @@ const page = () => {
       localStorage.setItem("token", userAuth0?.TokenAuth0);
     }
     localStorage.setItem("token", userAuth0?.TokenAuth0);
-    if (isLogOutClicked) { 
+    if (isLogOutClicked) {
       localStorage.setItem("token", null);
-     }
+    }
   }, [userAuth0, isLogInClicked, isLogOutClicked]);
 
   const users = useSelector((state) => state.users.users); // u s e r  redux
   const user = useSelector((state) => state.user.user); // u s e r  redux
   const pets = useSelector((state) => state.pets.pets);
+  const petsFilter = useSelector((state) => state.petsFamilyFilter);
+
+  let filteredPets;
+  if (petsFilter) {
+    filteredPets = pets?.data?.pets.filter((pet) => pet.family === petsFilter);
+  } else {
+    filteredPets = pets?.data?.pets;
+  }
+
+  const loginHandler = () => {
+    localStorage.setItem("token", user?.TokenAuth0);
+  };
   const isLoading = useSelector((state) => state.ui.loading);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({}));
     if (userAuth0?.email) {
+      // console.log("ENTRÓ EN ESTE useEffect")
       const email = userAuth0.email;
-      dispatch(fetchUser({ email }));  // u s e r  redux
+      if (!user) {
+        dispatch(fetchUser({ email })); // u s e r  redux
+      }
     }
-  }, [userAuth0]);
+  }, [userAuth0, user]);
   return (
     <Flex
       w="100%"
@@ -70,14 +85,22 @@ const page = () => {
           {user && console.log("user: ", user)}
         </Wrap>
       )} */}
+      {/* {console.log("userAuth0: ", userAuth0)} */}
       <div>Listado de Mascotas para adopción:</div>
-      {pets?.data ?
-        <PetsGrid pets={pets?.data?.pets} />
-        :
-        <Flex justifyContent="center" alignItems="center" height="50vh" direction="column" gap="6">
+      {filteredPets ? (
+        <PetsGrid pets={filteredPets} />
+      ) : (
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          height="50vh"
+          direction="column"
+          gap="6"
+        >
           <Text>Cargando mascotas ...</Text>
-          <Spinner color='blue.500' />
-        </Flex>}
+          <Spinner color="blue.500" />
+        </Flex>
+      )}
     </Flex>
   );
 };

@@ -16,12 +16,14 @@ const image = Joi.string().uri();
 const status = Joi.string().valid(...statuses);
 const shelterId = Joi.number().min(1);
 const isVisible = Joi.boolean();
+const family = Joi.string().min(1);
 
 const verifyCreatePet = Joi.object({
   name: name.required(),
   breed: breed.required(),
   weight: weight.required(),
   size: size.required(),
+  family: family.required(),
   description: description.required(),
   isSterilized: isSterilized.required(),
   image,
@@ -45,6 +47,7 @@ const verifyUpdatePet = Joi.object({
   image,
   status,
   isVisible,
+  family,
 });
 
 module.exports = { verifyCreatePet, verifyPetParamsId, verifyUpdatePet };

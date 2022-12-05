@@ -23,12 +23,19 @@ const PetCard = ({ pet }) => {
     <Box>
       <Card maxW={{ base: "sm", md: "none" }}>
         <CardBody>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
             <Image
-              src={pet.image ? `${pet.image}?random=${pet.id}` : ""}
+              src={pet.image ? `${pet.image}` : ""}
               alt="animal photo"
               width={300}
-              height={200}
+              height={"100"}
+              style={{ objectFit: "cover", height: "300px" }}
               borderRadius="lg"
             />
           </div>
