@@ -9,7 +9,6 @@ const placement = "right";
 
 const Messenger = () => {
   const user = useSelector((state) => state.user.user);
-  console.log({user})
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();

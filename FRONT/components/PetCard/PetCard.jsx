@@ -19,6 +19,11 @@ import SinglePet from "../SinglePet/SinglePet";
 
 const PetCard = ({ pet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleAdoptame = (e) => {
+    console.log("click")
+    console.log({pet})
+  }
+ 
   return (
     <Box>
       <Card maxW={{ base: "sm", md: "none" }}>
@@ -36,7 +41,7 @@ const PetCard = ({ pet }) => {
               width={300}
               height={"100"}
               style={{ objectFit: "cover", height: "300px" }}
-              borderRadius="lg"
+              borderradius="lg"
             />
           </div>
           <Stack mt="6" spacing="3">
