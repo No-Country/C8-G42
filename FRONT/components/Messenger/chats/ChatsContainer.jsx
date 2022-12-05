@@ -12,10 +12,11 @@ import {
 } from "@chakra-ui/react";
 import Chat from "./Chat";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const ChatsContainer = () => {
   const user = useSelector((state) => state.user.user);
-
+  
   const [searchValue, setSearchValue] = useState("");
   
   let chats;
@@ -27,6 +28,9 @@ const ChatsContainer = () => {
     chats = useSelector((state) => state.shelters.chats);
   }
 
+  useEffect(() => {
+    console.log({chats})
+  }, [])
   // const shelters = useSelector((state) => state.shelters.shelters);
 
   let searchedChats = [];

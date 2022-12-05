@@ -8,15 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchShelter, fetchShelters } from "../../redux/slices/sheltersSlice";
 import ChatsContainer from "./chats/ChatsContainer";
 import socket from "../../utils/socket";
-import { addMessage, fetchChat } from "../../redux/slices/messangerSlice";
+import { addMessage, fetchChat, setNewMessage } from "../../redux/slices/messangerSlice";
 
 const placement = "right";
 
 const Messenger = () => {
   const user = useSelector((state) => state.user.user);
-  const chats = useSelector((state) => state.messenger.chats);
-  console.log({ chats });
+  const chat = useSelector((state) => state.messenger.chats);
 
+  console.log({chat})
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -38,8 +38,9 @@ const Messenger = () => {
 
   socket.on("message", (message) => {
     const chatId = `${message.shelterId}${message.userId}`;
-    if (chats[chatId]) {
-      dispatch(addMessage);
+    console.log("new message: ", {message})
+    if (chat[chatId]) {
+      dispatch(addMessage(message));
     } else {
       dispatch(
         fetchChat({
@@ -50,6 +51,15 @@ const Messenger = () => {
         })
       );
     }
+    dispatch(setNewMessage({userId: message.userId, shelterId: message.shelterId}))
+    
+    onOpen()
+
+    // if (user.role === "shelterOwner") {
+    //   const chats = useSelector((state) => state.shelters.chats)
+      
+    //   const cha
+    // }
   });
 
   if (user) {

@@ -7,12 +7,13 @@ import { addMessage, fetchChat } from "../../../../redux/slices/messangerSlice";
 const MessageContainer = ({ userId, shelterId }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
   const bottomRef = useRef(null);
-  console.log({ user });
 
   const chat = useSelector(
     (state) => state.messenger.chats[`${shelterId}${userId}`],
     shallowEqual
   );
+
+  console.log({chat})
 
 
   const dispatch = useDispatch();
@@ -30,12 +31,13 @@ const MessageContainer = ({ userId, shelterId }) => {
   }, [userId]);
 
   useEffect(() => {
+    bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
+
+  useEffect(() => {
     bottomRef?.current?.scrollIntoView({ behavior: "auto" });
   }, []);
 
-  useEffect(() => {
-    bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chat]);
 
   if (chat !== undefined) {
     return (

@@ -36,6 +36,9 @@ export const sheltersSlice = createSlice({
     },
     setChats: (state, action) => {
       state.chats = action.payload
+    },
+    addChat: (state, action) => {
+      state.chats.push(action.payload)
     }
   },
 })

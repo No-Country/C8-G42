@@ -4,7 +4,7 @@ import instance from "../instance";
 
 const initialState = {
   chats: {},
-  isUpdated: false,
+  newMessage: false,
 };
 
 export const sendMessage = createAsyncThunk(
@@ -17,6 +17,7 @@ export const sendMessage = createAsyncThunk(
       modifiedBy,
       text,
     });
+    console.log({res})
     dispatch(addMessage(res.data));
     dispatch(setLoading(false));
   }
@@ -60,8 +61,12 @@ export const messengerSlice = createSlice({
       const chatId = `${action.payload.shelterId}${action.payload.userId}`;
       state.chats[chatId].push(action.payload);
     },
+    setNewMessage: (state, action) => {
+      const chatId = `${action.payload.shelterId}${action.payload.userId}`;
+      state.newMessage = chatId;
+    }
   },
 });
 
-export const { setChat, addMessage } = messengerSlice.actions;
+export const { setChat, addMessage, setNewMessage } = messengerSlice.actions;
 export default messengerSlice.reducer;

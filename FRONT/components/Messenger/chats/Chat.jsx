@@ -16,15 +16,17 @@ import {
 import { HiArrowCircleUp } from "react-icons/hi";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { sendMessage } from "../../../redux/slices/messangerSlice";
+import { sendMessage, setNewMessage } from "../../../redux/slices/messangerSlice";
 
 import MessageContainer from "./messages/MessageContainer";
 import socket from "../../../utils/socket";
+import { useEffect } from "react";
 
 const placement = "right";
 
 const Chat = ({ online, userId, shelterId, name }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
+  const newMessage = useSelector((state) => state.messenger.newMessage)
   const [message, setMessage] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const textArea = useRef("null");
@@ -52,6 +54,17 @@ const Chat = ({ online, userId, shelterId, name }) => {
       handleSubmit(event);
     }
   };
+
+  useEffect(() => {
+    if (newMessage) {
+      const chatId = `${shelterId}${userId}`
+      if (chatId === newMessage) {
+        onOpen()
+      }
+      dispatch(setNewMessage(false))
+    }
+  }, [newMessage])
+
   return (
     <>
       <Box display="flex" alignItems="center">
@@ -81,7 +94,7 @@ const Chat = ({ online, userId, shelterId, name }) => {
             justifyContent="space-between"
           >
             <Stack overflowY="auto" scrollSnapAlign="center">
-              <MessageContainer userId={userId} shelterId={shelterId} />
+              <MessageContainer userId={ userId } shelterId={ shelterId } />
             </Stack>
             <InputGroup display="flex" flexDir="column">
               <Textarea
