@@ -42,7 +42,6 @@ const page = () => {
   const isLoading = useSelector((state) => state.ui.loading);
 
   useEffect(() => {
-    dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({}));
     if (userAuth0?.email) {
       // console.log("ENTRÓ EN ESTE useEffect")

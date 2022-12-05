@@ -14,12 +14,6 @@ const placement = "right";
 
 const Messenger = () => {
   const user = useSelector((state) => state.user.user);
-<<<<<<< HEAD
-=======
-  const chat = useSelector((state) => state.messenger.chats);
-
-  console.log({chat})
->>>>>>> Messennger
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -41,7 +35,6 @@ const Messenger = () => {
 
   socket.on("message", (message) => {
     const chatId = `${message.shelterId}${message.userId}`;
-    console.log("new message: ", {message})
     if (chat[chatId]) {
       dispatch(addMessage(message));
     } else {
@@ -57,12 +50,6 @@ const Messenger = () => {
     dispatch(setNewMessage({userId: message.userId, shelterId: message.shelterId}))
     
     onOpen()
-
-    // if (user.role === "shelterOwner") {
-    //   const chats = useSelector((state) => state.shelters.chats)
-      
-    //   const cha
-    // }
   });
 
   if (user) {

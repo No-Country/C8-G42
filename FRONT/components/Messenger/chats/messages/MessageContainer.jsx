@@ -13,9 +13,6 @@ const MessageContainer = ({ userId, shelterId }) => {
     shallowEqual
   );
 
-  console.log({chat})
-
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (chat === undefined) {
