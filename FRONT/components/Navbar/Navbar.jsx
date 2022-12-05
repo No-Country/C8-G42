@@ -37,7 +37,6 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isLogOutClicked) {
-      // dispatch(setIsOnlineUser(false));  // u s e r  redux
       localStorage.setItem("token", null);
     }
   }, [isLogOutClicked]);
