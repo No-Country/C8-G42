@@ -28,6 +28,18 @@ const theme = {
     xl: "1200px",
     "2xl": "1536px",
   },
+  components: {
+    Link: {
+      baseStyle: {
+        // normal styling
+        textDecoration: "none",
+        // hover styling goes here
+        _hover: {
+          textDecoration: "none",
+        },
+      },
+    }
+  }
 };
 
 export default extendTheme(theme);

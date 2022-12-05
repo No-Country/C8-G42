@@ -1,39 +1,44 @@
 import Message from "./Message";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { fetchChats } from "../../../../redux/slices/messangerSlice";
-import socket from "../../../../utils/socket";
 import { Box, Stack } from "@chakra-ui/react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchChat } from "../../../../redux/slices/messangerSlice";
 
 const MessageContainer = ({ shelter }) => {
-  // const IAm =
-  const chat = useSelector((state) => state.messenger.chats);
+  const user = useSelector((state) => state.user.user, shallowEqual);
+
+  const chat = useSelector(
+    (state) => state.messenger[shelter.id],
+    shallowEqual
+  );
+
   const dispatch = useDispatch();
   useEffect(() => {
-    if (socket.id && chat.length < 1) {
-      dispatch(
-        fetchChats({
-          userId: socket.id,
-          shelterId: shelter.id,
-          limit: 40,
-          offset: 0,
-        })
-      );
+    if (user?.id) {
+      if (chat === undefined) {
+        dispatch(
+          fetchChat({
+            userId: user.id,
+            shelterId: shelter.id,
+            limit: 40,
+            offset: 0,
+          })
+        );
+      }
     }
-    console.log({ chat });
-    console.log(chat);
-  });
-  return (
-    <Stack>
-      {chat.map((message) => (
-        <Box key={message.id}  >
-          <Message message={message} />
-        </Box>
-      ))}
-    </Stack>
-  );
-  // if (!loading && chat.length > 0) {
-  // }
+  }, [shelter, chat, dispatch, user.id]);
+
+  if (chat !== undefined) {
+    return (
+      <Stack >
+        {chat?.map((message) => (
+          <Box key={message.id} display="flex" justifyContent={message.modifiedBy === user.role ? "end" : "start"} >
+            <Message message={message} />
+          </Box>
+        ))}
+      </Stack>
+    );
+  }
 };
 
 export default MessageContainer;

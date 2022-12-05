@@ -7,20 +7,22 @@ import Navbar from "../components/Navbar/Navbar";
 import theme from "./theme";
 import Messenger from "./../components/Messenger/Messenger";
 import { UserProvider } from "@auth0/nextjs-auth0";
+import Head from "./head";
+
 
 const RootLayout = ({ children }) => {
-  
+
   return (
     <html>
-      <head />
+      <Head/>
       <body>
         <UserProvider>
           <Provider store={store}>
             <ChakraProvider theme={theme}>
-              <Navbar />
-              <Messenger />
               {children}
+              <Navbar />
               <MobileNavbar />
+              <Messenger />
             </ChakraProvider>
           </Provider>
         </UserProvider>

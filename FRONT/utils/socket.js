@@ -7,8 +7,10 @@ socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
-socket.on("conect", ( {id} ) => {
-  console.log({id});
+socket.on("conect", ( {id, role} ) => {
+  console.log({id, role});
+  socket.auth.role = role
+  socket.auth.id = id
 })
 
 export default socket;

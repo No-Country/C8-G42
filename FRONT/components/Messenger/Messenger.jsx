@@ -1,22 +1,38 @@
-import { useUser } from "@auth0/nextjs-auth0";
-import {
-  useDisclosure,
-  Button,
-  Drawer,
-} from "@chakra-ui/react";
+import { useDisclosure, Button, Drawer } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchShelters } from "../../redux/slices/sheltersSlice";
 import ChatsContainer from "./chats/ChatsContainer";
+import socket from "../../utils/socket";
 
 const placement = "right";
 
 const Messenger = () => {
-  const { user } = useUser();
+  const user = useSelector((state) => state.user.user);
+  console.log({user})
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user?.role ==="user") {
+
+      dispatch(fetchShelters({ limit: 10, offset: 0 }));
+      socket.auth = {
+        userId: user.email,
+        userRole: user.role,
+      };
+      socket.connect();
+    }
+    if (user?.role === "shelterOwner"){
+      
+    }
+  }, [user, dispatch]);
+
   if (user) {
     return (
       <>
         <Button
           colorScheme="blue"
-          zIndex={9999999999}
           bottom={{ base: "14", md: "4" }}
           position="fixed"
           right="4"
@@ -25,7 +41,7 @@ const Messenger = () => {
           Messenger
         </Button>
         <Drawer placement={placement} onClose={onClose} isOpen={isOpen}>
-          <ChatsContainer user={user} />
+          <ChatsContainer />
         </Drawer>
       </>
     );

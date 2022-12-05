@@ -15,23 +15,11 @@ import Chat from "./Chat";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchShelters } from "../../../redux/slices/sheltersSlice";
 
-const ChatsContainer = ({ user }) => {
-  const loading = useSelector((state) => state.ui.loading);
+const ChatsContainer = () => {
+  const user = useSelector((state) => state.user.user);
   const shelters = useSelector((state) => state.shelters.shelters);
-  const dispatch = useDispatch();
   
-  useEffect(() => {
-    if(!(shelters.length > 0)){
-      dispatch(fetchShelters({ limit: 10, offset: 0 }));
-    }
-    if (user) {
-      socket.auth = {
-        userId: user.email,
-      };
-      socket.connect();
-    }
-  }, []);
-
+  console.log({shelters})
   const [searchValue, setSearchValue] = useState("");
 
   let searchedShelters = [];
@@ -49,7 +37,7 @@ const ChatsContainer = ({ user }) => {
   const handleChange = (e) => {
     setSearchValue(e.target.value);
   };
-  if (shelters.length > 0 && !loading) {
+  if (user.role === "user") {
     return (
       <>
         <DrawerOverlay />
@@ -63,11 +51,9 @@ const ChatsContainer = ({ user }) => {
             <Stack direction="column">
               {searchedShelters.map((shelter) => (
                 <Chat
-                  key={shelter.name}
-                  name={shelter.name}
+                  key={shelter.id}
                   shelter={shelter}
                   online={false}
-                  // shelterId={shelter}
                 />
               ))}
             </Stack>
@@ -79,15 +65,17 @@ const ChatsContainer = ({ user }) => {
               />
               <InputRightElement
                 pointerEvents="none"
-                children={<Search2Icon />}
-              />
+              // children={<Search2Icon />}
+              >
+                <Search2Icon />
+              </InputRightElement>
             </InputGroup>
           </DrawerBody>
         </DrawerContent>
       </>
     );
   } else {
-    <>Loading...</>
+    <>Loading...</>;
   }
 };
 
