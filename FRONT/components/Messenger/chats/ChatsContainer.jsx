@@ -65,15 +65,17 @@ const ChatsContainer = () => {
               />
               <InputRightElement
                 pointerEvents="none"
-                children={<Search2Icon />}
-              />
+              // children={<Search2Icon />}
+              >
+                <Search2Icon />
+              </InputRightElement>
             </InputGroup>
           </DrawerBody>
         </DrawerContent>
       </>
     );
   } else {
-    <>Loading...</>
+    <>Loading...</>;
   }
 };
 

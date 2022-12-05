@@ -20,7 +20,8 @@ const petSchema = {
     allowNull: false,
   },
   family: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM,
+    values: ["dog", "cat"],
     allowNull: false,
   },
   weight: {

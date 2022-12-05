@@ -24,7 +24,6 @@ const PetsGrid = ({ pets }) => {
   const indexOfLastItem = page * petsByPage;
   const indexOfFirstItem = indexOfLastItem - petsByPage;
   const paginatedPets = pets?.slice(indexOfFirstItem, indexOfLastItem);
-  console.log("pets length: ", Math.ceil(pets?.length / petsByPage));
 
   const changePage = (pageToChange) => {
     setPage(pageToChange);
@@ -39,7 +38,6 @@ const PetsGrid = ({ pets }) => {
   };
   return (
     <>
-      <div>Listado de Mascotas para adopción:</div>
       <Flex justifyContent="center" gap="5px" mb={4}>
         {page > 1 && (
           <ArrowBackIcon

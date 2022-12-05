@@ -51,6 +51,7 @@ const SinglePet = ({ pet, isOpen, onOpen, onClose }) => {
           <ModalBody>
             <Flex>
               <Image
+                priority
                 src={pet.image ? `${pet.image}` : ""}
                 alt="Mascota"
                 width={400}

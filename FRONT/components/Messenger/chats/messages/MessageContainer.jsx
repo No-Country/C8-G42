@@ -26,9 +26,9 @@ const MessageContainer = ({ shelter }) => {
         );
       }
     }
-  }, [shelter]);
-  
-  if(chat !== undefined){
+  }, [shelter, chat, dispatch, user.id]);
+
+  if (chat !== undefined) {
     return (
       <Stack >
         {chat?.map((message) => (
