@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
-import messangerReducer from "../slices/messangerSlice"
+import { configureStore } from "@reduxjs/toolkit";
+import messangerReducer from "../slices/messangerSlice";
 import petsReducer from "../slices/petsSlice";
 import sheltersReducer from "../slices/sheltersSlice";
-import uiReducer from '../slices/uiSlice';
-import userReducer from "../slices/userSlice"
+import uiReducer from "../slices/uiSlice";
+import userReducer from "../slices/userSlice";
+import petsFamilyFilter from "../slices/petsFamilySlice";
 import usersReducer from "../slices/usersSlice";
 
 export const store = configureStore({
@@ -14,5 +15,6 @@ export const store = configureStore({
     ui: uiReducer,
     user: userReducer,
     users: usersReducer,
+    petsFamilyFilter,
   },
 });
