@@ -9,6 +9,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { fetchUser } from "../redux/slices/userSlice";
 
 const page = () => {
+  const dispatch = useDispatch();
   const { user: userAuth0, isLoading: loading } = useUser();
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
@@ -40,15 +41,17 @@ const page = () => {
   };
   const isLoading = useSelector((state) => state.ui.loading);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({}));
     if (userAuth0?.email) {
+      // console.log("ENTRÓ EN ESTE useEffect")
       const email = userAuth0.email;
-      dispatch(fetchUser({ email })); // u s e r  redux
+      if (!user) {
+        dispatch(fetchUser({ email })); // u s e r  redux
+      }
     }
-  }, [userAuth0]);
+  }, [userAuth0, user]);
   return (
     <Flex
       w="100%"
@@ -82,6 +85,7 @@ const page = () => {
           {user && console.log("user: ", user)}
         </Wrap>
       )} */}
+      {/* {console.log("userAuth0: ", userAuth0)} */}
       <div>Listado de Mascotas para adopción:</div>
       {filteredPets ? (
         <PetsGrid pets={filteredPets} />
