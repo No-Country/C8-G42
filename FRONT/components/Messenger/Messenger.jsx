@@ -14,6 +14,7 @@ const placement = "right";
 
 const Messenger = () => {
   const user = useSelector((state) => state.user.user);
+  const chats = useSelector((state) => state.messenger.chats);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Messenger = () => {
 
   socket.on("message", (message) => {
     const chatId = `${message.shelterId}${message.userId}`;
-    if (chat[chatId]) {
+    if (chats[chatId]) {
       dispatch(addMessage(message));
     } else {
       dispatch(

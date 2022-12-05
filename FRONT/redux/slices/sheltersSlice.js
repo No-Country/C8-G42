@@ -12,6 +12,7 @@ export const fetchShelter = createAsyncThunk(
   async ({shelterId}, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await getPage(`/shelters/${shelterId}`);
+    console.log({res, shelterId})
     dispatch(setChats(res.chats));
     dispatch(setLoading(false));
   }

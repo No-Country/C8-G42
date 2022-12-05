@@ -17,7 +17,6 @@ export const sendMessage = createAsyncThunk(
       modifiedBy,
       text,
     });
-    console.log({res})
     dispatch(addMessage(res.data));
     dispatch(setLoading(false));
   }

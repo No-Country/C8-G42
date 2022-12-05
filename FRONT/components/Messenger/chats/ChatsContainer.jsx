@@ -20,6 +20,7 @@ const ChatsContainer = () => {
   
   let chats;
 
+  console.log({user, chats})
   if (user.role === "user") {
     chats = useSelector((state) => state.shelters.shelters);
   }
