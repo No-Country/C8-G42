@@ -4,6 +4,8 @@ import { setLoading } from "./uiSlice";
 
 const initialState = {
   user: null,
+  favorites: [],
+  requests: []
 };
 
 export const fetchUser = createAsyncThunk(
@@ -26,9 +28,15 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    addFavorite: (state, action) => {
+      state.favorites.push(action.payload);
+    },
+    addRequest: (state, action) => {
+      state.requests.push(action.payload);
     }
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, addFavorite, addRequest } = userSlice.actions;
 export default userSlice.reducer;

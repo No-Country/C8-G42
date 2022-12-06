@@ -15,6 +15,7 @@ import {
   useDisclosure,
   useColorModeValue,
 } from "@chakra-ui/react";
+import RequestForm from "../Forms/RequestForm";
 import SinglePet from "../SinglePet/SinglePet";
 
 const PetCard = ({ pet }) => {
@@ -60,9 +61,7 @@ const PetCard = ({ pet }) => {
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              Adóptame
-            </Button>
+            <RequestForm pet={pet} />
             <Button variant="ghost" colorScheme="blue">
               ❤
             </Button>
