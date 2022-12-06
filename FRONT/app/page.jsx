@@ -46,7 +46,7 @@ const page = () => {
 
   useEffect(() => {
     dispatch(fetchUsers({ limit: 10, offset: 5 }));
-    dispatch(fetchPets({}));
+    dispatch(fetchPets({fetchPets}));
     // if (userAuth0?.email) {
     //   // console.log("ENTRÓ EN ESTE useEffect")
     //   const email = userAuth0.email;
