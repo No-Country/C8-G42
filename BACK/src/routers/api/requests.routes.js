@@ -11,7 +11,6 @@ router.post(
     try {
       const requestData = req.body;
       const newRequest = await requestController.create(requestData);
-      console.log({newRequest})
       return res.status(201).json(newRequest);
     } catch (error) {
       next(error);
