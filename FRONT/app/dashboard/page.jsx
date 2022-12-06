@@ -1,12 +1,14 @@
-import React from 'react'
-import Dashboard from '../../components/Dashboard/Dashboard'
+'use client';
+import React from 'react';
+import Dashboard from '../../components/Dashboard/Dashboard';
+
 
 const Dash = () => {
   return (
     <div>
-        <Dashboard/>
+      <Dashboard />
     </div>
-  )
-}
+  );
+};
 
-export default Dash
+export default Dash;
