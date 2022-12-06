@@ -1,7 +1,8 @@
 // import { handleAuth } from '@auth0/nextjs-auth0';
 // export default handleAuth();
+const URL_FRONT = process.env.NEXT_PUBLIC_URL_FRONT;
 
-import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
+import { handleAuth, handleCallback, handleLogin } from '@auth0/nextjs-auth0';
 
 const afterCallback = (req, res, session, state) => {
   session.user.TokenAuth0 = session.accessToken;  // Save AccessToken to Session
@@ -17,4 +18,10 @@ export default handleAuth({
       res.status(error.status || 500).end(error.message);
     }
   },
+  // async login(req, res) {
+  //   await handleLogin(req, res, {
+  //     audience: 'api-autenticacion-huellitas', 
+  //     returnTo: `${URL_FRONT}/dashboard`,   // Redirects to /dashboard (after Login)
+  //   });
+  // },
 });
