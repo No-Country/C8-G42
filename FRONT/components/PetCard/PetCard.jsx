@@ -17,14 +17,12 @@ import {
 } from "@chakra-ui/react";
 import RequestForm from "../Forms/RequestForm";
 import SinglePet from "../SinglePet/SinglePet";
+import { useSelector, shallowEqual } from "react-redux";
 
 const PetCard = ({ pet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleAdoptame = (e) => {
-    console.log("click")
-    console.log({pet})
-  }
- 
+  const user = useSelector((state) => state.user.user, shallowEqual);
+
   return (
     <Box>
       <Card maxW={{ base: "sm", md: "none" }}>
@@ -61,10 +59,17 @@ const PetCard = ({ pet }) => {
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            <RequestForm pet={pet} />
-            <Button variant="ghost" colorScheme="blue">
-              ❤
-            </Button>
+            {user ? (
+              <>
+                <RequestForm pet={pet} />
+
+                <Button variant="ghost" colorScheme="blue">
+                  ❤
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>

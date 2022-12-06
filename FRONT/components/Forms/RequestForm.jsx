@@ -34,7 +34,7 @@ const RequestForm = ({ pet }) => {
     };
 
     post("/requests", newRequest).then((res) => {
-      if (res.status === 201) {
+      if (res?.status === 201) {
         console.log({ newRequest });
       }
     });
