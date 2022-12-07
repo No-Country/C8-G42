@@ -23,9 +23,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { fetchUserData } from "../../redux/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setPetsFamilyFilter } from "../../redux/slices/petsFamilySlice";
+import { useUser } from "@auth0/nextjs-auth0";
+import { fetchUser } from "../../redux/slices/userSlice";
+
 
 const Navbar = () => {
-  const user = useSelector((state) => state.user.user);
+  const { user: userAuth0, isLoading: loading } = useUser();
+  const user = useSelector((state) => state.user.user)
+
+  // const user = useSelector((state) => state.user.user);
   const [token, setToken] = useState("");
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,8 +45,14 @@ const Navbar = () => {
     if (isLogOutClicked) {
       localStorage.setItem("token", null);
     }
-  }, [isLogOutClicked]);
-
+    const email = userAuth0?.email;
+    console.log({email})
+    if (!user) {
+      dispatch(fetchUser({ email }));
+    }
+    console.log({user})
+  }, [isLogOutClicked, userAuth0]);
+  
   const filterPetsByFamily = (family) => {
     dispatch(setPetsFamilyFilter(family));
   };

@@ -27,6 +27,7 @@ const Messenger = () => {
     }
   }, [user, dispatch]);
 
+
   if (user) {
     return (
       <>

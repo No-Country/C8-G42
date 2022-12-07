@@ -14,16 +14,6 @@ const page = () => {
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
-  useEffect(() => {
-    if (userAuth0?.TokenAuth0) {
-      localStorage.setItem("token", userAuth0?.TokenAuth0);
-    }
-    localStorage.setItem("token", userAuth0?.TokenAuth0);
-    if (isLogOutClicked) {
-      localStorage.setItem("token", null);
-    }
-  }, [userAuth0, isLogInClicked, isLogOutClicked]);
-
   const users = useSelector((state) => state.users.users); // u s e r  redux
   const user = useSelector((state) => state.user.user); // u s e r  redux
   const pets = useSelector((state) => state.pets.pets);
@@ -42,15 +32,14 @@ const page = () => {
   const isLoading = useSelector((state) => state.ui.loading);
 
   useEffect(() => {
-    dispatch(fetchUsers({ limit: 10, offset: 5 }));
     dispatch(fetchPets({}));
-    if (userAuth0?.email) {
+    // if (userAuth0?.email) {
       // console.log("ENTRÓ EN ESTE useEffect")
-      const email = userAuth0.email;
-      if (!user) {
-        dispatch(fetchUser({ email })); // u s e r  redux
-      }
-    }
+      // const email = userAuth0.email;
+      // if (!user) {
+      //   dispatch(fetchUser({ email })); // u s e r  redux
+      // }
+    // }
   }, [userAuth0, user]);
   return (
     <Flex

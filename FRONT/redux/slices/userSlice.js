@@ -8,10 +8,13 @@ const initialState = {
 
 export const fetchUser = createAsyncThunk(
   "user/fetchUser",
-  async ({ email }, { dispatch }) => {
+  async ({email}, { dispatch }) => {
     dispatch(setLoading(true));
+    console.log("email fetchUser: ", email)
     let res = await getPage(`/users/${email}`);
-    if (!res) {
+    console.log({res})
+
+    if (!res) { 
       await getPage(`/users/self`);
       res = await getPage(`/users/${email}`);
     }
