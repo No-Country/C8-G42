@@ -19,10 +19,10 @@ const RootLayout = ({ children }) => {
         <UserProvider>
           <Provider store={store}>
             <ChakraProvider theme={theme}>
+              <Navbar>
               {children}
-              <Navbar />
-              <MobileNavbar />
               <Messenger />
+              </Navbar>
             </ChakraProvider>
           </Provider>
         </UserProvider>
