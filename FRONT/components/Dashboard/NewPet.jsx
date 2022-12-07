@@ -47,7 +47,6 @@ const NewPet = ({ isOpen, onClose }) => {
 
   const Error=()=>{
     if(name === "" ) return setIsError(true);
-
   } 
 
   const handleClick = () => {
@@ -85,34 +84,13 @@ const NewPet = ({ isOpen, onClose }) => {
           <ModalHeader>Mascota</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isInvalid={Error}>
+            <FormControl isRequired>
               <FormLabel>Nombre</FormLabel>
               <Input type="name" value={name} onChange={handleNameChange} />
-              {!isError ? (
-                <FormHelperText>Ingresa el nombre</FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  Ingresa el nombre de la mascota :3
-                </FormErrorMessage>
-              )}
               <FormLabel>Peso</FormLabel>
-              <Input type="name" value={weight} onChange={handleWeigth} />
-              {!isError ? (
-                <FormHelperText>Ingresa el peso</FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  Ingresa el peso de la mascota :3
-                </FormErrorMessage>
-              )}
+              <Input type="weigth" value={breed} onChange={handleWeigth} />
               <FormLabel>Raza</FormLabel>
-              <Input type="name" value={breed} onChange={handleBreed} />
-              {!isError ? (
-                <FormHelperText>
-                  Ingresa el modelo de tu mascota :D
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>Ingresa la raza</FormErrorMessage>
-              )}
+              <Input type="family" value={breed} onChange={handleBreed} />
               <FormLabel>Categoria</FormLabel>
               <Select
                 onChange={handleFamily}
