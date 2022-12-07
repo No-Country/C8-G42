@@ -8,10 +8,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
-  Stack,
-  useColorMode,
   Center,
   Text,
   Link,
@@ -19,31 +16,40 @@ import {
 import ToggleColorMode from "./theme/ToggleColorMode";
 import LogoBox from "../../Icons/Logo";
 import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserData } from "../../redux/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setPetsFamilyFilter } from "../../redux/slices/petsFamilySlice";
+import { useUser } from "@auth0/nextjs-auth0";
+import { fetchUser } from "../../redux/slices/userSlice";
+
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.user);
-  const [token, setToken] = useState("");
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { user: userAuth0, isLoading: loading } = useUser();
+  const dispatch = useDispatch();
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isLogOutClicked) {
-      localStorage.setItem("token", null);
-    }
-  }, [isLogOutClicked]);
 
   const filterPetsByFamily = (family) => {
     dispatch(setPetsFamilyFilter(family));
   };
+
+  useEffect(() => {
+    if (userAuth0?.TokenAuth0) {
+      localStorage.setItem("token", userAuth0?.TokenAuth0);
+    }
+    localStorage.setItem("token", userAuth0?.TokenAuth0);
+    if (isLogOutClicked) {
+      localStorage.setItem("token", null);
+    }
+    if (userAuth0?.email) {
+      const email = userAuth0.email;
+      if (!user) {
+        dispatch(fetchUser({ email }));
+      }
+    }
+  }, [userAuth0, isLogInClicked, isLogOutClicked]);
 
   return (
     <>
