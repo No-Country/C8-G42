@@ -25,8 +25,6 @@ const getSheltersRequests = async (req, res, next) => {
 
     await Promise.all(requestPromises);
 
-    console.log(requests);
-
     res.status(200).json({
       status: "success",
       data: { requests },

@@ -38,9 +38,9 @@ const SinglePet = ({ pet, isOpen, onOpen, onClose }) => {
         <ModalContent>
           <ModalHeader>
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar name={pet.shelter.name} src={pet.shelter.avatar} />
+              <Avatar name={pet.shelter?.name} src={pet.shelter?.avatar} />
               <Box>
-                <Heading size="sm">{pet.shelter.name}</Heading>
+                <Heading size="sm">{pet.shelter?.name}</Heading>
                 <Text>
                   {pet.name}, tamaño: {pet.size}
                 </Text>

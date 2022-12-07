@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PetsAdoption from "./PetsAdoption";
 import SideBar from "./SideBar";
-import Request from "./Request";
+import RequestContainer from "./Requests/RequestContainer";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -27,7 +27,7 @@ const Dashboard = () => {
       {user && (
         <Grid gap="20px" templateColumns="minmax(130px, 1fr) minmax(170px, 4fr)">
           <SideBar setDashboardView={setDashboardView} user={user} />
-          {dashboardView === "pets" ? <PetsAdoption /> : <Request />}
+          {dashboardView === "pets" ? <PetsAdoption /> : <RequestContainer />}
         </Grid>
       )}
     </>
