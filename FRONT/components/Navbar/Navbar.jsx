@@ -8,10 +8,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
-  Stack,
-  useColorMode,
   Center,
   Text,
   Link,
@@ -25,22 +22,13 @@ import { fetchUser } from "../../redux/slices/userSlice";
 import { useUser } from "@auth0/nextjs-auth0";
 
 const Navbar = () => {
-  const { user: userAuth0, isLoading: loading } = useUser();
   const user = useSelector((state) => state.user.user);
+  const { user: userAuth0, isLoading: loading } = useUser();
   const dispatch = useDispatch();
-  const [token, setToken] = useState("");
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
 
-  useEffect(() => {
-    if (isLogOutClicked) {
-      localStorage.setItem("token", null);
-    }
-  }, [isLogOutClicked]);
 
   useEffect(() => {
     if (userAuth0?.email) {
@@ -56,13 +44,28 @@ const Navbar = () => {
     dispatch(setPetsFamilyFilter(family));
   };
 
+  useEffect(() => {
+    if (userAuth0?.TokenAuth0) {
+      localStorage.setItem("token", userAuth0?.TokenAuth0);
+    }
+    localStorage.setItem("token", userAuth0?.TokenAuth0);
+    if (isLogOutClicked) {
+      localStorage.setItem("token", null);
+    }
+    if (userAuth0?.email) {
+      const email = userAuth0.email;
+      if (!user) {
+        dispatch(fetchUser({ email }));
+      }
+    }
+  }, [userAuth0, isLogInClicked, isLogOutClicked]);
+
   return (
     <>
       <Flex
         w="100%"
         h="60px"
         pos="fixed"
-        zIndex={9999999999}
         bgColor={useColorModeValue("gray.50", "#151b26")}
         top="0"
         display={{ base: "none", md: "flex" }}

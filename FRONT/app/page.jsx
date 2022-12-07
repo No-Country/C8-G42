@@ -5,30 +5,10 @@ import { Flex, Text, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import PetsGrid from "../components/PetsGrid/PetsGrid";
 import { fetchPets } from "../redux/slices/petsSlice";
-import { useUser } from "@auth0/nextjs-auth0";
-import { fetchUser } from "../redux/slices/userSlice";
-import { useRouter } from 'next/navigation';
-
 
 const page = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const { user: userAuth0, isLoading: loading } = useUser();
-  const [isLogInClicked, setIsLogInClicked] = useState(false);
-  const [isLogOutClicked, setIsLogOutClicked] = useState(false);
-
-  useEffect(() => {
-    if (userAuth0?.TokenAuth0) {
-      localStorage.setItem("token", userAuth0?.TokenAuth0);
-    }
-    localStorage.setItem("token", userAuth0?.TokenAuth0);
-    if (isLogOutClicked) {
-      localStorage.setItem("token", null);
-    }
-  }, [userAuth0, isLogInClicked, isLogOutClicked]);
-
-  const users = useSelector((state) => state.users.users); // u s e r  redux
-  const user = useSelector((state) => state.user.user); // u s e r  redux
+  const user = useSelector((state) => state.user.user);
   const pets = useSelector((state) => state.pets.pets);
   const petsFilter = useSelector((state) => state.petsFamilyFilter);
 
@@ -39,32 +19,17 @@ const page = () => {
     filteredPets = pets?.data?.pets;
   }
 
-  const loginHandler = () => {
-    localStorage.setItem("token", user?.TokenAuth0);
-  };
-  const isLoading = useSelector((state) => state.ui.loading);
-
   useEffect(() => {
-    dispatch(fetchUsers({ limit: 10, offset: 5 }));
-    dispatch(fetchPets({fetchPets}));
-    // if (userAuth0?.email) {
-    //   // console.log("ENTRÓ EN ESTE useEffect")
-    //   const email = userAuth0.email;
-    //   if (!user) {
-    //     dispatch(fetchUser({ email })); // u s e r  redux
-    //   }
-    // }
-  }, []);
-  if (user) { router.push('/dashboard'); }
-  if (!user) {
-    return (
-      <Flex
-        w="100%"
-        mt={{ base: "10px", md: "60px" }}
-        pos="relative"
-        direction="column"
-      >
-        {/* Principal  */}
+    dispatch(fetchPets({}));
+  }, [user]);
+  return (
+    <Flex
+      w="100%"
+      mt={{ base: "10px", md: "60px" }}
+      pos="relative"
+      direction="column"
+    >
+      {/* Principal  */}
 
         {/* {loading && <p>Loading login info...</p>} */}
         {/* 
@@ -108,7 +73,7 @@ const page = () => {
         )}
       </Flex>
     );
-  }
+  
 };
 
 export default page;

@@ -6,7 +6,7 @@ const boom = require("@hapi/boom");
 const { models } = require("../../utils/database.util");
 
 const options = {
-  // include: ["shelter", "pet"],
+  include: ["shelter", "pet"],
 };
 
 const getById = async (id) => {
@@ -52,6 +52,7 @@ module.exports = {
       where: {
         email
       },
+      include: options.include
     });
     return user;
   },

@@ -1,31 +1,57 @@
-import { useDisclosure, Button, Drawer } from "@chakra-ui/react";
+import {
+  useDisclosure,
+  Button,
+  Drawer,
+} from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchShelters } from "../../redux/slices/sheltersSlice";
+import { fetchShelter, fetchShelters } from "../../redux/slices/sheltersSlice";
 import ChatsContainer from "./chats/ChatsContainer";
 import socket from "../../utils/socket";
+import { addMessage, fetchChat, setNewMessage } from "../../redux/slices/messangerSlice";
 
 const placement = "right";
 
 const Messenger = () => {
   const user = useSelector((state) => state.user.user);
+  const chats = useSelector((state) => state.messenger.chats);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user?.role ==="user") {
-
+    if (user?.role === "user") {
       dispatch(fetchShelters({ limit: 10, offset: 0 }));
+    }
+    if (user?.role === "shelterOwner") {
+      dispatch(fetchShelter({ shelterId: user.shelter.id }));
+    }
+    if (user?.role) {
       socket.auth = {
-        userId: user.email,
+        userId: user.id,
         userRole: user.role,
       };
       socket.connect();
     }
-    if (user?.role === "shelterOwner"){
-      
+  }, [user]);
+
+  socket.on("message", (message) => {
+    const chatId = `${message.shelterId}${message.userId}`;
+    if (chats[chatId]) {
+      dispatch(addMessage(message));
+    } else {
+      dispatch(
+        fetchChat({
+          userId: message.userId,
+          shelterId: message.shelterId,
+          limit: 40,
+          offset: 0,
+        })
+      );
     }
-  }, [user, dispatch]);
+    dispatch(setNewMessage({userId: message.userId, shelterId: message.shelterId}))
+    
+    onOpen()
+  });
 
   if (user) {
     return (

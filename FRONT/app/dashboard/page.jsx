@@ -6,7 +6,9 @@ import { Button, Flex, Link, Text } from '@chakra-ui/react';
 
 
 const Dash = () => {
-  const { user, isLoading } = useUser();
+  const { user : userAuth0, isLoading } = useUser();
+  const user = useSelector((state) => state.user.user);
+  console.log("user de redux: ", {user})
   return (
     <>
       {!user &&
