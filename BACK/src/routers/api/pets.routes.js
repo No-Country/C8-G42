@@ -10,6 +10,8 @@ const {
   adoptPet,
   toogleFavoritePet,
   getPetsByShelterId,
+  getUsersPetFavorite,
+  getAllPetsUserInSession,
 } = require("../../controllers/pets.controller");
 
 //shelter middlewares
@@ -53,6 +55,8 @@ petsRouter.get(
 
 petsRouter.use(protectSession);
 
+petsRouter.get("/favorite/pets", getAllPetsUserInSession);
+
 petsRouter.post("/", schemaValidator(verifyCreatePet, "body"), createPet);
 
 petsRouter.post(
@@ -61,6 +65,8 @@ petsRouter.post(
   petExist,
   toogleFavoritePet
 );
+
+petsRouter.get("/favorite/self", getUsersPetFavorite);
 
 petsRouter.put(
   "/:id",

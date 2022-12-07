@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Card,
@@ -17,11 +17,56 @@ import {
 } from "@chakra-ui/react";
 import RequestForm from "../Forms/RequestForm";
 import SinglePet from "../SinglePet/SinglePet";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import FavoriteIcon from "../../Icons/FavoriteIcon";
+import { post } from "../../redux/api";
+import { setState, setMessage as stateMessage } from "../../redux/slices/uiSlice";
 
 const PetCard = ({ pet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useSelector((state) => state.user.user, shallowEqual);
+
+  const [isFavClicked, setIsFavClicked] = useState(false);
+  const [isUnFavClicked, setIsUnFavClicked] = useState(false);
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(pet?.favoritePet?.[0]?.isFavorite){
+      setIsFavClicked(true)
+    }else{
+      setIsUnFavClicked(true)
+    }
+  }, []);
+
+  const handlerClickFavorite = () => {
+    setIsFavClicked(!isFavClicked);
+    setIsUnFavClicked(!isUnFavClicked)
+
+    post(`/pets/favorite/${pet.id}`, {}).then((res) => {
+      const { isFavorite } = res.data.data.favoritePet;
+
+      if (isFavorite) {
+        dispatch(setState("success"));
+        dispatch(
+          stateMessage(
+            `::${pet.name}:: añadido a tus favoritos 🐱🐾🐶`
+          )
+        );
+      } else {
+        dispatch(setState("error"));
+        dispatch(
+          stateMessage(
+            `::${pet.name}:: eliminado de tus favoritos 💔😥`
+          )
+        );
+      }
+    });
+
+    setMessage("");
+    onClose();
+  };
+
 
   return (
     <Box>
@@ -62,10 +107,10 @@ const PetCard = ({ pet }) => {
             {user ? (
               <>
                 <RequestForm pet={pet} />
-
-                <Button variant="ghost" colorScheme="blue">
-                  ❤
-                </Button>
+                <FavoriteIcon colorScheme="blue" isFavorited={
+                  isUnFavClicked ? false :
+                    isFavClicked || pet?.favoritePet?.[0]?.isFavorite
+                } event={handlerClickFavorite} />
               </>
             ) : (
               <></>

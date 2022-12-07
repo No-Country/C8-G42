@@ -47,7 +47,7 @@ const ChatsContainer = () => {
     <>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader borderBottomWidth="1px"> {user.role === "user" ? "Shelters" : "Chats"} </DrawerHeader>
+        <DrawerHeader  borderBottomWidth="1px"> {user.role === "user" ? "Shelters" : "Chats"} </DrawerHeader>
         <DrawerBody
           display="flex"
           flexDir="column"

@@ -11,7 +11,6 @@ const page = () => {
   const user = useSelector((state) => state.user.user);
   const pets = useSelector((state) => state.pets.pets);
   const petsFilter = useSelector((state) => state.petsFamilyFilter);
-
   let filteredPets;
   if (petsFilter) {
     filteredPets = pets?.data?.pets.filter((pet) => pet.family === petsFilter);
@@ -20,7 +19,7 @@ const page = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchPets({}));
+      dispatch(fetchPets({user}));    
   }, [user]);
   return (
     <Flex
@@ -57,6 +56,7 @@ const page = () => {
       )} */}
       {/* {console.log("userAuth0: ", userAuth0)} */}
       <div>Listado de Mascotas para adopción:</div>
+      {/* {console.log("filtered Pets: ", filteredPets)} */}
       {filteredPets ? (
         <PetsGrid pets={filteredPets} />
       ) : (
@@ -74,5 +74,4 @@ const page = () => {
     </Flex>
   );
 };
-
 export default page;
