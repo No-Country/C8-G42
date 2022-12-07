@@ -19,6 +19,7 @@ export const sendMessage = createAsyncThunk(
     });
     dispatch(addMessage(res.data));
     dispatch(setLoading(false));
+    return res
   }
 );
 
@@ -28,7 +29,7 @@ export const fetchChat = createAsyncThunk(
     dispatch(setLoading(true));
     const res = await instance().get(
       `/messages/?limit=${limit}&offset=${offset}&userId=${userId}&shelterId=${shelterId}`
-    );
+    )
     if (res.data.length > 0) {
       dispatch(setChat(res.data));
     } else {

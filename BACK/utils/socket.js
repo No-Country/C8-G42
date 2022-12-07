@@ -1,6 +1,5 @@
 const SocketIO = require('socket.io');
 const { socketConfig } = require('./../src/config/config')
-const userController = require('../src/controllers/users.controller')
 
 function socketIO(server) {
   const io = SocketIO(server, {
@@ -11,25 +10,20 @@ function socketIO(server) {
   });
 
   io.use(async (socket, next) => {
+    const role = socket.handshake.auth.userRole;
     socket.id = socket.handshake.auth.userId;;
-    socket.role = socket.handshake.auth.userRole;
+    socket.role = role
+
+    role === "user" ? socket.join("users") : socket.join("shelters")
+
     next();
   });
 
   io.on('connection', (socket) => {
-    console.log('New conection')
-    const id = socket.id
-    const role = socket.role
-    const socketRoom = socket.rooms
-    console.log({id, role, socketRoom})
-    io.to(id).emit('conect', {id, role});
-
-
     socket.on('message', (message) => {
       let addressee
       message.modifiedBy === "user" ? addressee = message.shelterId : addressee = message.userId
       io.to(addressee).emit('message', message)
-      console.log(message)
     })
   });
 

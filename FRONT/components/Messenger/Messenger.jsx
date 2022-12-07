@@ -39,6 +39,7 @@ const Messenger = () => {
     if (chats[chatId]) {
       dispatch(addMessage(message));
     } else {
+      dispatch(fetchShelter({ shelterId: message.shelterId }))
       dispatch(
         fetchChat({
           userId: message.userId,
@@ -49,7 +50,6 @@ const Messenger = () => {
       );
     }
     dispatch(setNewMessage({userId: message.userId, shelterId: message.shelterId}))
-    
     onOpen()
   });
 
