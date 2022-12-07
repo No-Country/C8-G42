@@ -53,7 +53,7 @@ const Messenger = () => {
     onOpen()
   });
 
-  if (user) {
+  if (user && user.role !== "admin") {
     return (
       <>
         <Button

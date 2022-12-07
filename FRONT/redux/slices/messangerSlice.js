@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setLoading } from "./uiSlice";
-import instance from "../instance";
+import { getPage, post } from "../api";
 
 const initialState = {
   chats: {},
@@ -11,7 +11,7 @@ export const sendMessage = createAsyncThunk(
   "chats/sendMessage",
   async ({ userId, shelterId, modifiedBy, text }, { dispatch }) => {
     dispatch(setLoading(true));
-    const res = await instance().post("/messages", {
+    const res = await post("/messages", {
       userId,
       shelterId,
       modifiedBy,
@@ -19,7 +19,7 @@ export const sendMessage = createAsyncThunk(
     });
     dispatch(addMessage(res.data));
     dispatch(setLoading(false));
-    return res
+    return res;
   }
 );
 
@@ -27,11 +27,12 @@ export const fetchChat = createAsyncThunk(
   "chat/fetchChat",
   async ({ limit, offset, userId, shelterId }, { dispatch }) => {
     dispatch(setLoading(true));
-    const res = await instance().get(
-      `/messages/?limit=${limit}&offset=${offset}&userId=${userId}&shelterId=${shelterId}`
-    )
-    if (res.data.length > 0) {
-      dispatch(setChat(res.data));
+    const res = await getPage(
+      `/messages/?&userId=${userId}&shelterId=${shelterId}`,
+      limit, offset
+    );
+    if (res.length > 0) {
+      dispatch(setChat(res));
     } else {
       dispatch(
         setChat([
@@ -64,7 +65,7 @@ export const messengerSlice = createSlice({
     setNewMessage: (state, action) => {
       const chatId = `${action.payload.shelterId}${action.payload.userId}`;
       state.newMessage = chatId;
-    }
+    },
   },
 });
 
