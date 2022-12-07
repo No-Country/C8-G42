@@ -8,6 +8,8 @@ const RequestContainer = () => {
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(requests);
+
   useEffect(() => {
     getSheltersRequests();
   }, []);
@@ -47,7 +49,7 @@ const RequestContainer = () => {
           }}
         >
           {requests.map((request) => (
-            <RequestCard key={request.id} request={request} />
+            <RequestCard key={request[0].id} request={request} />
           ))}
         </Grid>
       )}

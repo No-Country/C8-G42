@@ -2,7 +2,7 @@ import { Avatar, Grid, Text, Flex } from "@chakra-ui/react";
 import React from "react";
 
 const UserRequest = ({ request }) => {
-  console.log(request);
+  
   return (
     <Grid templateColumns="1fr 2fr">
       <Flex flexDirection="column">
