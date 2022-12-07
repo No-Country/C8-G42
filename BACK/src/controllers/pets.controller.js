@@ -203,6 +203,19 @@ const toogleFavoritePet = async (req, res, next) => {
 
 const getUsersPetFavorite = async (req, res, next) => {
   try {
+    const { sessionUser } = req;
+
+    const favoritePets = await FavoritePet.findAll({
+      where: { userId: sessionUser.id },
+      include: ["pet"],
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        favoritePets,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -217,4 +230,5 @@ module.exports = {
   adoptPet,
   toogleFavoritePet,
   getPetsByShelterId,
+  getUsersPetFavorite,
 };
