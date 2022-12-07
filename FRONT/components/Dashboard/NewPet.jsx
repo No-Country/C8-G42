@@ -17,14 +17,30 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addNewPet} from "../../redux/slices/petSlice";
+
 
 const NewPet = ({ isOpen, onClose }) => {
-  const [input, setInput] = useState("");
-  const [value, setValue] = useState("");
+  const dispatch = useDispatch()
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [family, setFamily] = useState("")
 
-  const handleInputChange = (e) => setInput(e.target.value);
-  const handleTextChange = (e) => setValue(e.target.value);
-  const isError = input === "";
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleTextChange = (e) => setDescription(e.target.value);
+  const handleFamily=(e)=> setFamily(e.target.value)
+
+  const isError = name === "";
+console.log(Select.value)
+  const handleClick =()=>{
+  dispatch(addNewPet({
+  body:{ name,
+    description}
+  }))
+  setName("")
+  setDescription("")
+  }
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -35,30 +51,30 @@ const NewPet = ({ isOpen, onClose }) => {
           <ModalBody>
             <FormControl isInvalid={isError}>
               <FormLabel>Nombre</FormLabel>
-              <Input type="name" value={input} onChange={handleInputChange} />
+              <Input type="name" value={name} onChange={handleNameChange} />
               {!isError ? (
                 <FormHelperText>
-                  Ingresa el nombre
+                 Ingresa el nombre
                 </FormHelperText>
               ) : (
                 <FormErrorMessage>Ingresa el nombre de la mascota :3</FormErrorMessage>
               )}
-            </FormControl>
-            <Select mt="5px" placeholder="Selecciona una categoría">
-              <option>Perrx</option>
-              <option>Gatx</option>
-              <option>Otrx</option>
+            <FormLabel>Categoria</FormLabel>
+            <Select onChange={handleFamily} mt="5px" placeholder="Selecciona una categoría">
+              <option value="Perro">Perro/a</option>
+              <option value="Gato">Gato/a</option>
             </Select>
+            </FormControl>
             <Text mt="5px" mb="8px">Descripción</Text>
             <Textarea
-              value={value}
+              value={description}
               onChange={handleTextChange}
               placeholder="Describe a la mascota, esto ayudará a los adoptantes a saber cómo es"
               size="sm"
             />
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost">Add</Button>
+            <Button variant="ghost" onClick={handleClick}>Add</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -19,13 +19,15 @@ import {
 import ToggleColorMode from "./theme/ToggleColorMode";
 import LogoBox from "../../Icons/Logo";
 import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserData } from "../../redux/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setPetsFamilyFilter } from "../../redux/slices/petsFamilySlice";
+import { fetchUser } from "../../redux/slices/userSlice";
+import { useUser } from "@auth0/nextjs-auth0";
 
 const Navbar = () => {
+  const { user: userAuth0, isLoading: loading } = useUser();
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const [token, setToken] = useState("");
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,13 +35,22 @@ const Navbar = () => {
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLogOutClicked) {
       localStorage.setItem("token", null);
     }
   }, [isLogOutClicked]);
+
+  useEffect(() => {
+    if (userAuth0?.email) {
+      // console.log("ENTRÓ EN ESTE useEffect")
+      const email = userAuth0.email;
+      if (!user) {
+        dispatch(fetchUser({ email })); // u s e r  redux
+      }
+    }
+  }, [userAuth0, user]);
 
   const filterPetsByFamily = (family) => {
     dispatch(setPetsFamilyFilter(family));

@@ -1,19 +1,37 @@
-'use client'
-import {Flex } from '@chakra-ui/react'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import PetsAdoption from './PetsAdoption'
-import SideBar from './SideBar'
+"use client";
+import { Flex, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import PetsAdoption from "./PetsAdoption";
+import SideBar from "./SideBar";
+import Request from "./Request";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
-  
-  return (
-    <Flex>
-        <SideBar/>
-        <PetsAdoption/>
-    </Flex>
-  )
-}
 
-export default Dashboard
+  const [dashboardView, setDashboardView] = useState("pets");
+  return (
+    <>
+      {!user && (
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          height="50vh"
+          direction="column"
+          gap="6"
+        >
+          <Text>Cargando info usuario ...</Text>
+          <Spinner color="blue.500" />
+        </Flex>
+      )}
+      {user && (
+        <Grid gap="20px" templateColumns="minmax(130px, 1fr) minmax(170px, 4fr)">
+          <SideBar setDashboardView={setDashboardView} user={user} />
+          {dashboardView === "pets" ? <PetsAdoption /> : <Request />}
+        </Grid>
+      )}
+    </>
+  );
+};
+
+export default Dashboard;
