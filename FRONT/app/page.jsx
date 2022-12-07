@@ -11,7 +11,6 @@ const page = () => {
   const user = useSelector((state) => state.user.user);
   const pets = useSelector((state) => state.pets.pets);
   const petsFilter = useSelector((state) => state.petsFamilyFilter);
-
   let filteredPets;
   if (petsFilter) {
     filteredPets = pets?.data?.pets.filter((pet) => pet.family === petsFilter);
@@ -31,8 +30,8 @@ const page = () => {
     >
       {/* Principal  */}
 
-        {/* {loading && <p>Loading login info...</p>} */}
-        {/* 
+      {/* {loading && <p>Loading login info...</p>} */}
+      {/* 
       {!loading && !user && (
         <>
           <p> Usuario invitado, si deseas adoptar dale click en:
@@ -40,7 +39,7 @@ const page = () => {
           </p>
         </>
       )} */}
-        {/* {user && (
+      {/* {user && (
         <Wrap align='center'>
           <WrapItem>
             <Avatar name={`${user?.firstName} ${user?.lastName}`} src={userAuth0.picture} alt="user picture" />
@@ -55,26 +54,23 @@ const page = () => {
           {user && console.log("user: ", user)}
         </Wrap>
       )} */}
-        {/* {console.log("userAuth0: ", userAuth0)} */}
-        <div>Listado de Mascotas para adopción:</div>
-        {filteredPets ? (
-          <PetsGrid pets={filteredPets} />
-        ) : (
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            height="50vh"
-            direction="column"
-            gap="6"
-          >
-            <Text>Cargando mascotas ...</Text>
-            <Spinner color="blue.500" />
-          </Flex>
-        )}
-      </Flex>
-    );
-  
+      {/* {console.log("userAuth0: ", userAuth0)} */}
+      <div>Listado de Mascotas para adopción:</div>
+      {filteredPets ? (
+        <PetsGrid pets={filteredPets} />
+      ) : (
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          height="50vh"
+          direction="column"
+          gap="6"
+        >
+          <Text>Cargando mascotas ...</Text>
+          <Spinner color="blue.500" />
+        </Flex>
+      )}
+    </Flex>
+  );
 };
-
 export default page;
-

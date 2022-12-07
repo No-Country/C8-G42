@@ -6,10 +6,10 @@ import { Button, Flex, Link, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 
-const Dash = () => {
-  const { user : userAuth0, isLoading } = useUser();
+const Page = () => {
+  /* const { user, isLoading } = useUser(); */
   const user = useSelector((state) => state.user.user);
-  console.log("user de redux: ", {user})
+  console.log({user})
   return (
     <>
       {!user &&
@@ -31,4 +31,4 @@ const Dash = () => {
   );
 };
 
-export default Dash;
+export default Page;

@@ -9,6 +9,7 @@ const options = {
 
 const boom = require("@hapi/boom");
 const { Shelter } = require("../persistence/models/shelter.model");
+const { Pet } = require("../persistence/models/pet.model");
 
 const getAllPets = async (req, res, next) => {
   try {
@@ -70,7 +71,9 @@ const createPet = async (req, res, next) => {
     //cannot change status
     petData.status = "available";
 
-    const shelter = await Shelter.findOne({ where: { id: petData.shelterId } });
+    const shelter = await Shelter.findOne({
+      where: { ownerId: sessionUser.id },
+    });
 
     if (!shelter) {
       throw boom.notFound("Shelter Not Found");
@@ -79,6 +82,8 @@ const createPet = async (req, res, next) => {
     if (sessionUser.id !== shelter.ownerId) {
       throw boom.forbidden("You are not employee of this shelter");
     }
+
+    petData.shelterId = shelter.id;
 
     const newPet = await service.create(modelName, petData);
 
@@ -197,6 +202,50 @@ const toogleFavoritePet = async (req, res, next) => {
   }
 };
 
+const getUsersPetFavorite = async (req, res, next) => {
+  try {
+    const { sessionUser } = req;
+
+    const favoritePets = await FavoritePet.findAll({
+      where: { userId: sessionUser.id, isFavorite: true },
+      include: ["pet"],
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        favoritePets,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllPetsUserInSession = async (req, res, next) => {
+  try {
+    const { sessionUser } = req;
+
+    const pets = await Pet.findAll({
+      include: {
+        model: FavoritePet,
+        as: "favoritePet",
+        where: { userId: sessionUser.id },
+        required: false,
+      },
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        pets,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllPets,
   getPetById,
@@ -206,4 +255,6 @@ module.exports = {
   adoptPet,
   toogleFavoritePet,
   getPetsByShelterId,
+  getUsersPetFavorite,
+  getAllPetsUserInSession,
 };

@@ -18,8 +18,9 @@ import LogoBox from "../../Icons/Logo";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPetsFamilyFilter } from "../../redux/slices/petsFamilySlice";
-import { fetchUser } from "../../redux/slices/userSlice";
 import { useUser } from "@auth0/nextjs-auth0";
+import { fetchUser } from "../../redux/slices/userSlice";
+
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.user);
@@ -65,6 +66,7 @@ const Navbar = () => {
       <Flex
         w="100%"
         h="60px"
+        zIndex={999999999999}
         pos="fixed"
         bgColor={useColorModeValue("gray.50", "#151b26")}
         top="0"
@@ -74,6 +76,7 @@ const Navbar = () => {
         alignItems="center"
         // cursor="pointer"
       >
+        <Link href="/">
         <Flex pos="relative" pl="2%" alignItems="center">
           <Flex pos="absolute" w="35%">
             <LogoBox />
@@ -84,6 +87,7 @@ const Navbar = () => {
             </Text>
           </Box>
         </Flex>
+        </Link>
         <Flex pr="5%">
           <Flex alignItems="center" justifyContent="space-around">
             <Button bg="inherit">Fundaciones</Button>
