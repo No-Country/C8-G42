@@ -62,6 +62,8 @@ petsRouter.post(
   toogleFavoritePet
 );
 
+petsRouter.get("/favorite/self", )
+
 petsRouter.put(
   "/:id",
   schemaValidator(verifyPetParamsId, "params"),
