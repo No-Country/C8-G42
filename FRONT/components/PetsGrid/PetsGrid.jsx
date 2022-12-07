@@ -78,6 +78,7 @@ const PetsGrid = ({ pets }) => {
         }}
       >
         {paginatedPets?.map((pet) => {
+          console.log(pet)
           return <PetCard key={pet.id} pet={pet} />;
         })}
       </Grid>

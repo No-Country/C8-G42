@@ -17,10 +17,24 @@ export const getPage = (endPoint, limit, offset) => {
 }
 
 export const postPet = (endPoint, body) => {
-  console.log(body)
   return instance()
     .post(endPoint, body)
-    .then((res) =>{
-     return res.data})
+    .then((res) => res.data)
     .catch((err) => console.log(err))
 }
+
+export const updatePet = (endPoint,body) => {
+  console.log(body)
+  return instance()
+    .put(endPoint, body)
+    .then((res) =>res.data)
+    .catch((err) => console.log(err))
+}
+
+export const deletePet = (endPoint) => {
+  return instance()
+    .delete(endPoint)
+    .then((res) =>res.data)
+    .catch((err) => console.log(err))
+}
+

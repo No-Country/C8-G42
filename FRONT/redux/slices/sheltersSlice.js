@@ -4,6 +4,7 @@ import { setLoading } from "./uiSlice";
 
 const initialState = {
   shelters: [],
+  shelter:null
 }
 
 export const fetchShelters = createAsyncThunk(
@@ -15,6 +16,14 @@ export const fetchShelters = createAsyncThunk(
     dispatch(setLoading(false));
   }
 )
+export const fetchShelter = createAsyncThunk(
+  "user/fetchShelter",
+  async ({ email }, { dispatch }) => {
+    let res = await getPage(`/users/${email}`);
+    dispatch(setUser(res));
+    dispatch(setLoading(false));
+  }
+);
 
 export const sheltersSlice = createSlice({
   name: "shelters",
@@ -22,6 +31,9 @@ export const sheltersSlice = createSlice({
   reducers: {
     setShelters: (state, action) => {
       state.shelters = action.payload
+    },
+    setShelter:(state, action)=>{
+      state.shelter = action.payload
     }
   },
 })
