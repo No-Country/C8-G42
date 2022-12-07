@@ -70,7 +70,9 @@ const createPet = async (req, res, next) => {
     //cannot change status
     petData.status = "available";
 
-    const shelter = await Shelter.findOne({ where: { id: petData.shelterId } });
+    const shelter = await Shelter.findOne({
+      where: { ownerId: sessionUser.id },
+    });
 
     if (!shelter) {
       throw boom.notFound("Shelter Not Found");
@@ -79,6 +81,8 @@ const createPet = async (req, res, next) => {
     if (sessionUser.id !== shelter.ownerId) {
       throw boom.forbidden("You are not employee of this shelter");
     }
+
+    petData.shelterId = shelter.id;
 
     const newPet = await service.create(modelName, petData);
 
@@ -197,6 +201,26 @@ const toogleFavoritePet = async (req, res, next) => {
   }
 };
 
+const getUsersPetFavorite = async (req, res, next) => {
+  try {
+    const { sessionUser } = req;
+
+    const favoritePets = await FavoritePet.findAll({
+      where: { userId: sessionUser.id },
+      include: ["pet"],
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        favoritePets,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAllPets,
   getPetById,
@@ -206,4 +230,5 @@ module.exports = {
   adoptPet,
   toogleFavoritePet,
   getPetsByShelterId,
+  getUsersPetFavorite,
 };

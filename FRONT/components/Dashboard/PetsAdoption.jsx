@@ -24,4 +24,5 @@ const PetsAdoption = () => {
   )
 }
 
-export default PetsAdoption
+
+export default PetsAdoption;

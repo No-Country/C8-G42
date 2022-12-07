@@ -15,10 +15,14 @@ import {
   useDisclosure,
   useColorModeValue,
 } from "@chakra-ui/react";
+import RequestForm from "../Forms/RequestForm";
 import SinglePet from "../SinglePet/SinglePet";
+import { useSelector, shallowEqual } from "react-redux";
 
 const PetCard = ({ pet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = useSelector((state) => state.user.user, shallowEqual);
+
   return (
     <Box>
       <Card maxW={{ base: "sm", md: "none" }}>
@@ -36,7 +40,7 @@ const PetCard = ({ pet }) => {
               width={300}
               height={"100"}
               style={{ objectFit: "cover", height: "300px" }}
-              borderRadius="lg"
+              borderradius="lg"
             />
           </div>
           <Stack mt="6" spacing="3">
@@ -55,12 +59,17 @@ const PetCard = ({ pet }) => {
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              Adóptame
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              ❤
-            </Button>
+            {user ? (
+              <>
+                <RequestForm pet={pet} />
+
+                <Button variant="ghost" colorScheme="blue">
+                  ❤
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>

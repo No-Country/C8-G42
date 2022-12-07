@@ -5,7 +5,6 @@ export const getPage = (endPoint, limit, offset) => {
     limit,
     offset
   }
-
   return instance()
     .get(endPoint, {
       params
@@ -15,6 +14,7 @@ export const getPage = (endPoint, limit, offset) => {
     })
     .catch((err) => console.log(err))
 }
+
 
 export const postPet = (endPoint, body) => {
   return instance()

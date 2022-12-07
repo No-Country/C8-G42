@@ -11,10 +11,8 @@ function socketIO(server) {
   });
 
   io.use(async (socket, next) => {
-    const userEmail = socket.handshake.auth.userId;
-    const user = await userController.getByEmail(userEmail);
-    socket.id = user.dataValues.id;
-    socket.role = user.dataValues.role
+    socket.id = socket.handshake.auth.userId;;
+    socket.role = socket.handshake.auth.userRole;
     next();
   });
 
@@ -22,9 +20,19 @@ function socketIO(server) {
     console.log('New conection')
     const id = socket.id
     const role = socket.role
-    console.log({id, role})
+    const socketRoom = socket.rooms
+    console.log({id, role, socketRoom})
     io.to(id).emit('conect', {id, role});
+
+
+    socket.on('message', (message) => {
+      let addressee
+      message.modifiedBy === "user" ? addressee = message.shelterId : addressee = message.userId
+      io.to(addressee).emit('message', message)
+      console.log(message)
+    })
   });
+
 }
 
 module.exports = socketIO;
