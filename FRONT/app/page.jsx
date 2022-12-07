@@ -11,7 +11,6 @@ const page = () => {
   const user = useSelector((state) => state.user.user);
   const pets = useSelector((state) => state.pets.pets);
   const petsFilter = useSelector((state) => state.petsFamilyFilter);
-
   let filteredPets;
   if (petsFilter) {
     filteredPets = pets?.data?.pets.filter((pet) => pet.family === petsFilter);
@@ -74,5 +73,4 @@ const page = () => {
     </Flex>
   );
 };
-
 export default page;

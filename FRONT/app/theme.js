@@ -1,10 +1,22 @@
-const { extendTheme } = require("@chakra-ui/react");
+"use client";
+
+import { extendTheme } from "@chakra-ui/react";
 import "@fontsource/italiana";
+import {mode} from '@chakra-ui/theme-tools'
+
 
 const theme = {
   config: {
     initialColorMode: "light",
     useSystemColorMode: true,
+  },
+  styles:{
+    global:(props)=> ( {
+      body: {
+        bg: mode( '#EFF6E0' , '#283D3B')(props),
+        color: mode( '#283D3B' , '#fff')(props),
+      },
+    }),
   },
   fonts: {
     body: `sans-serif, 'Italiana'`,

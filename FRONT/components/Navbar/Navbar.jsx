@@ -23,13 +23,23 @@ import { fetchUser } from "../../redux/slices/userSlice";
 
 
 const Navbar = () => {
-  const user = useSelector((state) => state.user.user);
   const { user: userAuth0, isLoading: loading } = useUser();
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
 
+
+  useEffect(() => {
+    if (userAuth0?.email) {
+      // console.log("ENTRÓ EN ESTE useEffect")
+      const email = userAuth0.email;
+      if (!user) {
+        dispatch(fetchUser({ email })); // u s e r  redux
+      }
+    }
+  }, [userAuth0, user]);
 
   const filterPetsByFamily = (family) => {
     dispatch(setPetsFamilyFilter(family));
@@ -56,6 +66,7 @@ const Navbar = () => {
       <Flex
         w="100%"
         h="60px"
+        zIndex={999999999999}
         pos="fixed"
         bgColor={useColorModeValue("gray.50", "#151b26")}
         top="0"
@@ -65,6 +76,7 @@ const Navbar = () => {
         alignItems="center"
         // cursor="pointer"
       >
+        <Link href="/">
         <Flex pos="relative" pl="2%" alignItems="center">
           <Flex pos="absolute" w="35%">
             <LogoBox />
@@ -75,6 +87,7 @@ const Navbar = () => {
             </Text>
           </Box>
         </Flex>
+        </Link>
         <Flex pr="5%">
           <Flex alignItems="center" justifyContent="space-around">
             <Button bg="inherit">Fundaciones</Button>

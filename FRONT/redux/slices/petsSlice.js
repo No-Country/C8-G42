@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getPage } from "../api";
+import { getPage} from "../api";
 import { setLoading } from "./uiSlice";
 
 const initialState = {
@@ -14,7 +14,9 @@ export const fetchPets = createAsyncThunk(
     dispatch(setPets(res));
     dispatch(setLoading(false));
   }
+
 )
+
 
 export const petsSlice = createSlice({
   name: "pets",
@@ -26,5 +28,5 @@ export const petsSlice = createSlice({
   },
 })
 
-export const { setPets } = petsSlice.actions;
+export const { setPets} = petsSlice.actions;
 export default petsSlice.reducer;
