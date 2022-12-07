@@ -3,6 +3,7 @@ const { petsRouter } = require("./api/pets.routes");
 const userRouter = require("./api/users.routes");
 const shelterRouter = require("./api/shelters.routes");
 const messageRouter = require("./api/messages.routes");
+const requestRouter = require("./api/requests.routes");
 const notFoundRouter = require("./404");
 const { unless } = require("express-unless");
 const { reportsRouter } = require("./api/reports.routes");
@@ -30,6 +31,7 @@ function routerApi(app) {
   router.use("/shelters", shelterRouter);
   router.use("/messages", messageRouter);
   router.use("/reports", reportsRouter);
+  router.use("/requests", requestRouter)
   router.use("*", notFoundRouter);
 }
 

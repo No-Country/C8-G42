@@ -3,10 +3,13 @@ import React, { useEffect } from 'react';
 import Dashboard from '../../components/Dashboard/Dashboard';
 import { useUser } from "@auth0/nextjs-auth0";
 import { Button, Flex, Link, Text } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 
-const Dash = () => {
-  const { user, isLoading } = useUser();
+const Page = () => {
+  /* const { user, isLoading } = useUser(); */
+  const user = useSelector((state) => state.user.user);
+  console.log({user})
   return (
     <>
       {!user &&
@@ -28,4 +31,4 @@ const Dash = () => {
   );
 };
 
-export default Dash;
+export default Page;

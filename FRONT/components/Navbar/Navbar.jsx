@@ -8,10 +8,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
-  Stack,
-  useColorMode,
   Center,
   Text,
   Link,
@@ -21,26 +18,18 @@ import LogoBox from "../../Icons/Logo";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPetsFamilyFilter } from "../../redux/slices/petsFamilySlice";
-import { fetchUser } from "../../redux/slices/userSlice";
 import { useUser } from "@auth0/nextjs-auth0";
+import { fetchUser } from "../../redux/slices/userSlice";
+
 
 const Navbar = () => {
   const { user: userAuth0, isLoading: loading } = useUser();
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  const [token, setToken] = useState("");
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
 
-  useEffect(() => {
-    if (isLogOutClicked) {
-      localStorage.setItem("token", null);
-    }
-  }, [isLogOutClicked]);
 
   useEffect(() => {
     if (userAuth0?.email) {
@@ -56,11 +45,28 @@ const Navbar = () => {
     dispatch(setPetsFamilyFilter(family));
   };
 
+  useEffect(() => {
+    if (userAuth0?.TokenAuth0) {
+      localStorage.setItem("token", userAuth0?.TokenAuth0);
+    }
+    localStorage.setItem("token", userAuth0?.TokenAuth0);
+    if (isLogOutClicked) {
+      localStorage.setItem("token", null);
+    }
+    if (userAuth0?.email) {
+      const email = userAuth0.email;
+      if (!user) {
+        dispatch(fetchUser({ email }));
+      }
+    }
+  }, [userAuth0, isLogInClicked, isLogOutClicked]);
+
   return (
     <>
       <Flex
         w="100%"
         h="60px"
+        zIndex={999999999999}
         pos="fixed"
         bgColor={useColorModeValue("gray.50", "#151b26")}
         top="0"
@@ -70,6 +76,7 @@ const Navbar = () => {
         alignItems="center"
         // cursor="pointer"
       >
+        <Link href="/">
         <Flex pos="relative" pl="2%" alignItems="center">
           <Flex pos="absolute" w="35%">
             <LogoBox />
@@ -80,6 +87,7 @@ const Navbar = () => {
             </Text>
           </Box>
         </Flex>
+        </Link>
         <Flex pr="5%">
           <Flex alignItems="center" justifyContent="space-around">
             <Button bg="inherit">Fundaciones</Button>
