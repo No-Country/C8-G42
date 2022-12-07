@@ -27,23 +27,33 @@ const PetCard = ({ pet }) => {
   const user = useSelector((state) => state.user.user, shallowEqual);
 
   const [isFavClicked, setIsFavClicked] = useState(false);
+  const [isUnFavClicked, setIsUnFavClicked] = useState(false);
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if(pet?.favoritePet?.[0]?.isFavorite){
+      setIsFavClicked(true)
+    }else{
+      setIsUnFavClicked(true)
+    }
+  }, []);
+
   const handlerClickFavorite = () => {
     setIsFavClicked(!isFavClicked);
+    setIsUnFavClicked(!isUnFavClicked)
 
     post(`/pets/favorite/${pet.id}`, {}).then((res) => {
-      const {isFavorite} = res.data.data.favoritePet;
-    
+      const { isFavorite } = res.data.data.favoritePet;
+
       if (isFavorite) {
         dispatch(setState("success"));
         dispatch(
           stateMessage(
-            `::${pet.name}:: añadido a tus favoritos 🐶`
+            `::${pet.name}:: añadido a tus favoritos 🐱🐾🐶`
           )
         );
-      }else{
+      } else {
         dispatch(setState("error"));
         dispatch(
           stateMessage(
@@ -97,9 +107,10 @@ const PetCard = ({ pet }) => {
             {user ? (
               <>
                 <RequestForm pet={pet} />
-
-                <FavoriteIcon colorScheme="blue" isFavorited={isFavClicked} event={handlerClickFavorite} />
-
+                <FavoriteIcon colorScheme="blue" isFavorited={
+                  isUnFavClicked ? false :
+                    isFavClicked || pet?.favoritePet?.[0]?.isFavorite
+                } event={handlerClickFavorite} />
               </>
             ) : (
               <></>
