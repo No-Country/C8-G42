@@ -23,7 +23,7 @@ const Messenger = () => {
       dispatch(fetchShelters({ limit: 10, offset: 0 }));
     }
     if (user?.role === "shelterOwner") {
-      dispatch(fetchShelter({ shelterId: user.shelter.id }));
+      dispatch(fetchShelter({ shelterId: user?.shelter?.id }));
     }
     if (user?.role) {
       socket.auth = {
