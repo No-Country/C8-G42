@@ -77,7 +77,7 @@ const Navbar = () => {
         </Link>
         <Flex pr="5%">
           <Flex alignItems="center" justifyContent="space-around">
-            <Button bg="inherit">Fundaciones</Button>
+{/*             <Button bg="inherit">Fundaciones</Button> */}
             <Button onClick={() => filterPetsByFamily("dog")} bg="inherit">
               Perros
             </Button>
@@ -127,8 +127,7 @@ const Navbar = () => {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
+                  <MenuItem><Link href="/dashboard">Mi Dashboard</Link></MenuItem>
                   <MenuItem
                     onClick={() => {
                       setIsLogOutClicked(true);
