@@ -29,7 +29,9 @@ const Dashboard = () => {
       {user?.role === "shelterOwner" && (
         <Grid gap="20px" templateColumns="minmax(130px, 1fr) minmax(170px, 4fr)">
           <SideBar setDashboardView={setDashboardView} user={user} />
-          {dashboardView === "pets" ? <PetsAdoption /> : <RequestContainer />}
+          {/* {dashboardView === "pets" ? <PetsAdoption /> : <RequestContainer />} */}
+          {dashboardView === "pets" && <PetsAdoption /> }
+          {dashboardView === "requests" && <RequestContainer />}
         </Grid>
       )}     
     </>
