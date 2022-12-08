@@ -6,7 +6,7 @@ const initialState = {
   shelterPets: [],
   pet: null,
 };
-
+  
 export const fetchShelterPets = createAsyncThunk(
   "shelterPets/fetchPets",
   async ({ id, limit, offset }, { dispatch }) => {

@@ -29,18 +29,6 @@ const Navbar = () => {
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);
 
-
-
-  useEffect(() => {
-    if (userAuth0?.email) {
-      // console.log("ENTRÓ EN ESTE useEffect")
-      const email = userAuth0.email;
-      if (!user) {
-        dispatch(fetchUser({ email })); // u s e r  redux
-      }
-    }
-  }, [userAuth0, user]);
-
   const filterPetsByFamily = (family) => {
     dispatch(setPetsFamilyFilter(family));
   };
@@ -66,7 +54,6 @@ const Navbar = () => {
       <Flex
         w="100%"
         h="60px"
-        zIndex={999999999999}
         pos="fixed"
         bgColor={useColorModeValue("gray.50", "#151b26")}
         top="0"
@@ -90,7 +77,7 @@ const Navbar = () => {
         </Link>
         <Flex pr="5%">
           <Flex alignItems="center" justifyContent="space-around">
-            <Button bg="inherit">Fundaciones</Button>
+{/*             <Button bg="inherit">Fundaciones</Button> */}
             <Button onClick={() => filterPetsByFamily("dog")} bg="inherit">
               Perros
             </Button>
@@ -140,8 +127,7 @@ const Navbar = () => {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
+                  <MenuItem><Link href="/dashboard">Mi Dashboard</Link></MenuItem>
                   <MenuItem
                     onClick={() => {
                       setIsLogOutClicked(true);

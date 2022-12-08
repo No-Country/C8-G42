@@ -15,12 +15,22 @@ const SideBar = ({ user, setDashboardView }) => {
         <br />
         ROL: {user.role}
       </Flex>
-      <Flex width="100%" textAlign="center" mt="80px" cursor="pointer">
+      
+      <Flex paddingBottom="4" width="100%" textAlign="center" mt="80px" cursor="pointer">
         <Button onClick={() => setDashboardView("pets")} py="30px" width="100%">
           Mascotas
         </Button>
       </Flex>
-      <Flex width="100%" textAlign="center" cursor="pointer">
+{user.role === "user" && <Flex paddingBottom="4" width="100%" textAlign="center" cursor="pointer">
+        <Button
+          onClick={() => setDashboardView("favorites")}
+          py="30px"
+          width="100%"
+        >
+          Mis Favoritos
+        </Button>
+      </Flex>}
+      <Flex paddingBottom="4" width="100%" textAlign="center" cursor="pointer">
         <Button
           onClick={() => setDashboardView("requests")}
           py="30px"
@@ -29,11 +39,12 @@ const SideBar = ({ user, setDashboardView }) => {
           Adopciones
         </Button>
       </Flex>
-      <Flex width="100%" textAlign="center" cursor="pointer">
+
+      {/* <Flex paddingBottom="4" width="100%" textAlign="center" cursor="pointer">
         <Button py="30px" width="100%">
           Configuración
         </Button>
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };

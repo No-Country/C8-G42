@@ -7,10 +7,6 @@ const {
   getUserSchema,
   updateUserSchema,
 } = require("../../schemas/user.schema");
-/*-------Auth0 (verify token with midlleware)------------------------*/
-
-/*-----------------------------------*/
-
 
 const genericCallback = (res) => (err, result) => {
   if (err) {

@@ -62,6 +62,12 @@ const userSchema = {
 
 class User extends Model {
   static associate(models) {
+    this.belongsToMany(models.Pet, {
+      as: 'requests',
+      through: models.Request,
+      foreignKey: 'userId',
+      otherKey: 'petId'
+    })
     this.hasOne(models.Shelter, {
       as: "shelter",
       foreignKey: "ownerId"

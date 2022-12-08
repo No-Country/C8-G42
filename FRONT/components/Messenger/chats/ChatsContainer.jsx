@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search2Icon } from "@chakra-ui/icons";
 import {
   DrawerBody,
@@ -15,17 +15,16 @@ import { useSelector } from "react-redux";
 
 const ChatsContainer = () => {
   const user = useSelector((state) => state.user.user);
-  
   const [searchValue, setSearchValue] = useState("");
-  
+  const shelterChats = useSelector((state) => state.shelters.chats)
+
   let chats;
 
-  console.log({user, chats})
   if (user.role === "user") {
     chats = useSelector((state) => state.shelters.shelters);
   }
   if (user.role === "shelterOwner") {
-    chats = useSelector((state) => state.shelters.chats);
+    chats = shelterChats;
   }
 
   let searchedChats = [];
@@ -55,7 +54,7 @@ const ChatsContainer = () => {
           justifyContent="space-between"
         >
           <Stack direction="column">
-            {searchedChats.map((chat) => (
+            {searchedChats?.map((chat) => (
               <Chat
                 key={chat.id}
                 userId={user.role === "user" ? user.id : chat.id}

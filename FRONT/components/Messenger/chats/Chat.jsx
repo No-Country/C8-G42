@@ -36,7 +36,7 @@ const Chat = ({ online, userId, shelterId, name }) => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newMessage = {
       userId,
@@ -44,7 +44,7 @@ const Chat = ({ online, userId, shelterId, name }) => {
       text: message,
       modifiedBy: user.role,
     };
-    dispatch(sendMessage(newMessage));
+    const rta = await dispatch(sendMessage(newMessage));
     socket.emit('message', newMessage);
     setMessage("");
   };

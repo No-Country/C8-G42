@@ -21,8 +21,10 @@ import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import FavoriteIcon from "../../Icons/FavoriteIcon";
 import { post } from "../../redux/api";
 import { setState, setMessage as stateMessage } from "../../redux/slices/uiSlice";
+import { usePathname } from "next/navigation";
 
 const PetCard = ({ pet }) => {
+  const route = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useSelector((state) => state.user.user, shallowEqual);
 
@@ -69,7 +71,7 @@ const PetCard = ({ pet }) => {
 
 
   return (
-    <Box>
+    <Box maxW={"sm"} >
       <Card maxW={{ base: "sm", md: "none" }}>
         <CardBody>
           <div
@@ -104,7 +106,7 @@ const PetCard = ({ pet }) => {
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            {user ? (
+            {user && route !== "/user" ? (
               <>
                 <RequestForm pet={pet} />
                 <FavoriteIcon colorScheme="blue" isFavorited={

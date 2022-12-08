@@ -8,8 +8,10 @@ import RequestContainer from "./Requests/RequestContainer";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
+  console.log("user: ", user);
 
   const [dashboardView, setDashboardView] = useState("pets");
+  
   return (
     <>
       {!user && (
@@ -24,12 +26,14 @@ const Dashboard = () => {
           <Spinner color="blue.500" />
         </Flex>
       )}
-      {user && (
+      {user?.role === "shelterOwner" && (
         <Grid gap="20px" templateColumns="minmax(130px, 1fr) minmax(170px, 4fr)">
           <SideBar setDashboardView={setDashboardView} user={user} />
-          {dashboardView === "pets" ? <PetsAdoption /> : <RequestContainer />}
+          {/* {dashboardView === "pets" ? <PetsAdoption /> : <RequestContainer />} */}
+          {dashboardView === "pets" && <PetsAdoption /> }
+          {dashboardView === "requests" && <RequestContainer />}
         </Grid>
-      )}
+      )}     
     </>
   );
 };

@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { store } from "./../redux/store/index";
 import { ChakraProvider } from "@chakra-ui/react";
 import Alert from "../components/Alert/Alert";
-import MobileNavbar from "../components/Navbar/MobileNavbar";
 import Navbar from "../components/Navbar/Navbar";
 import theme from "./theme";
 import Messenger from "./../components/Messenger/Messenger";
@@ -20,9 +19,9 @@ const RootLayout = ({ children }) => {
         <UserProvider>
           <Provider store={store}>
             <ChakraProvider theme={theme}>
-              <Navbar />
               {children}
-              {/* <Messenger /> */}
+              <Messenger />
+              <Navbar />
               <Alert />
             </ChakraProvider>
           </Provider>

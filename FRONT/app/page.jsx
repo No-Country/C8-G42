@@ -1,6 +1,5 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../redux/slices/usersSlice";
 import { Flex, Text, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import PetsGrid from "../components/PetsGrid/PetsGrid";
