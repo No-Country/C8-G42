@@ -14,7 +14,7 @@ import {
 import UserRequest from "./UserRequest";
 
 const RequestCard = ({ request }) => {
-  const pet = request[0].pet;
+  const pet = request[0]?.pet;
 
   return (
     <div>
@@ -31,7 +31,7 @@ const RequestCard = ({ request }) => {
               <Image
                 w={{ base: 150, md: 200, lg: 300 }}
                 height={{ base: 200, lg: 300 }}
-                src={pet.image ? `${pet.image}` : ""}
+                src={pet?.image ? `${pet.image}` : ""}
                 alt="animal photo"
                 objectFit="contain"
                 borderradius="lg"
@@ -39,9 +39,9 @@ const RequestCard = ({ request }) => {
             </div>
             <Stack mt="6" spacing="3">
               <Heading size="md">
-                {pet.name}, tamaño: {pet.size}
+                {pet?.name}, tamaño: {pet?.size}
               </Heading>
-              <Text>{pet.description}</Text>
+              <Text>{pet?.description}</Text>
             </Stack>
           </CardBody>
           <hr />

@@ -49,7 +49,7 @@ const RequestContainer = () => {
           }}
         >
           {requests.map((request) => (
-            <RequestCard key={request[0].id} request={request} />
+            <RequestCard key={request[0]?.id} request={request} />
           ))}
         </Grid>
       )}
