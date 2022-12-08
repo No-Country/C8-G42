@@ -5,13 +5,15 @@ import { fetchShelterPets } from '../../redux/slices/petSlice'
 import CardPet from './CardPet'
 import NewPet from './NewPet'
 
-const PetsAdoption = () => {
+const PetsAdoption = () => { 
   const user = useSelector((state) => state.user.user)
   const shelterPets= useSelector((state)=> state.pet.shelterPets)
-  console.log(shelterPets)
+  
   const dispatch= useDispatch()
   useEffect(() => {
-    dispatch(fetchShelterPets({id:user.id, limit: 10, offset: 5 }))
+    if(user?.id){
+    dispatch(fetchShelterPets({id:user.id, limit: 10, offset:0 })) 
+    }
   }, [])
   
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -19,7 +21,7 @@ const PetsAdoption = () => {
    <Flex mt="90px" direction="column">
    <Button ml="5px" bg="#AEC3B0" width="200px" onClick={onOpen}>Agregar Mascota</Button>
    <NewPet isOpen={isOpen} onClose={onClose}/>
-   <CardPet pets={shelterPets}/>
+   {/* <CardPet pets={shelterPets}/> */}
    </Flex>
   )
 }

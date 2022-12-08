@@ -19,7 +19,14 @@ export const getPage = (endPoint, limit, offset) => {
 export const postPet = (endPoint, body) => {
   return instance()
     .post(endPoint, body)
-    .then((res) => res.data)
+    .then((res) => res)
+    .catch((err) => console.log(err))
+}
+
+export const post = (endPoint, body) => {
+  return instance()
+    .post(endPoint, body)
+    .then((res) => res)
     .catch((err) => console.log(err))
 }
 

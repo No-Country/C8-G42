@@ -22,7 +22,7 @@ import { addNewPet } from "../../redux/slices/petSlice";
 
 
 const NewPet = ({ isOpen, onClose }) => {
-  const user = useSelector((state) => state.user.user)
+  const token = localStorage.getItem("token")
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -39,27 +39,26 @@ const NewPet = ({ isOpen, onClose }) => {
   const handleTextChange = (e) => setDescription(e.target.value);
   const handleFamily = (e) => setFamily(e.target.value);
   const handleSize = (e) => setSize(e.target.value);
-  const handleWeigth = (e) => setWeight(parseInt(e.target.value));
+  const handleWeigth = (e) => setWeight(e.target.value);
   const handleBreed = (e) => setBreed(e.target.value);
   const handleSterilized = (e) => setIsSterilized(e.target.value);
   const handleVisible = (e) => setIsVisible(e.target.value);
   const handleStatus = (e) => setStatus(e.target.value);
 
-  const Error=()=>{
+ /*  const Error=()=>{
     if(name === "" ) return setIsError(true);
-  } 
+  }  */
 
   const handleClick = () => {
     dispatch(
       addNewPet({
         body: {
-          userId: user.id,
           name,
           description,
           family,
           size,
           breed,
-          weight,
+          weight: parseInt(weight),
           isSterilized,
           isVisible,
           status,
@@ -72,7 +71,7 @@ const NewPet = ({ isOpen, onClose }) => {
     setSize("");
     setBreed("");
     setWeight("");
-    setIsSterilized("");
+    setIsSterilized(null);
     setIsVisible("");
     setStatus("");
   };
@@ -88,7 +87,7 @@ const NewPet = ({ isOpen, onClose }) => {
               <FormLabel>Nombre</FormLabel>
               <Input type="name" value={name} onChange={handleNameChange} />
               <FormLabel>Peso</FormLabel>
-              <Input type="weigth" value={breed} onChange={handleWeigth} />
+              <Input type="weigth" value={weight} onChange={handleWeigth} />
               <FormLabel>Raza</FormLabel>
               <Input type="family" value={breed} onChange={handleBreed} />
               <FormLabel>Categoria</FormLabel>
@@ -97,8 +96,8 @@ const NewPet = ({ isOpen, onClose }) => {
                 mt="5px"
                 placeholder="Selecciona una categoría"
               >
-                <option value="Perro">Perro/a</option>
-                <option value="Gato">Gato/a</option>
+                <option value="dog">Perro/a</option>
+                <option value="cat">Gato/a</option>
               </Select>
               <FormLabel>Tamaño</FormLabel>
               <Select

@@ -15,21 +15,21 @@ import React from "react";
 import { TbPencil } from "react-icons/tb";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { updatePet, deletePet } from "../../redux/slices/petSlice";
+import { putPet, destroyPet } from "../../redux/slices/petSlice";
 const CardPet = ({ pets }) => {
   const dispatch = useDispatch();
   const handleDelete = (id) => {
-    dispatch(deletePet({ id }));
+    dispatch(destroyPet({ id: 106 }));
   };
 
   const handleUpdate = (id) => {
-    dispatch(updatePet({ id }));
+    dispatch(putPet({ id}));
   };
 
   return (
     <>
-      {pets?.map((pet, i) => (
-        <Card maxW="sm" h="400px" m="10px" key={i}>
+      {/* {pets?.map((pet, i) => (  */}
+        <Card maxW="sm" h="400px" m="10px">
           <CardBody>
             {/*   <Image
       src=''
@@ -66,9 +66,9 @@ const CardPet = ({ pets }) => {
             </ButtonGroup>
           </CardFooter>
         </Card>
-      ))}
+   {/*    ) )} */}
     </>
-  );
+  )
 };
 
 export default CardPet;

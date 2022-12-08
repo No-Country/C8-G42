@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
 import { createWrapper } from "next-redux-wrapper";
+import { curryGetDefaultMiddleware } from "@reduxjs/toolkit/dist/getDefaultMiddleware";
 
 const makeStore = () =>
   configureStore({
@@ -8,6 +9,7 @@ const makeStore = () =>
       [authSlice.name]: authSlice.reducer,
     },
     devTools: true,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
   });
 
 // export type AppStore = ReturnType<typeof makeStore>;

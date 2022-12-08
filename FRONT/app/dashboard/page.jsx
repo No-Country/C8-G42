@@ -7,9 +7,7 @@ import { useSelector } from 'react-redux';
 
 
 const Page = () => {
-  /* const { user, isLoading } = useUser(); */
   const user = useSelector((state) => state.user.user);
-  console.log({user})
   return (
     <>
       {!user &&
