@@ -23,7 +23,7 @@ const RequestContainer = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      //setRequests(requestsRes.data.data.requests);
+      setRequests(requestsRes.data.data.requests);
     } catch (error) {
       console.log(error);
     } finally {
