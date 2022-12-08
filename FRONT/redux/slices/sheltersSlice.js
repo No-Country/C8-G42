@@ -4,41 +4,48 @@ import { setLoading } from "./uiSlice";
 
 const initialState = {
   shelters: [],
-  chats: []
-}
+  shelter: null,
+  chats: [],
+};
 
 export const fetchShelter = createAsyncThunk(
   "shelter/fetchShelter",
-  async ({shelterId}, { dispatch }) => {
+  async ({ shelterId }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await getPage(`/shelters/${shelterId}`);
     dispatch(setChats(res.chats));
     dispatch(setLoading(false));
   }
-)
+);
 
 export const fetchShelters = createAsyncThunk(
   "shelters/fetchShelters",
-  async ({limit, offset}, { dispatch }) => {
+  async ({ limit, offset }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await getPage("/shelters", limit, offset);
     dispatch(setShelters(res));
     dispatch(setLoading(false));
   }
-)
+);
 
 export const sheltersSlice = createSlice({
   name: "shelters",
   initialState,
   reducers: {
     setShelters: (state, action) => {
-      state.shelters = action.payload
+      state.shelters = action.payload;
+    },
+    setShelter: (state, action) => {
+      state.shelter = action.payload;
     },
     setChats: (state, action) => {
-      state.chats = action.payload
+      state.chats = action.payload;
+    },
+    addChat: (state, action) => {
+      state.chats.push(action.payload);
     },
   },
-})
+});
 
 export const { setShelters, setChats } = sheltersSlice.actions;
 export default sheltersSlice.reducer;
