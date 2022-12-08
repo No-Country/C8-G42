@@ -4,6 +4,7 @@ import Dashboard from '../../components/Dashboard/Dashboard';
 import { useUser } from "@auth0/nextjs-auth0";
 import { Button, Flex, Link, Spinner, Text } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+import UserDashboard from '../../components/UserDashboard/UserDashboard';
 
 
 const Page = () => {
@@ -40,7 +41,8 @@ const Page = () => {
         </Flex>
 
       }
-      {user && <Dashboard />}
+      {user?.role === "shelterOwner" && <Dashboard />}
+      {user?.role === "user" && <UserDashboard />}
     </>
   );
 };
