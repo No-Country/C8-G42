@@ -20,8 +20,8 @@ const RootLayout = ({ children }) => {
           <Provider store={store}>
             <ChakraProvider theme={theme}>
               {children}
-              <Navbar />
               <Messenger />
+              <Navbar />
               <Alert />
             </ChakraProvider>
           </Provider>

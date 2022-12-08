@@ -15,6 +15,7 @@ import UserRequest from "./UserRequest";
 
 const RequestCard = ({ request }) => {
   const pet = request[0]?.pet;
+  console.log({request})
 
   return (
     <div>

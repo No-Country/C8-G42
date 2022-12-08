@@ -15,7 +15,6 @@ export const fetchPets = createAsyncThunk(
       dispatch(setPets(res));
     } else {
       const res = await getPage("/pets/favorite/pets", limit, offset);
-      console.log("res: ", res)
       dispatch(setPets(res));
     }
     dispatch(setLoading(false));

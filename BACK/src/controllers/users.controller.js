@@ -6,7 +6,7 @@ const boom = require("@hapi/boom");
 const { models } = require("../../utils/database.util");
 
 const options = {
-  include: ["shelter", "pet"],
+  include: ["shelter", "pet", "requests"],
 };
 
 const getById = async (id) => {
