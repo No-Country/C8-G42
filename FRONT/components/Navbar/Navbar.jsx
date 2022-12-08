@@ -23,8 +23,8 @@ import { fetchUser } from "../../redux/slices/userSlice";
 
 
 const Navbar = () => {
-  const { user: userAuth0, isLoading: loading } = useUser();
   const user = useSelector((state) => state.user.user);
+  const { user: userAuth0, isLoading: loading } = useUser();
   const dispatch = useDispatch();
   const [isLogInClicked, setIsLogInClicked] = useState(false);
   const [isLogOutClicked, setIsLogOutClicked] = useState(false);

@@ -2,13 +2,12 @@ import { Grid, Spinner } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import NoRequests from "./NoRequests";
 import RequestCard from "./RequestCard";
 
 const RequestContainer = () => {
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(requests);
 
   useEffect(() => {
     getSheltersRequests();
@@ -24,7 +23,7 @@ const RequestContainer = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setRequests(requestsRes.data.data.requests);
+      //setRequests(requestsRes.data.data.requests);
     } catch (error) {
       console.log(error);
     } finally {
@@ -38,20 +37,26 @@ const RequestContainer = () => {
           <Spinner size={"xl"} alignSelf="center" justifySelf={"center"} />
         </Grid>
       ) : (
-        <Grid
-          mr={{ base: "20px" }}
-          mt={{ base: "40px", md: "80px" }}
-          gap={{ base: "20px" }}
-          justifyContent="center"
-          gridTemplateColumns={{
-            md: "repeat(2, 1fr)",
-            xl: "repeat(3, 1fr)",
-          }}
-        >
-          {requests.map((request) => (
-            <RequestCard key={request[0].id} request={request} />
-          ))}
-        </Grid>
+        <>
+          {requests.length > 0 ? (
+            <Grid
+              mr={{ base: "20px" }}
+              mt={{ base: "40px", md: "80px" }}
+              gap={{ base: "20px" }}
+              justifyContent="center"
+              gridTemplateColumns={{
+                md: "repeat(2, 1fr)",
+                xl: "repeat(3, 1fr)",
+              }}
+            >
+              {requests.map((request) => (
+                <RequestCard key={request[0]?.id} request={request} />
+              ))}
+            </Grid>
+          ) : (
+            <NoRequests />
+          )}
+        </>
       )}
     </>
   );

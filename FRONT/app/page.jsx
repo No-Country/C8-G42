@@ -19,7 +19,7 @@ const page = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchPets({}));
+      dispatch(fetchPets({user}));    
   }, [user]);
   return (
     <Flex
@@ -56,6 +56,7 @@ const page = () => {
       )} */}
       {/* {console.log("userAuth0: ", userAuth0)} */}
       <div>Listado de Mascotas para adopción:</div>
+      {/* {console.log("filtered Pets: ", filteredPets)} */}
       {filteredPets ? (
         <PetsGrid pets={filteredPets} />
       ) : (

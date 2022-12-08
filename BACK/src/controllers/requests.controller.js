@@ -20,7 +20,9 @@ const getSheltersRequests = async (req, res, next) => {
         include: ["pet", "user"],
       });
 
-      requests.push(requestFind);
+      if (requestFind.length > 0) {
+        requests.push(requestFind);
+      }
     });
 
     await Promise.all(requestPromises);
