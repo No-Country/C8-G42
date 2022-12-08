@@ -5,31 +5,70 @@ import {
   CardBody,
   CardFooter,
   Checkbox,
+  Editable,
+  EditableInput,
+  EditablePreview,
+  Flex,
   Heading,
   IconButton,
+  Input,
   Stack,
   Text,
+  Tooltip,
+  useColorModeValue,
+  useEditableControls,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import React from "react";
-import { TbPencil } from "react-icons/tb";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { putPet, destroyPet } from "../../redux/slices/petSlice";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+
 const CardPet = ({ pets }) => {
+  const [name, setName] = useState("");
+  const [breed, setBreed] = useState("");
+  const [description, setDescription] = useState("");
+  const [weight, setWeight] = useState("");
+
   const dispatch = useDispatch();
-  const handleDelete = (id) => {
-    dispatch(destroyPet({ id: 106 }));
+  const handleDelete = (num) => {
+    dispatch(destroyPet({ id: num }));
   };
 
-  const handleUpdate = (id) => {
-    dispatch(putPet({ id}));
+  const handleUpdate = (id, body) => {
+    console.log("i'm update");
+    dispatch(putPet({ id, body }));
   };
+
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleBreedChange = (e) => setBreed(e.target.value);
+  const handleDescription = (e) => setDescription(e.target.value);
+  const handleWeight = (e) => setWeight(e.target.value);
+
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent="end" size="sm" w="full" spacing={2} mt={2}>
+        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <IconButton
+          icon={<CloseIcon boxSize={3} />}
+          {...getCancelButtonProps()}
+        />
+      </ButtonGroup>
+    ) : null;
+  }
 
   return (
     <>
-      {/* {pets?.map((pet, i) => (  */}
-        <Card maxW="sm" h="400px" m="10px">
+      {pets?.map((pet, i) => (
+        <Card maxW="sm" h="400px" m="10px" key={i}>
           <CardBody>
             {/*   <Image
       src=''
@@ -37,38 +76,137 @@ const CardPet = ({ pets }) => {
       borderRadius='lg'
     /> */}
             <Stack mt="6" spacing="3">
-              <Heading size="md">Juanito</Heading>
+              <Flex justifyContent="center">
+                <Editable
+                  onSubmit={() => handleUpdate(pet.id, { name })}
+                  defaultValue={pet.name}
+                  isPreviewFocusable={true}
+                  selectAllOnFocus={false}
+                >
+                  <Tooltip label="Click to edit">
+                    <EditablePreview
+                      py={2}
+                      px={4}
+                      _hover={{
+                        background: useColorModeValue("gray.100", "gray.700"),
+                      }}
+                    />
+                  </Tooltip>
+                  <Input
+                    value={name}
+                    onChange={handleNameChange}
+                    py={2}
+                    px={4}
+                    as={EditableInput}
+                  />
+                  <EditableControls />
+                </Editable>
+                <Editable
+                  onSubmit={() => handleUpdate(pet.id, { breed })}
+                  defaultValue={pet.breed}
+                  isPreviewFocusable={true}
+                  selectAllOnFocus={false}
+                >
+                  <Tooltip label="Click to edit">
+                    <EditablePreview
+                      py={2}
+                      px={4}
+                      _hover={{
+                        background: useColorModeValue("gray.100", "gray.700"),
+                      }}
+                    />
+                  </Tooltip>
+                  <Input
+                    value={breed}
+                    onChange={handleBreedChange}
+                    py={2}
+                    px={4}
+                    as={EditableInput}
+                  />
+                  <EditableControls />
+                </Editable>
+              </Flex>
               <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-                laboriosam saepe quo quaerat veritatis quas, ad soluta quod
-                consequatur exercitationem ea modi perspiciatis eos animi
-                accusamus iure unde fugiat dolore!
-                <Checkbox size="md" colorScheme="green" mr="5px">
-                  Adoptado
+                <Editable
+                  onSubmit={() => handleUpdate(pet.id, { description })}
+                  defaultValue={pet.description}
+                  isPreviewFocusable={true}
+                  selectAllOnFocus={false}
+                >
+                  <Tooltip label="Click to edit">
+                    <EditablePreview
+                      py={2}
+                      px={4}
+                      _hover={{
+                        background: useColorModeValue("gray.100", "gray.700"),
+                      }}
+                    />
+                  </Tooltip>
+                  <Input
+                    value={description}
+                    onChange={handleDescription}
+                    py={2}
+                    px={4}
+                    as={EditableInput}
+                  />
+                  <EditableControls />
+                </Editable>
+                <Text></Text>
+                <Editable
+                  onSubmit={() => handleUpdate(pet.id, { weight })}
+                  defaultValue={pet.weight}
+                  isPreviewFocusable={true}
+                  selectAllOnFocus={false}
+                >
+                  <Tooltip label="Click to edit">
+                    <EditablePreview
+                      py={2}
+                      px={4}
+                      _hover={{
+                        background: useColorModeValue("gray.100", "gray.700"),
+                      }}
+                    />
+                  </Tooltip>
+                  <Input
+                    value={weight}
+                    onChange={handleWeight}
+                    py={2}
+                    px={4}
+                    as={EditableInput}
+                  />
+                  <EditableControls />
+                </Editable>
+                <Checkbox
+                  isChecked={pet.isSterilized}
+                  size="md"
+                  colorScheme="green"
+                  mr="5px"
+                >
+                  Esterilizado
                 </Checkbox>
-                <Checkbox size="md" colorScheme="green">
-                  Vacunado
+                <Checkbox
+                  isChecked={pet.isVisible}
+                  size="md"
+                  colorScheme="green"
+                >
+                  Visible
                 </Checkbox>
               </Text>
             </Stack>
           </CardBody>
           <CardFooter>
             <ButtonGroup spacing="2">
-              <Button variant="ghost" colorScheme="green">
-                Guardar
-              </Button>
-              <IconButton bg="inherit" icon={<TbPencil size={20} />} />
               <IconButton
-                onClick={handleDelete}
+                onClick={() => handleDelete(pet.id)}
                 bg="inherit"
                 icon={<HiOutlineTrash size={20} />}
               />
             </ButtonGroup>
           </CardFooter>
         </Card>
-   {/*    ) )} */}
+      ))}
     </>
-  )
+  );
 };
 
 export default CardPet;
