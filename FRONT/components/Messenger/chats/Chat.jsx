@@ -75,11 +75,6 @@ const Chat = ({ online, userId, shelterId, name }) => {
           src="https://bit.ly/broken-link"
           onClick={onOpen}
         >
-          <AvatarBadge
-            onClick={onOpen}
-            boxSize="1.05em"
-            bg={online ? "green.500" : "tomato"}
-          />
         </Avatar>
         <p onClick={onOpen}> {name} </p>
       </Box>
