@@ -21,7 +21,7 @@ const PetsAdoption = () => {
    <Flex mt="90px" direction="column">
    <Button ml="5px" bg="#AEC3B0" width="200px" onClick={onOpen}>Agregar Mascota</Button>
    <NewPet isOpen={isOpen} onClose={onClose}/>
-   {/* <CardPet pets={shelterPets}/> */}
+   <CardPet pets={shelterPets}/>
    </Flex>
   )
 }

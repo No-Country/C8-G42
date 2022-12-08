@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getPage, postPet, updatePet, deletePet } from "../api";
-import { setLoading } from "./uiSlice";
+import { setLoading, setState, setMessage as stateMessage } from "./uiSlice";
 
 const initialState = {
   shelterPets: [],
@@ -22,6 +22,18 @@ export const addNewPet = createAsyncThunk(
   async ({ body }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await postPet("/pets", body);
+    if(res.status==='success'){
+      dispatch(setState("success"));
+      dispatch(
+        stateMessage(
+          `Mascota agregada🐱🐾🐶`
+        ))}else{
+          dispatch(setState("error"));
+          dispatch(
+            stateMessage(
+              `Revise los datos ingresados🐾`
+            ))
+        }
     dispatch(addPet(res));
     dispatch(setLoading(false));
   }
@@ -32,6 +44,19 @@ export const putPet = createAsyncThunk(
   async ({ id, body }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await updatePet(`/pets/${id}`, body);
+    console.log(res)
+    if(res.status==='success'){
+      dispatch(setState("success"));
+      dispatch(
+        stateMessage(
+          `Mascota actualizada🐱🐾🐶`
+        ))}else{
+          dispatch(setState("error"));
+          dispatch(
+            stateMessage(
+              `Revise los datos ingresados🐾`
+            ))
+        }
     dispatch(putThePet(res));
     dispatch(setLoading(false));
   }
@@ -41,30 +66,38 @@ export const destroyPet = createAsyncThunk(
   "shelterPets/destroyThePet",
   async ({ id }, { dispatch }) => {
     dispatch(setLoading(true));
-    const res = await deletePet(`/pets/${id}`);
-    dispatch(destroyThePet(res));
-    dispatch(setLoading(false));
+  const res= await deletePet(`/pets/${id}`);
+  if(res.status==='success'){
+    dispatch(setState("success"));
+    dispatch(
+      stateMessage(
+        `Mascota eliminada🐱🐾🐶`
+      ))}else{
+        dispatch(setState("error"));
+        dispatch(
+          stateMessage(
+            `Revise los datos ingresados🐾`
+          ))
+      } 
+  dispatch(setLoading(false));
   }
 );
 
 export const petSlice = createSlice({
-  name: "pet",
+  name: "shelterPets",
   initialState,
   reducers: {
     setShelterPets: (state, action) => {
+      console.log(action.payload)
       state.shelterPets = action.payload;
     },
     addPet: (state, action) => {
-      state.shelterPets.push(action.payload);
+      state.shelterPets.push(action.payload.data.data.newPet);
     }  ,
-    putThePet: (state, action) => {
-      state.shelterPets = action.payload;
-    },
-    destroyThePet: (state, action) => {
-      state.shelterPets = action.payload;
-    }, 
+    putThePet: (state, action) => {},
+    destroyThePet: (state, action) => {}, 
   },
 });
 
-export const { setShelterPet, addPet, putThePet, destroyThePet } = petSlice.actions;
+export const { setShelterPets, addPet, putThePet, destroyThePet } = petSlice.actions;
 export default petSlice.reducer;

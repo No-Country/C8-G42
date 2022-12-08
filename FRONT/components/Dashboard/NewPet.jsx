@@ -25,8 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewPet } from "../../redux/slices/petSlice";
 
 
+
 const NewPet = ({ isOpen, onClose }) => {
-  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
@@ -39,11 +39,11 @@ const NewPet = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState("");
   const [status, setStatus] = useState("");
   const [isError, setIsError] = useState(false);
-
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
+
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleTextChange = (e) => setDescription(e.target.value);
@@ -54,12 +54,6 @@ const NewPet = ({ isOpen, onClose }) => {
   const handleSterilized = (e) => setIsSterilized(e.target.value);
   const handleVisible = (e) => setIsVisible(e.target.value);
   const handleStatus = (e) => setStatus(e.target.value);
-
-  const styles = useMultiStyleConfig("Button", { variant: "outline" });
-
-  /*  const Error=()=>{
-     if(name === "" ) return setIsError(true);
-   }  */
 
   const handleImageChange = (event) => {
 
@@ -113,9 +107,10 @@ const NewPet = ({ isOpen, onClose }) => {
     setSize("");
     setBreed("");
     setWeight("");
-    setIsSterilized(null);
+    setIsSterilized("");
     setIsVisible("");
     setStatus("");
+    onClose()
   };
   return (
     <>
