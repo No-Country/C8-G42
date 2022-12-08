@@ -6,7 +6,8 @@ import uiReducer from "../slices/uiSlice";
 import userReducer from "../slices/userSlice";
 import petsFamilyFilter from "../slices/petsFamilySlice";
 import usersReducer from "../slices/usersSlice";
-import petReducer from "../slices/petSlice"
+import petReducer from "../slices/petSlice";
+import requestSlice from "../slices/requestsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     user: userReducer,
     users: usersReducer,
     petsFamilyFilter,
+    requests: requestSlice,
   },
 });

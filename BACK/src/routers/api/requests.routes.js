@@ -1,12 +1,17 @@
 const express = require("express");
 const {
   getSheltersRequests,
+  resolveRequest,
 } = require("../../controllers/requests.controller");
 const router = express.Router();
 const requestController = require("../../controllers/requests.controller");
 const { protectSession } = require("../../middlewares/auth0.middleware");
+const { requestExist } = require("../../middlewares/request.middlware");
 const schemaValidator = require("../../middlewares/schema.validator");
-const { createRequestSchema } = require("../../schemas/request.schema");
+const {
+  createRequestSchema,
+  verifyRequestParams,
+} = require("../../schemas/request.schema");
 
 router.post(
   "/",
@@ -25,5 +30,12 @@ router.post(
 router.use(protectSession);
 //get shelter's request via token if user dont own a shelter send error
 router.get("/", getSheltersRequests);
+
+router.put(
+  "/resolve/:id",
+  schemaValidator(verifyRequestParams, "params"),
+  requestExist,
+  resolveRequest
+);
 
 module.exports = router;
