@@ -1,29 +1,25 @@
 import { Grid, Spinner } from "@chakra-ui/react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import NoRequests from "./NoRequests";
 import RequestCard from "./RequestCard";
+import { getRequestThunk } from "../../../redux/slices/requestsSlice";
 
 const RequestContainer = () => {
-  const [requests, setRequests] = useState([]);
+  const requests = useSelector((state) => state.requests);
   const [isLoading, setIsLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getSheltersRequests();
   }, []);
 
   const getSheltersRequests = async () => {
-    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
-      const requestsRes = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/requests`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setRequests(requestsRes.data.data.requests);
+      await dispatch(getRequestThunk());
     } catch (error) {
       console.log(error);
     } finally {
