@@ -22,7 +22,7 @@ export const addNewPet = createAsyncThunk(
   async ({ body }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await postPet("/pets", body);
-    if(res.status==='success'){
+    if(res.data.status==='success'){
       dispatch(setState("success"));
       dispatch(
         stateMessage(
@@ -45,7 +45,7 @@ export const putPet = createAsyncThunk(
     dispatch(setLoading(true));
     const res = await updatePet(`/pets/${id}`, body);
     console.log(res)
-    if(res.status==='success'){
+    if(res.data.                            status==='success'){
       dispatch(setState("success"));
       dispatch(
         stateMessage(
@@ -67,7 +67,7 @@ export const destroyPet = createAsyncThunk(
   async ({ id }, { dispatch }) => {
     dispatch(setLoading(true));
   const res= await deletePet(`/pets/${id}`);
-  if(res.status==='success'){
+  if(res.data.status==='success'){
     dispatch(setState("success"));
     dispatch(
       stateMessage(
