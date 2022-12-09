@@ -9,11 +9,12 @@ const initialState = {
 export const fetchPets = createAsyncThunk(
   "pets/fetchPets",
   async ({ limit, offset, user }, { dispatch }) => {
+    dispatch(setPets(null));
     dispatch(setLoading(true));
     if (!user) {
       const res = await getPage("/pets", limit, offset);
       dispatch(setPets(res));
-    } else {
+    } else {      
       const res = await getPage("/pets/favorite/pets", limit, offset);
       dispatch(setPets(res));
     }

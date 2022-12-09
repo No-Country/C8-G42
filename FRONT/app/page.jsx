@@ -2,10 +2,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Flex, Text, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
 import PetsGrid from "../components/PetsGrid/PetsGrid";
 import { fetchPets } from "../redux/slices/petsSlice";
 
 const page = () => {
+  const { user: userAuth0, isLoading: loading } = useUser();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const pets = useSelector((state) => state.pets.pets);
@@ -16,10 +18,11 @@ const page = () => {
   } else {
     filteredPets = pets?.data?.pets;
   }
-
   useEffect(() => {
-      dispatch(fetchPets({user}));    
-  }, [user]);
+    if (!loading) {
+      dispatch(fetchPets({ user }));
+    }
+  }, [user, loading]);
   return (
     <Flex
       w="100%"
