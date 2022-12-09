@@ -95,7 +95,7 @@ const NewPet = ({ isOpen, onClose }) => {
           breed,
           weight: parseInt(weight),
           isSterilized,
-          isVisible,
+          isVisible:true,
           status: "available",
           image: secure_url
         },
@@ -135,7 +135,6 @@ const NewPet = ({ isOpen, onClose }) => {
                         border: "none",
                         outline: "none",
                         mr: 2,
-                        ...styles,
                       },
                     }}
                   />
@@ -175,7 +174,7 @@ const NewPet = ({ isOpen, onClose }) => {
                     <option value={true}>Sí</option>
                     <option value={false}>No</option>
                   </Select>
-                  <FormLabel>¿Visible?</FormLabel>
+                  {/* <FormLabel>¿Visible?</FormLabel>
                   <Select
                     onChange={handleVisible}
                     mt="5px"
@@ -183,7 +182,7 @@ const NewPet = ({ isOpen, onClose }) => {
                   >
                     <option value={true}>Sí</option>
                     <option value={false}>No</option>
-                  </Select>
+                  </Select> */}
                   {/* <FormLabel>Estado</FormLabel>
                 <Select
                   onChange={handleStatus}
