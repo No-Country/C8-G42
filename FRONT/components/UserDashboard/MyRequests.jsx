@@ -12,7 +12,6 @@ import Image from 'next/image';
 import React from "react";
 
 const MyRequests = ({ requests }) => {
-  console.log({requests});
   return <TableContainer marginTop="20" >
   <Table colorScheme="blackAlpha" variant="simple" size='sm'>
     <Thead>

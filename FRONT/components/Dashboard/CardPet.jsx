@@ -37,7 +37,6 @@ const CardPet = ({ pets }) => {
   };
 
   const handleUpdate = (id, body) => {
-    console.log("i'm update");
     dispatch(putPet({ id, body }));
   };
 

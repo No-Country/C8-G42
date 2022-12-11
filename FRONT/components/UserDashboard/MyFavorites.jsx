@@ -22,8 +22,6 @@ const MyFavorites = ({ pets }) => {
   if (favorites) {
     return (
       <>
-        {console.log("favorites: ", favorites)}
-
         <Grid
           mx={{ base: 0, md: 4, lg: 6, xl: 8 }}
           justifyContent="center"

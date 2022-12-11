@@ -100,7 +100,7 @@ const NewPet = ({ isOpen, onClose }) => {
           image: secure_url
         },
       })
-    ).then((res) => (console.log("entró al then, res: ", res)));
+    ).then();
     setName("");
     setDescription("");
     setFamily("");

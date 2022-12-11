@@ -44,7 +44,6 @@ export const putPet = createAsyncThunk(
   async ({ id, body }, { dispatch }) => {
     dispatch(setLoading(true));
     const res = await updatePet(`/pets/${id}`, body);
-    console.log(res)
     if(res.data.                            status==='success'){
       dispatch(setState("success"));
       dispatch(
@@ -88,7 +87,6 @@ export const petSlice = createSlice({
   initialState,
   reducers: {
     setShelterPets: (state, action) => {
-      console.log(action.payload)
       state.shelterPets = action.payload;
     },
     addPet: (state, action) => {
