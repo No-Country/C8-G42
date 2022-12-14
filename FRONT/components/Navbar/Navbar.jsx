@@ -55,21 +55,20 @@ const Navbar = () => {
         w="100%"
         h="60px"
         pos="fixed"
-        bgColor={useColorModeValue("gray.50", "#151b26")}
+        bgColor={useColorModeValue( '#fff','#000F14')}
         top="0"
         display={{ base: "none", md: "flex" }}
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        // cursor="pointer"
       >
         <Link href="/">
         <Flex pos="relative" pl="2%" alignItems="center">
           <Flex pos="absolute" w="35%">
             <LogoBox />
           </Flex>
-          <Box pl="30%">
-            <Text fontSize="3xl" pt="10px">
+          <Box pl="20%">
+            <Text fontSize="4xl" pt="10px">
               Huellitas
             </Text>
           </Box>
@@ -77,7 +76,7 @@ const Navbar = () => {
         </Link>
         <Flex pr="5%">
           <Flex alignItems="center" justifyContent="space-around">
-{/*             <Button bg="inherit">Fundaciones</Button> */}
+
             <Button onClick={() => filterPetsByFamily("dog")} bg="inherit">
               Perros
             </Button>

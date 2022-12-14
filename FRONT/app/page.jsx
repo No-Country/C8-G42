@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import PetsGrid from "../components/PetsGrid/PetsGrid";
 import { fetchPets } from "../redux/slices/petsSlice";
+import Header from "../components/PetsGrid/Header";
 
 const page = () => {
   const { user: userAuth0, isLoading: loading } = useUser();
@@ -26,39 +27,10 @@ const page = () => {
   return (
     <Flex
       w="100%"
-      mt={{ base: "10px", md: "60px" }}
       pos="relative"
       direction="column"
     >
-      {/* Principal  */}
-
-      {/* {loading && <p>Loading login info...</p>} */}
-      {/* 
-      {!loading && !user && (
-        <>
-          <p> Usuario invitado, si deseas adoptar dale click en:
-            <Button onClick={() => { setIsLogInClicked(true); }}><a href="/api/auth/login">Login</a></Button>
-          </p>
-        </>
-      )} */}
-      {/* {user && (
-        <Wrap align='center'>
-          <WrapItem>
-            <Avatar name={`${user?.firstName} ${user?.lastName}`} src={userAuth0.picture} alt="user picture" />
-          </WrapItem>
-          <WrapItem>
-            <Center> {user.firstName} {user.lastName} ({userAuth0.nickname})</Center>
-          </WrapItem>
-          <WrapItem>
-            <Button onClick={() => { setIsLogOutClicked(true); }} width="130px" borderRadius="30px"><a href="/api/auth/logout">Cerrar sesión</a></Button>
-          </WrapItem>
-          {console.log("userAuth0: ", userAuth0)}
-          {user && console.log("user: ", user)}
-        </Wrap>
-      )} */}
-      {/* {console.log("userAuth0: ", userAuth0)} */}
-      <div>Listado de Mascotas para adopción:</div>
-      {/* {console.log("filtered Pets: ", filteredPets)} */}
+      <Header />
       {filteredPets ? (
         <PetsGrid pets={filteredPets} />
       ) : (

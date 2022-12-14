@@ -1,17 +1,18 @@
 import {
-  Button,
+  Box,
   ButtonGroup,
   Card,
   CardBody,
   CardFooter,
-  Checkbox,
   Editable,
   EditableInput,
   EditablePreview,
   Flex,
-  Heading,
+  FormControl,
+  FormLabel,
   IconButton,
   Input,
+  Select,
   Stack,
   Text,
   Tooltip,
@@ -37,7 +38,6 @@ const CardPet = ({ pets }) => {
   };
 
   const handleUpdate = (id, body) => {
-    console.log("i'm update");
     dispatch(putPet({ id, body }));
   };
 
@@ -47,12 +47,8 @@ const CardPet = ({ pets }) => {
   const handleWeight = (e) => setWeight(e.target.value);
 
   function EditableControls() {
-    const {
-      isEditing,
-      getSubmitButtonProps,
-      getCancelButtonProps,
-      getEditButtonProps,
-    } = useEditableControls();
+    const { isEditing, getSubmitButtonProps, getCancelButtonProps } =
+      useEditableControls();
 
     return isEditing ? (
       <ButtonGroup justifyContent="end" size="sm" w="full" spacing={2} mt={2}>
@@ -68,13 +64,11 @@ const CardPet = ({ pets }) => {
   return (
     <>
       {pets?.map((pet, i) => (
-        <Card maxW="sm" h="400px" m="10px" key={i}>
+        <Card maxW="sm" h="480px" m="10px" key={i}>
           <CardBody>
-            {/*   <Image
-      src=''
-      alt='Green double couch with wooden legs'
-      borderRadius='lg'
-    /> */}
+            <Box p="5px" pos="relative" h="150px">
+              <Image src={pet.image} fill alt="Foto de la mascota" />
+            </Box>
             <Stack mt="6" spacing="3">
               <Flex justifyContent="center">
                 <Editable
@@ -176,21 +170,18 @@ const CardPet = ({ pets }) => {
                   />
                   <EditableControls />
                 </Editable>
-                <Checkbox
-                  isChecked={pet.isSterilized}
-                  size="md"
-                  colorScheme="green"
-                  mr="5px"
-                >
-                  Esterilizado
-                </Checkbox>
-                <Checkbox
-                  isChecked={pet.isVisible}
-                  size="md"
-                  colorScheme="green"
-                >
-                  Visible
-                </Checkbox>
+                <FormControl>
+                  <FormLabel>¿Esterilizado?</FormLabel>
+                  <Select
+                    onChange={(e) =>
+                      handleUpdate(pet.id, { isSterilized: e.target.value })
+                    }
+                    placeholder={pet.isSterilized}
+                  >
+                    <option value={true}>Sí</option>
+                    <option value={false}>No</option>
+                  </Select>
+                </FormControl>
               </Text>
             </Stack>
           </CardBody>

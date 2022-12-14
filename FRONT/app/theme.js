@@ -13,7 +13,7 @@ const theme = {
   styles:{
     global:(props)=> ( {
       body: {
-        bg: mode( '#EFF6E0' , '#283D3B')(props),
+        bg: mode( '#EFF6E0','#000F14')(props),
         color: mode( '#283D3B' , '#fff')(props),
       },
     }),
