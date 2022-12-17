@@ -2,7 +2,6 @@ const { whiteListCors } = require("./config");
 
 const corsOptions = {
     origin: function (origin, callback) {
-        // console.log("origin:", origin)
         if (!origin || whiteListCors.indexOf(origin) !== -1) {   // Eliminar !origin || para PRODUCCIÓN (para evitar que accedan la API directamente del navegador)
             callback(null, true);
         } else {

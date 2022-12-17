@@ -98,7 +98,7 @@ const NewPet = ({ isOpen, onClose }) => {
           image: secure_url,
         },
       })
-    );
+      
     setName("");
     setDescription("");
     setFamily("");

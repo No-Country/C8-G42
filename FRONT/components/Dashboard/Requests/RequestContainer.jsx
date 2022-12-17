@@ -21,7 +21,7 @@ const RequestContainer = () => {
     try {
       await dispatch(getRequestThunk());
     } catch (error) {
-      console.log(error);
+      
     } finally {
       setIsLoading(false);
     }

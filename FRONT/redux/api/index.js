@@ -31,7 +31,7 @@ export const post = (endPoint, body) => {
 }
 
 export const updatePet = (endPoint,body) => {
-  console.log(body)
+
   return instance()
     .put(endPoint, body)
     .then((res) =>res.data)
