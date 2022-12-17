@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Stack,
@@ -13,17 +12,21 @@ import {
   Text,
   Box,
   useDisclosure,
-  useColorModeValue,
+  useColorMode,
 } from "@chakra-ui/react";
 import RequestForm from "../Forms/RequestForm";
 import SinglePet from "../SinglePet/SinglePet";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import FavoriteIcon from "../../Icons/FavoriteIcon";
 import { post } from "../../redux/api";
-import { setState, setMessage as stateMessage } from "../../redux/slices/uiSlice";
+import {
+  setState,
+  setMessage as stateMessage,
+} from "../../redux/slices/uiSlice";
 import { usePathname } from "next/navigation";
 
 const PetCard = ({ pet }) => {
+  const { colorMode } = useColorMode();
   const route = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const user = useSelector((state) => state.user.user, shallowEqual);
@@ -34,16 +37,16 @@ const PetCard = ({ pet }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(pet?.favoritePet?.[0]?.isFavorite){
-      setIsFavClicked(true)
-    }else{
-      setIsUnFavClicked(true)
+    if (pet?.favoritePet?.[0]?.isFavorite) {
+      setIsFavClicked(true);
+    } else {
+      setIsUnFavClicked(true);
     }
   }, []);
 
   const handlerClickFavorite = () => {
     setIsFavClicked(!isFavClicked);
-    setIsUnFavClicked(!isUnFavClicked)
+    setIsUnFavClicked(!isUnFavClicked);
 
     post(`/pets/favorite/${pet.id}`, {}).then((res) => {
       const { isFavorite } = res.data.data.favoritePet;
@@ -51,16 +54,12 @@ const PetCard = ({ pet }) => {
       if (isFavorite) {
         dispatch(setState("success"));
         dispatch(
-          stateMessage(
-            `::${pet.name}:: añadido a tus favoritos 🐱🐾🐶`
-          )
+          stateMessage(`::${pet.name}:: añadido a tus favoritos 🐱🐾🐶`)
         );
       } else {
         dispatch(setState("error"));
         dispatch(
-          stateMessage(
-            `::${pet.name}:: eliminado de tus favoritos 💔😥`
-          )
+          stateMessage(`::${pet.name}:: eliminado de tus favoritos 💔😥`)
         );
       }
     });
@@ -69,10 +68,12 @@ const PetCard = ({ pet }) => {
     onClose();
   };
 
-
   return (
-    <Box maxW={"sm"} >
-      <Card maxW={{ base: "sm", md: "none" }}>
+    <Box maxW={"sm"}>
+      <Card
+        maxW={{ base: "sm", md: "none" }}
+        bg={colorMode === "dark" ? "#202D31" : "#AEC3B0"}
+      >
         <CardBody>
           <div
             style={{
@@ -90,11 +91,11 @@ const PetCard = ({ pet }) => {
               borderradius="lg"
             />
           </div>
-          <Stack mt="6" spacing="3">
+          <Stack mt="6" spacing="3" alignItems="center">
             <Heading size="md">
               {pet.name}, tamaño: {pet.size}
             </Heading>
-            <Text>{pet.description}</Text>
+            <Text>{pet.description?.slice(0, 35) + "..."}</Text>
             <SinglePet
               pet={pet}
               isOpen={isOpen}
@@ -103,22 +104,27 @@ const PetCard = ({ pet }) => {
             />
           </Stack>
         </CardBody>
-        <Divider />
-        <CardFooter>
-          <ButtonGroup spacing="2">
-            {user && route !== "/user" ? (
-              <>
+        {user && route !== "/user" ? (
+          <>
+            <Divider />
+            <CardFooter>
+              <ButtonGroup spacing="2">
                 <RequestForm pet={pet} />
-                <FavoriteIcon colorScheme="blue" isFavorited={
-                  isUnFavClicked ? false :
-                    isFavClicked || pet?.favoritePet?.[0]?.isFavorite
-                } event={handlerClickFavorite} />
-              </>
-            ) : (
-              <></>
-            )}
-          </ButtonGroup>
-        </CardFooter>
+                <FavoriteIcon
+                  colorScheme="blue"
+                  isFavorited={
+                    isUnFavClicked
+                      ? false
+                      : isFavClicked || pet?.favoritePet?.[0]?.isFavorite
+                  }
+                  event={handlerClickFavorite}
+                />
+              </ButtonGroup>
+            </CardFooter>
+          </>
+        ) : (
+          <></>
+        )}
       </Card>
     </Box>
   );

@@ -1,50 +1,75 @@
 import { Button, Flex } from "@chakra-ui/react";
-import React from "react";
 
 const SideBar = ({ user, setDashboardView }) => {
   return (
     <Flex
       fontSize="18px"
-      h="100vh"
+      h={{ base: "20vh", md: "100vh" }}
       bg="#AEC3B0"
-      direction="column"
+      direction={"column"}
       alignItems="center"
     >
-      <Flex textAlign="center" mt="80px" cursor="pointer">
+      <Flex
+        textAlign="center"
+        mt={{ base: "20px", md: "80px" }}
+        cursor="pointer"
+      >
         {user.firstName} {user.lastName}
         <br />
         ROL: {user.role}
       </Flex>
-      
-      <Flex paddingBottom="4" width="100%" textAlign="center" mt="80px" cursor="pointer">
-        <Button onClick={() => setDashboardView("pets")} py="30px" width="100%">
-          Mascotas
-        </Button>
-      </Flex>
-{user.role === "user" && <Flex paddingBottom="4" width="100%" textAlign="center" cursor="pointer">
-        <Button
-          onClick={() => setDashboardView("favorites")}
-          py="30px"
+      <Flex
+        w="100%"
+        direction={{ base: "row", md: "column" }}
+        justify="space-around"
+      >
+        <Flex
+          paddingBottom="4"
           width="100%"
+          textAlign="center"
+          mt={{ md: "80px" }}
+          cursor="pointer"
+          direction={"column"}
         >
-          Mis Favoritos
-        </Button>
-      </Flex>}
-      <Flex paddingBottom="4" width="100%" textAlign="center" cursor="pointer">
-        <Button
-          onClick={() => setDashboardView("requests")}
-          py="30px"
+          <Button
+            onClick={() => setDashboardView("pets")}
+            py="30px"
+            width="100%"
+          >
+            Mascotas
+          </Button>
+        </Flex>
+        {user.role === "user" && (
+          <Flex
+            paddingBottom="4"
+            width="100%"
+            textAlign="center"
+            cursor="pointer"
+          >
+            <Button
+              onClick={() => setDashboardView("favorites")}
+              py="30px"
+              width="100%"
+            >
+              Mis Favoritos
+            </Button>
+          </Flex>
+        )}
+        <Flex
+          paddingBottom="4"
           width="100%"
+          textAlign="center"
+          cursor="pointer"
         >
-          Adopciones
-        </Button>
+          <Button
+            onClick={() => setDashboardView("requests")}
+            py="30px"
+            width="100%"
+          >
+            Adopciones
+          </Button>
+        </Flex>
       </Flex>
-
-      {/* <Flex paddingBottom="4" width="100%" textAlign="center" cursor="pointer">
-        <Button py="30px" width="100%">
-          Configuración
-        </Button>
-      </Flex> */}
     </Flex>
   );
 };

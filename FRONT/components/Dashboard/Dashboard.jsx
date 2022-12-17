@@ -8,8 +8,6 @@ import RequestContainer from "./Requests/RequestContainer";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
-  console.log("user: ", user);
-
   const [dashboardView, setDashboardView] = useState("pets");
   
   return (
@@ -19,7 +17,7 @@ const Dashboard = () => {
           justifyContent="center"
           alignItems="center"
           height="50vh"
-          direction="column"
+          direction={"column"}
           gap="6"
         >
           <Text>Cargando info usuario ...</Text>
@@ -27,9 +25,8 @@ const Dashboard = () => {
         </Flex>
       )}
       {user?.role === "shelterOwner" && (
-        <Grid gap="20px" templateColumns="minmax(130px, 1fr) minmax(170px, 4fr)">
+        <Grid gap="20px" templateColumns={{md:"minmax(130px, 1fr) minmax(170px, 4fr)"}}>
           <SideBar setDashboardView={setDashboardView} user={user} />
-          {/* {dashboardView === "pets" ? <PetsAdoption /> : <RequestContainer />} */}
           {dashboardView === "pets" && <PetsAdoption /> }
           {dashboardView === "requests" && <RequestContainer />}
         </Grid>
